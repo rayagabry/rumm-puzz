@@ -1,0 +1,217 @@
+import type { Tile, Board, Difficulty, Puzzle, Color } from '../domain/tile';
+import { COLORS, makeRng, shuffle } from '../domain/tile';
+import { findPartition } from '../solver/partition';
+import { computeMinMoves } from '../solver/difficulty';
+
+const DIFFICULTY_RANGES: Record<Difficulty, [number, number]> = {
+  easy: [1, 2],
+  medium: [3, 4],
+  hard: [5, 8],
+};
+
+/**
+ * Build a random valid solution board by assembling random runs and groups.
+ * Returns a board where every set is valid, using tiles from the deck.
+ *
+ * Strategy: pick random set types (run or group), pick random parameters,
+ * draw tiles from the remaining pool. Repeat until we have enough sets.
+ */
+function buildRandomSolution(
+  rng: () => number,
+  targetSets: number,
+): Board | null {
+  const pool = new Map<string, number>(); // "color-number" → count available
+  for (const color of COLORS) {
+    for (let n = 1; n <= 13; n++) {
+      pool.set(`${color}-${n}`, 2);
+    }
+  }
+
+  function available(color: Color, num: number): boolean {
+    return (pool.get(`${color}-${num}`) ?? 0) > 0;
+  }
+
+  function take(color: Color, num: number): boolean {
+    const key = `${color}-${num}`;
+    const count = pool.get(key) ?? 0;
+    if (count <= 0) return false;
+    pool.set(key, count - 1);
+    return true;
+  }
+
+  const sets: Array<Array<{ color: Color; number: number }>> = [];
+  let attempts = 0;
+
+  while (sets.length < targetSets && attempts < 200) {
+    attempts++;
+    const makeRun = rng() < 0.5;
+
+    if (makeRun) {
+      // Random run: pick color, start number, length
+      const color = COLORS[Math.floor(rng() * 4)];
+      const maxLen = 13;
+      const start = Math.floor(rng() * 11) + 1; // 1..11
+      const maxPossible = Math.min(maxLen - start + 1, 6); // cap length at 6
+      if (maxPossible < 3) continue;
+      const length = Math.floor(rng() * (maxPossible - 2)) + 3; // 3..maxPossible
+
+      // Check availability
+      let ok = true;
+      for (let i = 0; i < length; i++) {
+        if (!available(color, start + i)) { ok = false; break; }
+      }
+      if (!ok) continue;
+
+      // Take tiles
+      const set: Array<{ color: Color; number: number }> = [];
+      for (let i = 0; i < length; i++) {
+        take(color, start + i);
+        set.push({ color, number: start + i });
+      }
+      sets.push(set);
+    } else {
+      // Random group: pick number, pick 3 or 4 distinct colors
+      const num = Math.floor(rng() * 13) + 1;
+      const shuffledColors = shuffle([...COLORS], rng);
+      const size = rng() < 0.5 ? 3 : 4;
+      const colors = shuffledColors.slice(0, size);
+
+      // Check availability
+      let ok = true;
+      for (const c of colors) {
+        if (!available(c, num)) { ok = false; break; }
+      }
+      if (!ok) continue;
+
+      // Take tiles
+      const set: Array<{ color: Color; number: number }> = [];
+      for (const c of colors) {
+        take(c, num);
+        set.push({ color: c, number: num });
+      }
+      sets.push(set);
+    }
+  }
+
+  if (sets.length < targetSets) return null;
+
+  // Convert to Tile objects with proper IDs
+  const usedCounts = new Map<string, number>();
+  return sets.map((set) =>
+    set.map((s) => {
+      const baseKey = `${s.color}-${s.number}`;
+      const count = (usedCounts.get(baseKey) ?? 0) + 1;
+      usedCounts.set(baseKey, count);
+      const copy = count === 1 ? 'a' : 'b';
+      return { id: `${s.color}-${s.number}-${copy}`, color: s.color, number: s.number };
+    }),
+  );
+}
+
+/**
+ * Given a solution board, try to produce a starting board (without the hand tile)
+ * by repartitioning the remaining tiles into a different valid configuration.
+ */
+function makeStartingBoard(
+  solutionWithoutHand: Tile[],
+  rng: () => number,
+): Board | null {
+  // Shuffle tiles and try to find a different partition
+  const shuffled = shuffle(solutionWithoutHand, rng);
+  return findPartition(shuffled);
+}
+
+let puzzleCounter = 0;
+
+/**
+ * Generate a single puzzle for the given difficulty.
+ * Returns null if generation fails within the attempt budget.
+ */
+export function generatePuzzle(
+  difficulty: Difficulty,
+  seed: number,
+): Puzzle | null {
+  const rng = makeRng(seed);
+  const [minMoves, maxMoves] = DIFFICULTY_RANGES[difficulty];
+
+  for (let attempt = 0; attempt < 100; attempt++) {
+    // Target 3-5 sets for the solution
+    const numSets = Math.floor(rng() * 3) + 3;
+    const solution = buildRandomSolution(rng, numSets);
+    if (!solution) continue;
+
+    // Pick a hand tile from one of the sets
+    const allTiles = solution.flat();
+    if (allTiles.length < 9) continue; // too small
+
+    const handIdx = Math.floor(rng() * allTiles.length);
+    const hand = allTiles[handIdx];
+    const remaining = [...allTiles.slice(0, handIdx), ...allTiles.slice(handIdx + 1)];
+
+    // Find a valid starting board from the remaining tiles
+    // Try multiple shuffles
+    let startingBoard: Board | null = null;
+    for (let shuffleAttempt = 0; shuffleAttempt < 10; shuffleAttempt++) {
+      startingBoard = makeStartingBoard(remaining, rng);
+      if (startingBoard) break;
+    }
+    if (!startingBoard) continue;
+
+    // Compute actual min moves
+    const actualMinMoves = computeMinMoves(startingBoard, hand, 50);
+    if (actualMinMoves === null) continue;
+    if (actualMinMoves < minMoves || actualMinMoves > maxMoves) continue;
+
+    // Find the best solution (the one with min moves)
+    // We already have `solution` from construction, but we need to find
+    // the partition that achieves actualMinMoves from the starting board's perspective
+    puzzleCounter++;
+    return {
+      id: `puzzle-${puzzleCounter}`,
+      board: startingBoard,
+      hand,
+      solution,
+      minMoves: actualMinMoves,
+      difficulty,
+    };
+  }
+
+  return null;
+}
+
+/**
+ * Generate a library of puzzles for all difficulty levels.
+ */
+export function generateLibrary(
+  puzzlesPerDifficulty: number = 30,
+  baseSeed: number = 42,
+): Puzzle[] {
+  const puzzles: Puzzle[] = [];
+  const difficulties: Difficulty[] = ['easy', 'medium', 'hard'];
+
+  for (const diff of difficulties) {
+    let count = 0;
+    let seed = baseSeed;
+    let failures = 0;
+
+    while (count < puzzlesPerDifficulty && failures < puzzlesPerDifficulty * 20) {
+      seed++;
+      const puzzle = generatePuzzle(diff, seed);
+      if (puzzle) {
+        puzzle.id = `${diff}-${count + 1}`;
+        puzzles.push(puzzle);
+        count++;
+      } else {
+        failures++;
+      }
+    }
+
+    if (count < puzzlesPerDifficulty) {
+      console.warn(
+        `Only generated ${count}/${puzzlesPerDifficulty} ${diff} puzzles after ${failures} failures`,
+      );
+    }
+  }
+
+  return puzzles;
+}
