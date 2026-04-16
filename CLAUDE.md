@@ -1,0 +1,40 @@
+# Rumikube Puzzle
+
+Rummikub tile rearrangement puzzle PWA. Given a board of valid sets and one tile in hand, rearrange the board so all sets remain valid and the hand tile is placed.
+
+## Stack
+
+React 18 + TypeScript + Vite + vite-plugin-pwa. Tests via Vitest.
+
+## Structure
+
+- `src/domain/` — Tile/Set/Board types and validation (`tile.ts`, `set.ts`, `board.ts`)
+- `src/solver/partition.ts` — Backtracking partition solver (can tiles be split into valid runs/groups?)
+- `src/solver/difficulty.ts` — Min-moves scorer via bipartite matching
+- `src/generator/generate.ts` — Reverse-construction puzzle generator (guarantees solvability)
+- `src/puzzles/library.json` — 90 pre-generated puzzles (30 easy/medium/hard)
+- `src/state/usePuzzle.ts` — React game state hook
+- `src/components/` — Tile, SetRow, Board, Hand, PuzzleScreen
+- `src/screens/` — HomeScreen, WinScreen
+- `scripts/generate-puzzles.ts` — Offline puzzle generation script
+
+## Commands
+
+- `npm run dev` — Dev server
+- `npm run test` — 37 unit tests
+- `npm run build` — Production PWA build
+- `npm run gen-puzzles` — Regenerate `src/puzzles/library.json`
+
+## Rules (no jokers)
+
+- **Run:** 3+ same-color consecutive numbers
+- **Group:** 3–4 same-number distinct-color tiles
+- Tiles: 1–13 in red/blue/yellow/black, 2 copies each
+
+## Difficulty
+
+Measured by minimum tiles moved: Easy (1–2), Medium (3–4), Hard (5+).
+
+## Deploy
+
+GitHub Pages via `.github/workflows/deploy.yml`. Base path: `/rumikube-puzzle/`.
