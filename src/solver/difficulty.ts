@@ -2,13 +2,21 @@ import type { Board, Tile } from '../domain/tile';
 import { findAllPartitions } from './partition';
 
 /**
- * Compute the overlap (number of shared tile IDs) between two sets.
+ * Compute the overlap between two sets, counted by tile type (color, number)
+ * rather than tile ID. Within any valid run or group, each (color, number) pair
+ * appears at most once, so type-based matching is well-defined.
+ *
+ * Using tile types (not IDs) is essential because the partition solver works at
+ * the color/number grid level and assigns specific tile copies (e.g. red-3-a vs
+ * red-3-b) arbitrarily. An ID-based overlap would undercount tiles that could
+ * trivially stay in place by swapping interchangeable duplicate copies.
  */
 function setOverlap(a: Tile[], b: Tile[]): number {
-  const ids = new Set(a.map((t) => t.id));
+  const types = new Set<string>();
+  for (const t of a) types.add(`${t.color}-${t.number}`);
   let count = 0;
   for (const t of b) {
-    if (ids.has(t.id)) count++;
+    if (types.has(`${t.color}-${t.number}`)) count++;
   }
   return count;
 }

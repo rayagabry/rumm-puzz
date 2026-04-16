@@ -157,8 +157,10 @@ export function generatePuzzle(
     }
     if (!startingBoard) continue;
 
-    // Compute actual min moves
-    const actualMinMoves = computeMinMoves(startingBoard, hand, 50);
+    // Compute actual min moves. Use a generous partition cap so we don't miss
+    // a shorter rearrangement (e.g. a 1-move solution hiding behind many valid
+    // partitions) and accidentally ship a miscalibrated puzzle.
+    const actualMinMoves = computeMinMoves(startingBoard, hand, 500);
     if (actualMinMoves === null) continue;
     if (actualMinMoves < minMoves || actualMinMoves > maxMoves) continue;
 

@@ -71,17 +71,39 @@ describe('computeMinMoves', () => {
     expect(result).toBeNull();
   });
 
-  it('returns > 1 when rearrangement is needed', () => {
-    // Board: red run 3-4-5, group of 7s (red, blue, yellow)
-    // Hand: red 7 (second copy)
-    // The hand tile (red 7) can't simply join the group (red 7 already there).
-    // Need to rearrange: e.g., split the group and reform.
+  it('returns 1 when hand tile just extends the run (group present but untouched)', () => {
     const board: Board = [
       [tile('red', 3), tile('red', 4), tile('red', 5)],
       [tile('red', 7), tile('blue', 7), tile('yellow', 7)],
     ];
     const hand = tile('red', 6);
     // red 6 can extend the run to 3-4-5-6, so minMoves should be 1
+    const result = computeMinMoves(board, hand);
+    expect(result).toBe(1);
+  });
+
+  it('returns 1 when duplicate tiles exist and only the hand tile need move', () => {
+    // Both copies of red-3/4/5 are on the board as two identical runs.
+    // Hand tile red-6 extends ONE of the runs to 3-4-5-6.
+    // Regardless of which duplicate copy the solver "assigns" to which set,
+    // only 1 tile (the hand tile) truly moves.
+    const board: Board = [
+      [tile('red', 3, 'a'), tile('red', 4, 'a'), tile('red', 5, 'a')],
+      [tile('red', 3, 'b'), tile('red', 4, 'b'), tile('red', 5, 'b')],
+    ];
+    const hand = tile('red', 6, 'a');
+    const result = computeMinMoves(board, hand);
+    expect(result).toBe(1);
+  });
+
+  it('returns 1 when hand extends a run that shares a number with a group', () => {
+    // A red-3 is in both a run and a group (using the two copies).
+    // Hand red-6 extends the run; no real rearrangement needed.
+    const board: Board = [
+      [tile('red', 3, 'a'), tile('red', 4, 'a'), tile('red', 5, 'a')],
+      [tile('red', 3, 'b'), tile('blue', 3, 'a'), tile('yellow', 3, 'a')],
+    ];
+    const hand = tile('red', 6, 'a');
     const result = computeMinMoves(board, hand);
     expect(result).toBe(1);
   });
