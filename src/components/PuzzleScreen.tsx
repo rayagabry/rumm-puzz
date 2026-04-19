@@ -153,23 +153,23 @@ export default function PuzzleScreen({ difficulty, onWin, onHome }: Props) {
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'space-between',
-          padding: '12px 16px',
+          padding: '14px 18px',
           background: 'var(--bg-surface)',
-          borderBottom: '1px solid rgba(255,255,255,0.08)',
+          borderBottom: '1px solid var(--border)',
         }}
       >
-        <button className="btn-secondary" onClick={onHome} style={{ padding: '8px 12px', fontSize: 14 }}>
+        <button className="btn-ghost" onClick={onHome} style={{ padding: '8px 12px', fontSize: 14 }}>
           ← Back
         </button>
         <div style={{ textAlign: 'center' }}>
-          <div style={{ fontSize: 12, color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: 1 }}>
+          <div style={{ fontSize: 10, color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '0.12em', fontWeight: 600 }}>
             {DIFFICULTY_LABELS[difficulty]}
           </div>
-          <div style={{ fontSize: 14, fontWeight: 600 }}>
-            Moves: {moveCount} {puzzle.minMoves > 0 && <span style={{ color: 'var(--text-muted)' }}>/ par {puzzle.minMoves}</span>}
+          <div style={{ fontSize: 14, fontWeight: 600, marginTop: 2 }}>
+            {moveCount} {puzzle.minMoves > 0 && <span style={{ color: 'var(--text-soft)', fontWeight: 500 }}>/ par {puzzle.minMoves}</span>}
           </div>
         </div>
-        <button className="btn-secondary" onClick={reset} style={{ padding: '8px 12px', fontSize: 14 }}>
+        <button className="btn-ghost" onClick={reset} style={{ padding: '8px 12px', fontSize: 14 }}>
           Reset
         </button>
       </div>
@@ -177,7 +177,7 @@ export default function PuzzleScreen({ difficulty, onWin, onHome }: Props) {
       {/* Instructions */}
       <div
         style={{
-          padding: '8px 16px',
+          padding: '10px 20px',
           fontSize: 13,
           color: 'var(--text-muted)',
           textAlign: 'center',

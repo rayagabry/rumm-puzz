@@ -52,8 +52,8 @@ export default function Board({
         style={{
           display: 'flex',
           flexDirection: 'column',
-          gap: 8,
-          padding: 12,
+          gap: 10,
+          padding: 16,
         }}
       >
         {board.map((set, i) => (
@@ -78,18 +78,19 @@ export default function Board({
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
-              padding: '12px 10px',
-              borderRadius: 10,
-              border: '2px dashed var(--success)',
+              padding: '14px 10px',
+              borderRadius: 14,
+              border: '1.5px dashed var(--success)',
               background: newSetHover
                 ? 'rgba(78, 204, 163, 0.22)'
                 : 'rgba(78, 204, 163, 0.08)',
-              minHeight: 74,
+              minHeight: 78,
               cursor: 'pointer',
               color: 'var(--success)',
               fontSize: 14,
               fontWeight: 600,
               transition: 'background 0.15s',
+              letterSpacing: '-0.01em',
             }}
           >
             + New set

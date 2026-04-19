@@ -8,7 +8,7 @@ type Props = {
 export default function WinScreen({ moves, par, onNext, onHome }: Props) {
   const rating = moves <= par ? 'Perfect!' : moves <= par + 2 ? 'Nice work!' : 'Solved!';
   const ratingColor =
-    moves <= par ? 'var(--success)' : moves <= par + 2 ? 'var(--tile-yellow)' : 'var(--text)';
+    moves <= par ? 'var(--success)' : moves <= par + 2 ? 'var(--warning)' : 'var(--text)';
 
   return (
     <div
@@ -18,50 +18,75 @@ export default function WinScreen({ moves, par, onNext, onHome }: Props) {
         alignItems: 'center',
         justifyContent: 'center',
         height: '100%',
-        gap: 24,
-        padding: 24,
-        maxWidth: 400,
+        gap: 28,
+        padding: 28,
+        maxWidth: 420,
         margin: '0 auto',
       }}
     >
-      <div style={{ fontSize: 48, lineHeight: 1 }}>&#127942;</div>
-      <h1 style={{ fontSize: 28, fontWeight: 800, color: ratingColor }}>{rating}</h1>
+      <div style={{ fontSize: 56, lineHeight: 1 }}>&#127942;</div>
+      <h1
+        style={{
+          fontSize: 32,
+          fontWeight: 700,
+          color: ratingColor,
+          letterSpacing: '-0.02em',
+        }}
+      >
+        {rating}
+      </h1>
 
       <div
         style={{
           display: 'flex',
-          gap: 32,
+          gap: 40,
           background: 'var(--bg-surface)',
-          borderRadius: 12,
-          padding: '20px 32px',
-          border: '1px solid rgba(255,255,255,0.06)',
+          borderRadius: 16,
+          padding: '22px 36px',
+          border: '1px solid var(--border)',
+          boxShadow: 'var(--shadow-sm)',
         }}
       >
         <div style={{ textAlign: 'center' }}>
-          <div style={{ fontSize: 32, fontWeight: 800 }}>{moves}</div>
-          <div style={{ fontSize: 12, color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: 1 }}>
+          <div style={{ fontSize: 34, fontWeight: 700, letterSpacing: '-0.02em' }}>{moves}</div>
+          <div
+            style={{
+              fontSize: 10,
+              color: 'var(--text-muted)',
+              textTransform: 'uppercase',
+              letterSpacing: '0.1em',
+              fontWeight: 600,
+              marginTop: 2,
+            }}
+          >
             Your moves
           </div>
         </div>
-        <div
-          style={{
-            width: 1,
-            background: 'rgba(255,255,255,0.1)',
-          }}
-        />
+        <div style={{ width: 1, background: 'var(--border)' }} />
         <div style={{ textAlign: 'center' }}>
-          <div style={{ fontSize: 32, fontWeight: 800, color: 'var(--text-muted)' }}>{par}</div>
-          <div style={{ fontSize: 12, color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: 1 }}>
+          <div style={{ fontSize: 34, fontWeight: 700, color: 'var(--text-soft)', letterSpacing: '-0.02em' }}>
+            {par}
+          </div>
+          <div
+            style={{
+              fontSize: 10,
+              color: 'var(--text-muted)',
+              textTransform: 'uppercase',
+              letterSpacing: '0.1em',
+              fontWeight: 600,
+              marginTop: 2,
+            }}
+          >
             Par
           </div>
         </div>
       </div>
 
-      <div style={{ display: 'flex', gap: 12, marginTop: 8 }}>
-        <button className="btn-secondary" onClick={onHome} style={{ padding: '14px 28px' }}>
+      <div style={{ display: 'flex', gap: 10, marginTop: 4 }}>
+        <button className="btn-secondary" onClick={onHome} style={{ padding: '14px 26px' }}>
           Home
         </button>
-        <button className="btn-primary" onClick={onNext} style={{ padding: '14px 28px' }}>
+        <button className="btn-primary" onClick={onNext} style={{ padding: '14px 26px' }}>
           Next puzzle
         </button>
       </div>

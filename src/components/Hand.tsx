@@ -27,20 +27,20 @@ export default function Hand({
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
-        gap: 12,
-        padding: '12px 16px',
+        gap: 14,
+        padding: '16px 20px',
         background: isDropHover ? 'rgba(78, 204, 163, 0.22)' : 'var(--bg-surface)',
-        borderTop: '1px solid rgba(255,255,255,0.08)',
+        borderTop: '1px solid var(--border)',
         transition: 'background 0.15s',
       }}
     >
       <span
         style={{
-          fontSize: 13,
+          fontSize: 11,
           color: 'var(--text-muted)',
           fontWeight: 600,
           textTransform: 'uppercase',
-          letterSpacing: 1,
+          letterSpacing: '0.08em',
         }}
       >
         Your tile
@@ -58,13 +58,14 @@ export default function Hand({
           style={{
             width: 44,
             height: 58,
-            borderRadius: 6,
-            border: '2px dashed var(--success)',
+            borderRadius: 10,
+            border: '1.5px dashed var(--success)',
+            background: 'var(--success-soft)',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
             color: 'var(--success)',
-            fontSize: 18,
+            fontSize: 20,
           }}
         >
           ✓
