@@ -66,9 +66,6 @@ describe('countMoves', () => {
   it('counts two moves when tiles from the same source go to different destinations', () => {
     // A 4-group [red, blue, yellow, black 4] breaks up: red-4 and black-4
     // move into different new sets. Two moves, not one.
-    const original: Board = [
-      [tile('red', 4), tile('blue', 4), tile('yellow', 4), tile('black', 4)],
-    ];
     const hand = tile('blue', 5);
     // New solution: red-4 extends a red run; black-4 extends a black run.
     // (We pre-seed runs in the original that can accept them by adding
