@@ -22,6 +22,10 @@
   --accent-soft: rgba(239, 108, 122, 0.1);
   --success: #4cc9a2;
   --success-soft: rgba(76, 201, 162, 0.12);
+  --success-soft-strong: rgba(76, 201, 162, 0.24);
+  --drop: #5b8fd9;
+  --drop-soft: rgba(91, 143, 217, 0.12);
+  --drop-soft-strong: rgba(91, 143, 217, 0.24);
   --warning: #f0b34a;
 
   /* Tiles: softer ivory face, muted pigment */

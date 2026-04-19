@@ -44,7 +44,7 @@ export default function SetRow({
         padding: '10px 12px',
         borderRadius: 14,
         background: isDropHover
-          ? 'rgba(78, 204, 163, 0.22)'
+          ? 'var(--drop-soft-strong)'
           : highlight
             ? 'var(--success-soft)'
             : valid
@@ -52,7 +52,7 @@ export default function SetRow({
               : 'var(--set-invalid)',
         border: `1px solid ${
           isDropHover
-            ? 'var(--success)'
+            ? 'var(--drop)'
             : highlight
               ? 'var(--success)'
               : valid

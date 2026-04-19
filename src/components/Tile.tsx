@@ -54,7 +54,6 @@ export default function Tile({ tile, selected, dimmed, onClick, onDragStart, gho
       onPointerDown={handlePointerDown}
       style={{
         touchAction: 'none',
-        opacity: ghost ? 0.3 : dimmed ? 0.5 : 1,
         display: 'inline-flex',
         alignItems: 'center',
         justifyContent: 'center',
@@ -68,7 +67,7 @@ export default function Tile({ tile, selected, dimmed, onClick, onDragStart, gho
         fontSize: 22,
         color: COLOR_MAP[tile.color],
         userSelect: 'none',
-        opacity: dimmed ? 0.4 : 1,
+        opacity: ghost ? 0.3 : dimmed ? 0.4 : 1,
         boxShadow: selected
           ? '0 0 0 2px var(--accent), 0 4px 14px rgba(239,108,122,0.25)'
           : '0 1px 2px rgba(20,24,40,0.06), 0 1px 1px rgba(20,24,40,0.04)',

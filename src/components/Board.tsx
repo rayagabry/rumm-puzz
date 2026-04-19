@@ -80,13 +80,13 @@ export default function Board({
               justifyContent: 'center',
               padding: '14px 10px',
               borderRadius: 14,
-              border: '1.5px dashed var(--success)',
+              border: '1.5px dashed var(--drop)',
               background: newSetHover
-                ? 'rgba(78, 204, 163, 0.22)'
-                : 'rgba(78, 204, 163, 0.08)',
+                ? 'var(--drop-soft-strong)'
+                : 'var(--drop-soft)',
               minHeight: 78,
               cursor: 'pointer',
-              color: 'var(--success)',
+              color: 'var(--drop)',
               fontSize: 14,
               fontWeight: 600,
               transition: 'background 0.15s',

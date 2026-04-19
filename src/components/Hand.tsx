@@ -29,7 +29,7 @@ export default function Hand({
         justifyContent: 'center',
         gap: 14,
         padding: '16px 20px',
-        background: isDropHover ? 'rgba(78, 204, 163, 0.22)' : 'var(--bg-surface)',
+        background: isDropHover ? 'var(--drop-soft-strong)' : 'var(--bg-surface)',
         borderTop: '1px solid var(--border)',
         transition: 'background 0.15s',
       }}
