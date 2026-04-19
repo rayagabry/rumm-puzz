@@ -26,21 +26,22 @@ export default function Tile({ tile, selected, dimmed, onClick, style }: Props) 
         justifyContent: 'center',
         width: 44,
         height: 58,
-        background: dimmed ? '#d4d0c4' : 'var(--tile-face)',
-        border: `2px solid ${selected ? 'var(--accent)' : 'var(--tile-border)'}`,
-        borderBottom: `3px solid ${selected ? 'var(--accent)' : 'var(--tile-shadow)'}`,
-        borderRadius: 6,
+        background: 'var(--tile-face)',
+        border: `1px solid ${selected ? 'var(--accent)' : 'var(--tile-border)'}`,
+        borderRadius: 10,
         cursor: onClick ? 'pointer' : 'default',
-        fontWeight: 800,
+        fontWeight: 700,
         fontSize: 22,
         color: COLOR_MAP[tile.color],
         userSelect: 'none',
-        opacity: dimmed ? 0.5 : 1,
+        opacity: dimmed ? 0.4 : 1,
         boxShadow: selected
-          ? '0 0 0 2px var(--accent), 0 2px 8px rgba(233,69,96,0.3)'
-          : '0 1px 3px rgba(0,0,0,0.2)',
-        transition: 'box-shadow 0.15s, opacity 0.15s, border-color 0.15s',
+          ? '0 0 0 2px var(--accent), 0 4px 14px rgba(239,108,122,0.25)'
+          : '0 1px 2px rgba(20,24,40,0.06), 0 1px 1px rgba(20,24,40,0.04)',
+        transition: 'box-shadow 0.18s ease, opacity 0.18s ease, border-color 0.18s ease, transform 0.12s ease',
+        transform: selected ? 'translateY(-2px)' : 'none',
         flexShrink: 0,
+        letterSpacing: '-0.02em',
         ...style,
       }}
     >

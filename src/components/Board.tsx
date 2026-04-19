@@ -42,8 +42,8 @@ export default function Board({
         style={{
           display: 'flex',
           flexDirection: 'column',
-          gap: 8,
-          padding: 12,
+          gap: 10,
+          padding: 16,
         }}
       >
         {board.map((set, i) => (
@@ -65,15 +65,16 @@ export default function Board({
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
-              padding: '12px 10px',
-              borderRadius: 10,
-              border: '2px dashed var(--success)',
-              background: 'rgba(78, 204, 163, 0.08)',
-              minHeight: 74,
+              padding: '14px 10px',
+              borderRadius: 14,
+              border: '1.5px dashed var(--success)',
+              background: 'var(--success-soft)',
+              minHeight: 78,
               cursor: 'pointer',
               color: 'var(--success)',
               fontSize: 14,
               fontWeight: 600,
+              letterSpacing: '-0.01em',
             }}
           >
             + New set

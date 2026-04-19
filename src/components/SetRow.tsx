@@ -26,18 +26,17 @@ export default function SetRow({
   return (
     <div
       onClick={(e) => {
-        // Only trigger if clicking the container, not a tile
         if (e.target === e.currentTarget) {
           onSetClick(setIndex);
         }
       }}
       style={{
         display: 'flex',
-        gap: 4,
-        padding: '8px 10px',
-        borderRadius: 10,
+        gap: 6,
+        padding: '10px 12px',
+        borderRadius: 14,
         background: highlight
-          ? 'rgba(78, 204, 163, 0.15)'
+          ? 'var(--success-soft)'
           : valid
             ? 'var(--set-bg)'
             : 'var(--set-invalid)',
@@ -45,13 +44,13 @@ export default function SetRow({
           highlight
             ? 'var(--success)'
             : valid
-              ? 'rgba(255,255,255,0.08)'
-              : 'rgba(233,69,96,0.3)'
+              ? 'transparent'
+              : 'var(--set-invalid-border)'
         }`,
-        minHeight: 74,
+        minHeight: 78,
         minWidth: 60,
         alignItems: 'center',
-        transition: 'background 0.2s, border-color 0.2s',
+        transition: 'background 0.2s ease, border-color 0.2s ease',
         cursor: selectedTileId ? 'pointer' : 'default',
         flexWrap: 'wrap',
       }}
