@@ -136,7 +136,7 @@ export function generatePuzzle(
 
   for (let attempt = 0; attempt < 100; attempt++) {
     // Target 3-5 sets for the solution
-    const numSets = Math.floor(rng() * 3) + 3;
+    const numSets = Math.floor(rng() * 3) + 4;
     const solution = buildRandomSolution(rng, numSets);
     if (!solution) continue;
 

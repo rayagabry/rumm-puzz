@@ -10,7 +10,7 @@ React 18 + TypeScript + Vite + vite-plugin-pwa. Tests via Vitest.
 
 - `src/domain/` — Tile/Set/Board types and validation (`tile.ts`, `set.ts`, `board.ts`)
 - `src/solver/partition.ts` — Backtracking partition solver (can tiles be split into valid runs/groups?)
-- `src/solver/difficulty.ts` — Min-moves scorer via bipartite matching
+- `src/solver/difficulty.ts` — Min-moves scorer: counts distinct (source-set, dest-set) transfers under the max-stay matching
 - `src/generator/generate.ts` — Reverse-construction puzzle generator (guarantees solvability)
 - `src/puzzles/library.json` — 90 pre-generated puzzles (30 easy/medium/hard)
 - `src/state/usePuzzle.ts` — React game state hook
@@ -33,7 +33,7 @@ React 18 + TypeScript + Vite + vite-plugin-pwa. Tests via Vitest.
 
 ## Difficulty
 
-Measured by minimum tiles moved: Easy (1–2), Medium (3–4), Hard (5+).
+Measured by minimum *batched* moves — one move = one batch of tiles taken from a single source set (or the hand) and placed into a single destination set. Multiple tiles crossing the same (source, destination) pair count once. Ranges: Easy (1–2), Medium (3–4), Hard (5+).
 
 ## Deploy
 
