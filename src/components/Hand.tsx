@@ -4,20 +4,34 @@ import Tile from './Tile';
 type Props = {
   tile: TileType | null;
   selected: boolean;
+  draggedTileId?: string | null;
+  isDropHover?: boolean;
+  canAcceptDrop?: boolean;
   onTileClick: () => void;
+  onTileDragStart?: (e: PointerEvent) => void;
 };
 
-export default function Hand({ tile, selected, onTileClick }: Props) {
+export default function Hand({
+  tile,
+  selected,
+  draggedTileId,
+  isDropHover,
+  canAcceptDrop,
+  onTileClick,
+  onTileDragStart,
+}: Props) {
   return (
     <div
+      data-drop-kind={canAcceptDrop ? 'hand' : undefined}
       style={{
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
         gap: 12,
         padding: '12px 16px',
-        background: 'var(--bg-surface)',
+        background: isDropHover ? 'rgba(78, 204, 163, 0.22)' : 'var(--bg-surface)',
         borderTop: '1px solid rgba(255,255,255,0.08)',
+        transition: 'background 0.15s',
       }}
     >
       <span
@@ -32,7 +46,13 @@ export default function Hand({ tile, selected, onTileClick }: Props) {
         Your tile
       </span>
       {tile ? (
-        <Tile tile={tile} selected={selected} onClick={onTileClick} />
+        <Tile
+          tile={tile}
+          selected={selected}
+          ghost={tile.id === draggedTileId}
+          onClick={onTileClick}
+          onDragStart={onTileDragStart}
+        />
       ) : (
         <div
           style={{

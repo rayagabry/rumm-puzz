@@ -13,14 +13,48 @@ type Props = {
   selected?: boolean;
   dimmed?: boolean;
   onClick?: () => void;
+  /** Fires once pointer moves past the drag threshold. */
+  onDragStart?: (e: PointerEvent) => void;
+  ghost?: boolean;
   style?: CSSProperties;
 };
 
-export default function Tile({ tile, selected, dimmed, onClick, style }: Props) {
+const DRAG_THRESHOLD = 5;
+
+export default function Tile({ tile, selected, dimmed, onClick, onDragStart, ghost, style }: Props) {
+  const handlePointerDown = (e: React.PointerEvent) => {
+    if (!onClick && !onDragStart) return;
+    // Only primary button / touch / pen
+    if (e.pointerType === 'mouse' && e.button !== 0) return;
+    const startX = e.clientX;
+    const startY = e.clientY;
+    let dragging = false;
+
+    const onMove = (ev: PointerEvent) => {
+      if (dragging) return;
+      if (Math.hypot(ev.clientX - startX, ev.clientY - startY) > DRAG_THRESHOLD) {
+        dragging = true;
+        onDragStart?.(ev);
+      }
+    };
+    const onUp = () => {
+      window.removeEventListener('pointermove', onMove);
+      window.removeEventListener('pointerup', onUp);
+      window.removeEventListener('pointercancel', onUp);
+      if (!dragging) onClick?.();
+    };
+
+    window.addEventListener('pointermove', onMove);
+    window.addEventListener('pointerup', onUp);
+    window.addEventListener('pointercancel', onUp);
+  };
+
   return (
     <div
-      onClick={onClick}
+      onPointerDown={handlePointerDown}
       style={{
+        touchAction: 'none',
+        opacity: ghost ? 0.3 : dimmed ? 0.5 : 1,
         display: 'inline-flex',
         alignItems: 'center',
         justifyContent: 'center',
@@ -35,7 +69,6 @@ export default function Tile({ tile, selected, dimmed, onClick, style }: Props) 
         fontSize: 22,
         color: COLOR_MAP[tile.color],
         userSelect: 'none',
-        opacity: dimmed ? 0.5 : 1,
         boxShadow: selected
           ? '0 0 0 2px var(--accent), 0 2px 8px rgba(233,69,96,0.3)'
           : '0 1px 3px rgba(0,0,0,0.2)',

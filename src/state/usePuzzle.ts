@@ -224,6 +224,79 @@ export function usePuzzle(difficulty: Difficulty) {
     });
   }, []);
 
+  /**
+   * Move a tile from a source (hand or a board set) to a destination
+   * (an existing set, a new set, or back to the hand).
+   * Used by drag-and-drop; falls through to a no-op on invalid drops.
+   */
+  const performMove = useCallback(
+    (
+      source: { kind: 'hand' } | { kind: 'board'; tileId: string; setIndex: number },
+      dest: { kind: 'set'; index: number } | { kind: 'new-set' } | { kind: 'hand' },
+    ) => {
+      setState((s) => {
+        if (s.solved) return s;
+
+        let tile: Tile | null = null;
+        if (source.kind === 'hand') {
+          if (!s.handTile) return s;
+          tile = s.handTile;
+        } else {
+          tile = s.workingBoard[source.setIndex]?.find((t) => t.id === source.tileId) ?? null;
+        }
+        if (!tile) return s;
+
+        // No-op: dropping on own set
+        if (source.kind === 'board' && dest.kind === 'set' && source.setIndex === dest.index) {
+          return { ...s, selection: { kind: 'none' } };
+        }
+        // Hand→hand: no-op
+        if (source.kind === 'hand' && dest.kind === 'hand') {
+          return { ...s, selection: { kind: 'none' } };
+        }
+
+        // Drop on hand slot: only valid for the original hand tile, coming from the board
+        if (dest.kind === 'hand') {
+          if (source.kind !== 'board') return s;
+          if (s.handTile !== null) return s;
+          if (tile.id !== s.puzzle.hand.id) return s;
+          let newBoard = s.workingBoard.map((set, i) =>
+            i === source.setIndex ? set.filter((t) => t.id !== source.tileId) : [...set],
+          );
+          newBoard = newBoard.filter((set) => set.length > 0);
+          return {
+            ...s,
+            workingBoard: newBoard,
+            handTile: tile,
+            selection: { kind: 'none' },
+            moveCount: Math.max(0, s.moveCount - 1),
+          };
+        }
+
+        // Add to dest before pruning so indices don't shift under us
+        let newBoard: Board = s.workingBoard.map((set) => [...set]);
+        if (source.kind === 'board') {
+          newBoard[source.setIndex] = newBoard[source.setIndex].filter((t) => t.id !== source.tileId);
+        }
+        if (dest.kind === 'set') {
+          newBoard[dest.index] = [...newBoard[dest.index], tile];
+        } else {
+          newBoard.push([tile]);
+        }
+        newBoard = newBoard.filter((set) => set.length > 0);
+
+        return {
+          ...s,
+          workingBoard: newBoard,
+          handTile: source.kind === 'hand' ? null : s.handTile,
+          selection: { kind: 'none' },
+          moveCount: s.moveCount + 1,
+        };
+      });
+    },
+    [],
+  );
+
   /** Check if the current board state is a valid solution. */
   const checkSolution = useCallback(() => {
     setState((s) => {
@@ -288,6 +361,7 @@ export function usePuzzle(difficulty: Difficulty) {
     onTileClick,
     onSetClick,
     onNewSet,
+    performMove,
     checkSolution,
     reset,
     returnToHand,
