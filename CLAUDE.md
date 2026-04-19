@@ -23,7 +23,7 @@ React 18 + TypeScript + Vite + vite-plugin-pwa. Tests via Vitest.
 - `npm run dev` — Dev server
 - `npm run test` — 37 unit tests
 - `npm run build` — Production PWA build
-- `npm run gen-puzzles` — Regenerate `src/puzzles/library.json`
+- `npm run gen-puzzles` — Regenerate `src/puzzles/library.json`. Run this after changing difficulty logic or ranges — library.json is derived data and its minMoves values go stale.
 
 ## Rules (no jokers)
 
@@ -34,6 +34,8 @@ React 18 + TypeScript + Vite + vite-plugin-pwa. Tests via Vitest.
 ## Difficulty
 
 Measured by minimum *batched* moves — one move = one batch of tiles taken from a single source set (or the hand) and placed into a single destination set. Multiple tiles crossing the same (source, destination) pair count once. Ranges: Easy (1–2), Medium (3–4), Hard (5+).
+
+Overlap uses tile type, not ID. setOverlap in difficulty.ts compares by (color, number), not t.id — the partition solver assigns duplicate copies arbitrarily, so ID-based comparison inflates move counts.
 
 ## Deploy
 
