@@ -1,11 +1,12 @@
 type Props = {
   moves: number;
   par: number;
+  exhausted: boolean;
   onNext: () => void;
   onHome: () => void;
 };
 
-export default function WinScreen({ moves, par, onNext, onHome }: Props) {
+export default function WinScreen({ moves, par, exhausted, onNext, onHome }: Props) {
   const rating = moves <= par ? 'Perfect!' : moves <= par + 2 ? 'Nice work!' : 'Solved!';
   const ratingColor =
     moves <= par ? 'var(--success)' : moves <= par + 2 ? 'var(--warning)' : 'var(--text)';
@@ -82,13 +83,30 @@ export default function WinScreen({ moves, par, onNext, onHome }: Props) {
         </div>
       </div>
 
+      {exhausted && (
+        <div
+          style={{
+            fontSize: 13,
+            color: 'var(--text-muted)',
+            textAlign: 'center',
+            lineHeight: 1.5,
+            maxWidth: 280,
+            marginTop: -8,
+          }}
+        >
+          That was the last puzzle at this difficulty. Reset history from the home screen to play them again.
+        </div>
+      )}
+
       <div style={{ display: 'flex', gap: 10, marginTop: 4 }}>
         <button className="btn-secondary" onClick={onHome} style={{ padding: '14px 26px' }}>
           Home
         </button>
-        <button className="btn-primary" onClick={onNext} style={{ padding: '14px 26px' }}>
-          Next puzzle
-        </button>
+        {!exhausted && (
+          <button className="btn-primary" onClick={onNext} style={{ padding: '14px 26px' }}>
+            Next puzzle
+          </button>
+        )}
       </div>
     </div>
   );

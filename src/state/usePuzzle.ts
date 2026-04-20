@@ -1,4 +1,4 @@
-import { useState, useCallback, useMemo } from 'react';
+import { useState, useCallback, useMemo, useEffect } from 'react';
 import type { Tile, Board, Difficulty } from '../domain/tile';
 import { cloneBoard } from '../domain/board';
 import { isBoardValid } from '../domain/set';
@@ -26,21 +26,98 @@ type PuzzleState = {
   solved: boolean;
 };
 
-/** Pick a random puzzle from the library for the given difficulty. */
-function pickPuzzle(difficulty: Difficulty, exclude?: string): PuzzleData {
-  const candidates = (puzzleLibrary as PuzzleData[]).filter(
-    (p) => p.difficulty === difficulty && p.id !== exclude,
-  );
-  if (candidates.length === 0) {
-    // Fallback: include all of that difficulty
-    const all = (puzzleLibrary as PuzzleData[]).filter((p) => p.difficulty === difficulty);
-    return all[Math.floor(Math.random() * all.length)];
+const PLAYED_KEY = 'rumikube:played';
+
+function loadPlayed(): Record<Difficulty, string[]> {
+  try {
+    const raw = localStorage.getItem(PLAYED_KEY);
+    if (!raw) return { easy: [], medium: [], hard: [] };
+    const parsed = JSON.parse(raw);
+    return {
+      easy: Array.isArray(parsed.easy) ? parsed.easy : [],
+      medium: Array.isArray(parsed.medium) ? parsed.medium : [],
+      hard: Array.isArray(parsed.hard) ? parsed.hard : [],
+    };
+  } catch {
+    return { easy: [], medium: [], hard: [] };
   }
+}
+
+function savePlayed(played: Record<Difficulty, string[]>) {
+  try {
+    localStorage.setItem(PLAYED_KEY, JSON.stringify(played));
+  } catch {
+    // ignore quota / unavailable storage
+  }
+}
+
+function markPlayed(difficulty: Difficulty, id: string) {
+  const played = loadPlayed();
+  if (!played[difficulty].includes(id)) {
+    played[difficulty].push(id);
+    savePlayed(played);
+  }
+}
+
+/** Total puzzles in the library for a given difficulty. */
+export function totalForDifficulty(difficulty: Difficulty): number {
+  return (puzzleLibrary as PuzzleData[]).filter((p) => p.difficulty === difficulty).length;
+}
+
+/** How many puzzles the user has played for a given difficulty. */
+export function playedCountForDifficulty(difficulty: Difficulty): number {
+  const total = totalForDifficulty(difficulty);
+  return Math.min(loadPlayed()[difficulty].length, total);
+}
+
+/** True if the user has played every puzzle of this difficulty. */
+export function isDifficultyExhausted(difficulty: Difficulty): boolean {
+  return playedCountForDifficulty(difficulty) >= totalForDifficulty(difficulty);
+}
+
+/** Clear play history for one difficulty (or all if omitted). */
+export function resetPlayHistory(difficulty?: Difficulty) {
+  const played = loadPlayed();
+  if (difficulty) {
+    played[difficulty] = [];
+  } else {
+    played.easy = [];
+    played.medium = [];
+    played.hard = [];
+  }
+  savePlayed(played);
+}
+
+/** Pick a random unplayed puzzle from the library for the given difficulty.
+ *  Returns null if every puzzle of this difficulty has been played. */
+function pickPuzzle(difficulty: Difficulty, exclude?: string): PuzzleData | null {
+  const all = (puzzleLibrary as PuzzleData[]).filter((p) => p.difficulty === difficulty);
+  const played = new Set(loadPlayed()[difficulty]);
+  const unplayed = all.filter((p) => !played.has(p.id));
+  // Exhausted: caller is responsible for handling this.
+  if (unplayed.length === 0) return null;
+  // Prefer to avoid the just-finished puzzle, but allow it if it's the only one left.
+  const preferred = unplayed.filter((p) => p.id !== exclude);
+  const candidates = preferred.length > 0 ? preferred : unplayed;
   return candidates[Math.floor(Math.random() * candidates.length)];
 }
 
 function initState(difficulty: Difficulty, exclude?: string): PuzzleState {
   const puzzle = pickPuzzle(difficulty, exclude);
+  if (!puzzle) {
+    // Shouldn't happen — HomeScreen blocks selection when exhausted. As a
+    // last-resort safety net, reset history so the app can still function.
+    resetPlayHistory(difficulty);
+    const fallback = pickPuzzle(difficulty)!;
+    return {
+      puzzle: fallback,
+      workingBoard: cloneBoard(fallback.board),
+      handTile: { ...fallback.hand },
+      selection: { kind: 'none' },
+      moveCount: 0,
+      solved: false,
+    };
+  }
   return {
     puzzle,
     workingBoard: cloneBoard(puzzle.board),
@@ -53,6 +130,14 @@ function initState(difficulty: Difficulty, exclude?: string): PuzzleState {
 
 export function usePuzzle(difficulty: Difficulty) {
   const [state, setState] = useState<PuzzleState>(() => initState(difficulty));
+
+  // Record a puzzle as played only once it's actually solved. markPlayed is
+  // idempotent on id, so StrictMode's double-invocation is harmless here.
+  useEffect(() => {
+    if (state.solved) {
+      markPlayed(state.puzzle.difficulty, state.puzzle.id);
+    }
+  }, [state.solved, state.puzzle.id, state.puzzle.difficulty]);
 
   const selectedTileId = useMemo(() => {
     if (state.selection.kind === 'board') return state.selection.tileId;

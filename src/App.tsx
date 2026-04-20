@@ -3,6 +3,7 @@ import type { Difficulty } from './domain/tile';
 import HomeScreen from './screens/HomeScreen';
 import PuzzleScreen from './components/PuzzleScreen';
 import WinScreen from './screens/WinScreen';
+import { isDifficultyExhausted } from './state/usePuzzle';
 
 type Screen =
   | { kind: 'home' }
@@ -34,6 +35,7 @@ export default function App() {
         <WinScreen
           moves={screen.moves}
           par={screen.par}
+          exhausted={isDifficultyExhausted(screen.difficulty)}
           onNext={() => setScreen({ kind: 'puzzle', difficulty: screen.difficulty })}
           onHome={() => setScreen({ kind: 'home' })}
         />
