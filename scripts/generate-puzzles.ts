@@ -5,10 +5,16 @@ import { resolve, dirname } from 'path';
 const PUZZLES_PER_DIFFICULTY = 30;
 const BASE_SEED = 42;
 
-console.log(`Generating ${PUZZLES_PER_DIFFICULTY} puzzles per difficulty...`);
+console.log(`Generating ${PUZZLES_PER_DIFFICULTY} puzzles per difficulty...\n`);
 const start = Date.now();
 
-const puzzles = generateLibrary(PUZZLES_PER_DIFFICULTY, BASE_SEED);
+const puzzles = generateLibrary(PUZZLES_PER_DIFFICULTY, BASE_SEED, (diff, count, attempts, puzzle) => {
+  const sets = puzzle.board.length;
+  const tiles = puzzle.board.flat().length;
+  process.stdout.write(
+    `  ${diff} ${count}/${PUZZLES_PER_DIFFICULTY} — ${puzzle.minMoves} moves, ${sets} sets, ${tiles} tiles (attempt ${attempts})\n`,
+  );
+});
 
 const elapsed = ((Date.now() - start) / 1000).toFixed(1);
 console.log(`Generated ${puzzles.length} puzzles in ${elapsed}s\n`);

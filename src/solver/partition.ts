@@ -210,14 +210,22 @@ export function findPartition(tiles: Tile[]): Board | null {
 
 /**
  * Find ALL valid partitions (up to maxResults) of the given tiles.
+ * maxNodes caps total recursive calls to bound wall-clock time on large boards.
  * This is used by the difficulty scorer to find the minimum-move solution.
  */
-export function findAllPartitions(tiles: Tile[], maxResults: number = 100): Board[] {
+export function findAllPartitions(
+  tiles: Tile[],
+  maxResults: number = 100,
+  maxNodes: number = 2_000_000,
+): Board[] {
   const grid = makeGrid(tiles);
   const results: SetDesc[][] = [];
+  let nodes = 0;
 
   function solveAll(g: Grid): void {
-    if (results.length >= maxResults) return;
+    if (results.length >= maxResults || nodes >= maxNodes) return;
+    nodes++;
+
     if (gridIsEmpty(g)) {
       results.push([]);
       return;
@@ -230,32 +238,37 @@ export function findAllPartitions(tiles: Tile[], maxResults: number = 100): Boar
     }
     const [c, n] = ft;
 
-    // Try runs
-    for (let len = 3; len <= 13 - n; len++) {
+    // Try runs, longest first so "keep big runs intact" partitions surface
+    // before the exponential fan-out of shorter-run splits. This matters for
+    // the difficulty scorer: the true min-moves partition is usually one that
+    // stays close to the starting board, i.e. uses long runs.
+    const maxLen = Math.min(13 - n, 13);
+    for (let len = maxLen; len >= 3; len--) {
+      if (results.length >= maxResults || nodes >= maxNodes) return;
       let canRun = true;
       for (let i = 0; i < len; i++) {
         if (g[c][n + i] <= 0) { canRun = false; break; }
       }
-      if (!canRun) break; // Longer runs won't work either
+      if (!canRun) continue;
       for (let i = 0; i < len; i++) g[c][n + i]--;
       const beforeLen = results.length;
       solveAll(g);
       for (let i = 0; i < len; i++) g[c][n + i]++;
-      // Append this run descriptor to all new results
       for (let r = beforeLen; r < results.length; r++) {
         results[r] = [{ kind: 'run', color: c, start: n, length: len }, ...results[r]];
       }
-      if (results.length >= maxResults) return;
     }
 
     // Try groups
     const availableColors = [0, 1, 2, 3].filter((cc) => cc !== c && g[cc][n] > 0);
 
     for (const size of [4, 3] as const) {
+      if (results.length >= maxResults || nodes >= maxNodes) return;
       const needed = size - 1;
       if (availableColors.length < needed) continue;
       const combos = combinations(availableColors, needed);
       for (const combo of combos) {
+        if (results.length >= maxResults || nodes >= maxNodes) return;
         const groupColors = [c, ...combo].sort();
         for (const gc of groupColors) g[gc][n]--;
         const beforeLen = results.length;
@@ -264,7 +277,6 @@ export function findAllPartitions(tiles: Tile[], maxResults: number = 100): Boar
         for (let r = beforeLen; r < results.length; r++) {
           results[r] = [{ kind: 'group', number: n, colors: groupColors }, ...results[r]];
         }
-        if (results.length >= maxResults) return;
       }
     }
   }

@@ -83,7 +83,7 @@ function setOverlap(a: Tile[], b: Tile[]): number {
  * σ as an array where σ[i] is the matched solution index, or -1 if the
  * original set i is unmatched.
  */
-function findMaxStayMatching(weights: number[][]): number[] {
+function findMaxStayMatching(weights: number[][], deadline?: number): number[] {
   const n = weights.length;
   const m = weights[0]?.length ?? 0;
   const bestSigma = new Array(n).fill(-1);
@@ -92,8 +92,15 @@ function findMaxStayMatching(weights: number[][]): number[] {
   let bestStays = -1;
   const curSigma = new Array(n).fill(-1);
   const usedSol = new Array(m).fill(false);
+  let timedOut = false;
+  let nodesSinceCheck = 0;
 
   function recurse(row: number, stays: number): void {
+    if (timedOut) return;
+    if (++nodesSinceCheck >= 10_000) {
+      nodesSinceCheck = 0;
+      if (deadline && Date.now() >= deadline) { timedOut = true; return; }
+    }
     if (row === n) {
       if (stays > bestStays) {
         bestStays = stays;
@@ -122,6 +129,7 @@ export function countMoves(
   originalBoard: Board,
   solutionBoard: Board,
   handTile?: Tile,
+  deadline?: number,
 ): number {
   const sourcesByType = new Map<string, number[]>();
   const destsByType = new Map<string, number[]>();
@@ -163,7 +171,7 @@ export function countMoves(
   const weights = originalBoard.map((orig) =>
     solutionBoard.map((sol) => setOverlap(orig, sol)),
   );
-  const sigma = findMaxStayMatching(weights);
+  const sigma = findMaxStayMatching(weights, deadline);
 
   // Enumerate per-type source-copy permutations under this matching.
   const permsByType = new Map<string, number[][]>();
@@ -176,6 +184,7 @@ export function countMoves(
 
   function recurse(tIdx: number): void {
     if (pairs.size >= best) return;
+    if (deadline && tIdx % 4 === 0 && Date.now() >= deadline) return;
     if (tIdx === typeList.length) {
       if (pairs.size < best) best = pairs.size;
       return;
@@ -214,7 +223,9 @@ export function computeMinMoves(
   originalBoard: Board,
   handTile: Tile,
   maxPartitions: number = 100,
+  maxMs?: number,
 ): number | null {
+  const deadline = maxMs ? Date.now() + maxMs : undefined;
   const allTiles = [...originalBoard.flat(), handTile];
   const partitions = findAllPartitions(allTiles, maxPartitions);
 
@@ -222,8 +233,9 @@ export function computeMinMoves(
 
   let minMoves = Infinity;
   for (const partition of partitions) {
-    const moves = countMoves(originalBoard, partition, handTile);
+    if (deadline && Date.now() >= deadline) break;
+    const moves = countMoves(originalBoard, partition, handTile, deadline);
     if (moves < minMoves) minMoves = moves;
   }
-  return minMoves;
+  return isFinite(minMoves) ? minMoves : null;
 }

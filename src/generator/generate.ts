@@ -121,6 +121,28 @@ function makeStartingBoard(
   return findPartition(shuffled);
 }
 
+/**
+ * Returns true if the board has 3+ same-color runs covering the same number
+ * range (e.g. red 11-13, blue 11-13, black 11-13). These puzzles are trivially
+ * easy: the player can immediately see the sets can be regrouped by number.
+ */
+function hasParallelRuns(board: Board): boolean {
+  const rangeCounts = new Map<string, number>();
+  for (const set of board) {
+    const numbers = set.map((t) => t.number);
+    const colors = new Set(set.map((t) => t.color));
+    // A run has all the same color and consecutive numbers
+    if (colors.size !== 1) continue;
+    const sorted = [...numbers].sort((a, b) => a - b);
+    const isRun = sorted.every((n, i) => i === 0 || n === sorted[i - 1] + 1);
+    if (!isRun) continue;
+    const key = `${sorted[0]}-${sorted[sorted.length - 1]}`;
+    rangeCounts.set(key, (rangeCounts.get(key) ?? 0) + 1);
+    if ((rangeCounts.get(key) ?? 0) >= 3) return true;
+  }
+  return false;
+}
+
 let puzzleCounter = 0;
 
 /**
@@ -134,9 +156,11 @@ export function generatePuzzle(
   const rng = makeRng(seed);
   const [minMoves, maxMoves] = DIFFICULTY_RANGES[difficulty];
 
+  const [minSets, maxSets] =
+    difficulty === 'hard' ? [5, 8] : difficulty === 'medium' ? [4, 6] : [4, 5];
+
   for (let attempt = 0; attempt < 100; attempt++) {
-    // Target 3-5 sets for the solution
-    const numSets = Math.floor(rng() * 3) + 4;
+    const numSets = Math.floor(rng() * (maxSets - minSets + 1)) + minSets;
     const solution = buildRandomSolution(rng, numSets);
     if (!solution) continue;
 
@@ -156,13 +180,18 @@ export function generatePuzzle(
       if (startingBoard) break;
     }
     if (!startingBoard) continue;
+    if (hasParallelRuns(startingBoard)) continue;
 
-    // Compute actual min moves. Use a generous partition cap so we don't miss
-    // a shorter rearrangement (e.g. a 1-move solution hiding behind many valid
-    // partitions) and accidentally ship a miscalibrated puzzle.
-    const actualMinMoves = computeMinMoves(startingBoard, hand, 500);
+    const actualMinMoves = computeMinMoves(startingBoard, hand, 100, 500);
     if (actualMinMoves === null) continue;
     if (actualMinMoves < minMoves || actualMinMoves > maxMoves) continue;
+
+    // Post-verify with a much larger budget. The fast check can miss a
+    // shorter solution hiding behind many partitions — if verification
+    // finds one below the difficulty floor, skip this puzzle.
+    const verifiedMinMoves = computeMinMoves(startingBoard, hand, 2000, 5000);
+    if (verifiedMinMoves === null) continue;
+    if (verifiedMinMoves < minMoves || verifiedMinMoves > maxMoves) continue;
 
     // Find the best solution (the one with min moves)
     // We already have `solution` from construction, but we need to find
@@ -173,7 +202,7 @@ export function generatePuzzle(
       board: startingBoard,
       hand,
       solution,
-      minMoves: actualMinMoves,
+      minMoves: verifiedMinMoves,
       difficulty,
     };
   }
@@ -187,6 +216,7 @@ export function generatePuzzle(
 export function generateLibrary(
   puzzlesPerDifficulty: number = 30,
   baseSeed: number = 42,
+  onProgress?: (diff: Difficulty, count: number, attempts: number, puzzle: Puzzle) => void,
 ): Puzzle[] {
   const puzzles: Puzzle[] = [];
   const difficulties: Difficulty[] = ['easy', 'medium', 'hard'];
@@ -194,23 +224,23 @@ export function generateLibrary(
   for (const diff of difficulties) {
     let count = 0;
     let seed = baseSeed;
-    let failures = 0;
+    let attempts = 0;
 
-    while (count < puzzlesPerDifficulty && failures < puzzlesPerDifficulty * 20) {
+    while (count < puzzlesPerDifficulty && attempts - count < puzzlesPerDifficulty * 20) {
       seed++;
+      attempts++;
       const puzzle = generatePuzzle(diff, seed);
       if (puzzle) {
         puzzle.id = `${diff}-${count + 1}`;
         puzzles.push(puzzle);
         count++;
-      } else {
-        failures++;
+        onProgress?.(diff, count, attempts, puzzle);
       }
     }
 
     if (count < puzzlesPerDifficulty) {
       console.warn(
-        `Only generated ${count}/${puzzlesPerDifficulty} ${diff} puzzles after ${failures} failures`,
+        `Only generated ${count}/${puzzlesPerDifficulty} ${diff} puzzles after ${attempts} attempts`,
       );
     }
   }
