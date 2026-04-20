@@ -33,9 +33,16 @@ React 18 + TypeScript + Vite + vite-plugin-pwa. Tests via Vitest.
 
 ## Difficulty
 
-Measured by minimum *batched* moves — one move = one batch of tiles taken from a single source set (or the hand) and placed into a single destination set. Multiple tiles crossing the same (source, destination) pair count once. Ranges: Easy (1–2), Medium (3–4), Hard (5+).
+Measured by minimum *batched* moves — one move = one batch of tiles taken from a single source set (or the hand) and placed into a single destination set. Multiple tiles crossing the same (source, destination) pair count once. Ranges: Easy (1–2), Medium (3–4), Hard (5–8).
 
 Overlap uses tile type, not ID. setOverlap in difficulty.ts compares by (color, number), not t.id — the partition solver assigns duplicate copies arbitrarily, so ID-based comparison inflates move counts.
+
+### Generation gotchas
+
+- **Partition enumeration order matters.** `findAllPartitions` enumerates runs longest-first. The partition budget (maxPartitions) caps exploration, and the true min-moves partition is usually the one that keeps long runs intact — shortest-first would exhaust the budget on "split every run" subtrees and miss the trivial solution, producing puzzles rated hard but solvable in 1.
+- **Generator post-verifies.** `generatePuzzle` runs `computeMinMoves` twice: a fast check (100 partitions / 500ms) to filter, then a slow confirm (2000 partitions / 5000ms) to catch hidden shorter solutions before shipping. Shipped `minMoves` comes from the verification pass.
+- **Budgets are threaded through.** `findAllPartitions` (maxNodes), `findMaxStayMatching` (deadline), and `countMoves` (deadline) all bail on time/node limits. Without this the 8×8 matching blows up (~43M nodes).
+- **Parallel-runs filter.** `hasParallelRuns` rejects boards with 3+ same-range runs across different colors (e.g. red/blue/black 11-12-13) — the regroup-by-number solution is too obvious.
 
 ## Deploy
 
