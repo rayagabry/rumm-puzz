@@ -4,8 +4,8 @@ import SetRow from './SetRow';
 
 type Props = {
   board: BoardType;
-  selectedTileId: string | null;
-  draggedTileId?: string | null;
+  selectedTileIds: Set<string>;
+  draggedTileIds?: Set<string> | null;
   dragActive?: boolean;
   dropHover?: { kind: 'set'; index: number } | { kind: 'new-set' } | { kind: 'hand' } | null;
   onTileClick: (tileId: string, setIndex: number) => void;
@@ -16,8 +16,8 @@ type Props = {
 
 export default function Board({
   board,
-  selectedTileId,
-  draggedTileId,
+  selectedTileIds,
+  draggedTileIds,
   dragActive,
   dropHover,
   onTileClick,
@@ -25,6 +25,7 @@ export default function Board({
   onNewSetClick,
   onTileDragStart,
 }: Props) {
+  const hasSelection = selectedTileIds.size > 0;
   const outerRef = useRef<HTMLDivElement>(null);
   const innerRef = useRef<HTMLDivElement>(null);
 
@@ -40,9 +41,9 @@ export default function Board({
     if (natural > available && available > 0) {
       inner.style.zoom = String(available / natural);
     }
-  }, [board.length, selectedTileId, dragActive]);
+  }, [board.length, hasSelection, dragActive]);
 
-  const showNewSet = Boolean(selectedTileId) || Boolean(dragActive);
+  const showNewSet = hasSelection || Boolean(dragActive);
   const newSetHover = dropHover?.kind === 'new-set';
 
   return (
@@ -61,8 +62,8 @@ export default function Board({
             key={i}
             tiles={set}
             setIndex={i}
-            selectedTileId={selectedTileId}
-            draggedTileId={draggedTileId}
+            selectedTileIds={selectedTileIds}
+            draggedTileIds={draggedTileIds}
             onTileClick={onTileClick}
             onSetClick={onSetClick}
             onTileDragStart={onTileDragStart}

@@ -24,7 +24,23 @@ export default function WinScreen({ moves, par, onNext, onHome }: Props) {
         margin: '0 auto',
       }}
     >
-      <div style={{ fontSize: 56, lineHeight: 1 }}>&#127942;</div>
+      <div
+        style={{
+          width: 64,
+          height: 84,
+          background: 'var(--tile-face)',
+          border: '1px solid var(--tile-border)',
+          borderRadius: 12,
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          boxShadow: '0 1px 2px rgba(20,24,40,0.06), 0 1px 1px rgba(20,24,40,0.04)',
+        }}
+      >
+        <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="var(--success)" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
+          <polyline points="5 12.5 10 17.5 19 7" />
+        </svg>
+      </div>
       <h1
         style={{
           fontSize: 32,

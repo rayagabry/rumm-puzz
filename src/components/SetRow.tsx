@@ -6,8 +6,8 @@ import Tile from './Tile';
 type Props = {
   tiles: TileSet;
   setIndex: number;
-  selectedTileId: string | null;
-  draggedTileId?: string | null;
+  selectedTileIds: Set<string>;
+  draggedTileIds?: Set<string> | null;
   onTileClick: (tileId: string, setIndex: number) => void;
   onSetClick: (setIndex: number) => void;
   onTileDragStart?: (tileId: string, setIndex: number, e: PointerEvent) => void;
@@ -18,14 +18,15 @@ type Props = {
 export default function SetRow({
   tiles,
   setIndex,
-  selectedTileId,
-  draggedTileId,
+  selectedTileIds,
+  draggedTileIds,
   onTileClick,
   onSetClick,
   onTileDragStart,
   isDropHover,
   highlight,
 }: Props) {
+  const hasSelection = selectedTileIds.size > 0;
   const valid = isValidSet(tiles);
   const sorted = tiles.length > 0 ? sortSetForDisplay(tiles) : tiles;
 
@@ -63,7 +64,7 @@ export default function SetRow({
         minWidth: 60,
         alignItems: 'center',
         transition: 'background 0.2s ease, border-color 0.2s ease',
-        cursor: selectedTileId ? 'pointer' : 'default',
+        cursor: hasSelection ? 'pointer' : 'default',
         flexWrap: 'wrap',
       }}
     >
@@ -71,8 +72,8 @@ export default function SetRow({
         <Tile
           key={tile.id}
           tile={tile}
-          selected={tile.id === selectedTileId}
-          ghost={tile.id === draggedTileId}
+          selected={selectedTileIds.has(tile.id)}
+          ghost={draggedTileIds?.has(tile.id) ?? false}
           onClick={() => onTileClick(tile.id, setIndex)}
           onDragStart={
             onTileDragStart ? (e) => onTileDragStart(tile.id, setIndex, e) : undefined
