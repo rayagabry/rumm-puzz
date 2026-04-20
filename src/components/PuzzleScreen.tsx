@@ -20,7 +20,7 @@ const DIFFICULTY_LABELS: Record<Difficulty, string> = {
 
 type DragSource =
   | { kind: 'hand' }
-  | { kind: 'board'; tileId: string; setIndex: number };
+  | { kind: 'board'; tiles: { tileId: string; setIndex: number }[] };
 
 type DropTarget =
   | { kind: 'set'; index: number }
@@ -29,7 +29,10 @@ type DropTarget =
 
 type DragState = {
   source: DragSource;
+  /** Primary tile shown in the drag preview. */
   tileId: string;
+  /** All tiles visually lifted off the board during the drag. */
+  tileIds: Set<string>;
   x: number;
   y: number;
   hover: DropTarget | null;
@@ -56,7 +59,7 @@ export default function PuzzleScreen({ difficulty, onWin, onHome }: Props) {
     workingBoard,
     handTile,
     selection,
-    selectedTileId,
+    selectedTileIds,
     moveCount,
     solved,
     selectHand,
@@ -75,10 +78,11 @@ export default function PuzzleScreen({ difficulty, onWin, onHome }: Props) {
 
   const canCheck = handTile === null && isBoardValid(workingBoard);
   const isHandSelected = selection.kind === 'hand';
-  const isBoardTileSelected = selection.kind === 'board';
 
   const selectedIsHandTile =
-    isBoardTileSelected && selection.kind === 'board' && selection.tileId === puzzle.hand.id;
+    selection.kind === 'board' &&
+    selection.tiles.length === 1 &&
+    selection.tiles[0].tileId === puzzle.hand.id;
 
   useEffect(() => {
     if (solved) onWin(moveCount, puzzle.minMoves);
@@ -86,16 +90,25 @@ export default function PuzzleScreen({ difficulty, onWin, onHome }: Props) {
 
   const draggedTile = (() => {
     if (!drag) return null;
-    const src = drag.source;
-    if (src.kind === 'hand') return handTile;
-    const set = workingBoard[src.setIndex];
-    return set?.find((t) => t.id === src.tileId) ?? null;
+    if (drag.source.kind === 'hand') return handTile;
+    for (const { tileId, setIndex } of drag.source.tiles) {
+      if (tileId !== drag.tileId) continue;
+      return workingBoard[setIndex]?.find((t) => t.id === tileId) ?? null;
+    }
+    return null;
   })();
 
+  const multiCount = drag?.source.kind === 'board' ? drag.source.tiles.length : 1;
+
   const startDrag = (source: DragSource, tileId: string, e: PointerEvent) => {
+    const tileIds = new Set<string>();
+    if (source.kind === 'hand') tileIds.add(tileId);
+    else for (const t of source.tiles) tileIds.add(t.tileId);
+
     const initial: DragState = {
       source,
       tileId,
+      tileIds,
       x: e.clientX,
       y: e.clientY,
       hover: resolveDropTarget(e.clientX, e.clientY),
@@ -185,7 +198,7 @@ export default function PuzzleScreen({ difficulty, onWin, onHome }: Props) {
         }}
       >
         {handTile
-          ? 'Drag your tile onto a set (or tap tile then set). Rearrange so all sets are valid.'
+          ? 'Drag your tile or tap tiles then a set. Tap multiple tiles to move them together.'
           : canCheck
             ? 'All sets look valid! Tap "Check" to verify.'
             : 'Keep rearranging — some sets are still invalid.'}
@@ -194,16 +207,23 @@ export default function PuzzleScreen({ difficulty, onWin, onHome }: Props) {
       {/* Board */}
       <Board
         board={workingBoard}
-        selectedTileId={selectedTileId}
-        draggedTileId={drag?.tileId ?? null}
+        selectedTileIds={selectedTileIds}
+        draggedTileIds={drag?.tileIds ?? null}
         dragActive={!!drag}
         dropHover={drag?.hover ?? null}
         onTileClick={onTileClick}
         onSetClick={onSetClick}
         onNewSetClick={onNewSet}
-        onTileDragStart={(tileId, setIndex, e) =>
-          startDrag({ kind: 'board', tileId, setIndex }, tileId, e)
-        }
+        onTileDragStart={(tileId, setIndex, e) => {
+          const useMulti =
+            selection.kind === 'board' &&
+            selection.tiles.length > 1 &&
+            selection.tiles.some((t) => t.tileId === tileId);
+          const tiles = useMulti && selection.kind === 'board'
+            ? selection.tiles
+            : [{ tileId, setIndex }];
+          startDrag({ kind: 'board', tiles }, tileId, e);
+        }}
       />
 
       {/* Action bar */}
@@ -238,7 +258,8 @@ export default function PuzzleScreen({ difficulty, onWin, onHome }: Props) {
         canAcceptDrop={
           handTile === null &&
           drag?.source.kind === 'board' &&
-          drag.tileId === puzzle.hand.id
+          drag.source.tiles.length === 1 &&
+          drag.source.tiles[0].tileId === puzzle.hand.id
         }
         onTileClick={selectHand}
         onTileDragStart={(e) => handTile && startDrag({ kind: 'hand' }, handTile.id, e)}
@@ -257,7 +278,43 @@ export default function PuzzleScreen({ difficulty, onWin, onHome }: Props) {
             filter: 'drop-shadow(0 6px 12px rgba(0,0,0,0.35))',
           }}
         >
-          <Tile tile={draggedTile} selected />
+          <div style={{ position: 'relative' }}>
+            {multiCount > 1 && (
+              <>
+                <div style={{ position: 'absolute', top: 4, left: 6, opacity: 0.6 }}>
+                  <Tile tile={draggedTile} />
+                </div>
+                <div style={{ position: 'absolute', top: 2, left: 3, opacity: 0.8 }}>
+                  <Tile tile={draggedTile} />
+                </div>
+              </>
+            )}
+            <div style={{ position: 'relative' }}>
+              <Tile tile={draggedTile} selected />
+              {multiCount > 1 && (
+                <div
+                  style={{
+                    position: 'absolute',
+                    top: -6,
+                    right: -6,
+                    minWidth: 20,
+                    height: 20,
+                    padding: '0 6px',
+                    borderRadius: 10,
+                    background: 'var(--accent)',
+                    color: 'white',
+                    fontSize: 11,
+                    fontWeight: 700,
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                  }}
+                >
+                  {multiCount}
+                </div>
+              )}
+            </div>
+          </div>
         </div>
       )}
     </div>
