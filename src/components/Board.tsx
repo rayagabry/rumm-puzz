@@ -41,9 +41,9 @@ export default function Board({
     if (natural > available && available > 0) {
       inner.style.zoom = String(available / natural);
     }
-  }, [board.length, hasSelection, dragActive]);
+  }, [board.length]);
 
-  const showNewSet = hasSelection || Boolean(dragActive);
+  const newSetActive = hasSelection || Boolean(dragActive);
   const newSetHover = dropHover?.kind === 'new-set';
 
   return (
@@ -71,32 +71,31 @@ export default function Board({
           />
         ))}
 
-        {showNewSet && (
-          <div
-            data-drop-kind="new-set"
-            onClick={onNewSetClick}
-            style={{
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              padding: '14px 10px',
-              borderRadius: 14,
-              border: '1.5px dashed var(--drop)',
-              background: newSetHover
-                ? 'var(--drop-soft-strong)'
-                : 'var(--drop-soft)',
-              minHeight: 78,
-              cursor: 'pointer',
-              color: 'var(--drop)',
-              fontSize: 14,
-              fontWeight: 600,
-              transition: 'background 0.15s',
-              letterSpacing: '-0.01em',
-            }}
-          >
-            + New set
-          </div>
-        )}
+        <div
+          data-drop-kind="new-set"
+          onClick={newSetActive ? onNewSetClick : undefined}
+          style={{
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            padding: '14px 10px',
+            borderRadius: 14,
+            border: '1.5px dashed var(--drop)',
+            background: newSetHover
+              ? 'var(--drop-soft-strong)'
+              : 'var(--drop-soft)',
+            minHeight: 78,
+            cursor: newSetActive ? 'pointer' : 'default',
+            color: 'var(--drop)',
+            fontSize: 14,
+            fontWeight: 600,
+            transition: 'background 0.15s, opacity 0.15s',
+            letterSpacing: '-0.01em',
+            opacity: newSetActive ? 1 : 0.35,
+          }}
+        >
+          + New set
+        </div>
       </div>
     </div>
   );
