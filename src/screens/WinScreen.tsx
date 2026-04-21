@@ -133,7 +133,7 @@ export default function WinScreen({ puzzleId, moves, par, exhausted, onNext, onH
           opacity: 0.6,
           fontFamily: 'ui-monospace, SFMono-Regular, Menlo, monospace',
           letterSpacing: '0.05em',
-          marginTop: 'auto',
+          marginTop: 12,
         }}
       >
         #{puzzleId}
