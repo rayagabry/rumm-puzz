@@ -8,7 +8,7 @@ import Tile from './Tile';
 
 type Props = {
   difficulty: Difficulty;
-  onWin: (moves: number, par: number) => void;
+  onWin: (moves: number, par: number, puzzleId: string) => void;
   onHome: () => void;
 };
 
@@ -85,8 +85,8 @@ export default function PuzzleScreen({ difficulty, onWin, onHome }: Props) {
     selection.tiles[0].tileId === puzzle.hand.id;
 
   useEffect(() => {
-    if (solved) onWin(moveCount, puzzle.minMoves);
-  }, [solved, moveCount, puzzle.minMoves, onWin]);
+    if (solved) onWin(moveCount, puzzle.minMoves, puzzle.id);
+  }, [solved, moveCount, puzzle.minMoves, puzzle.id, onWin]);
 
   const draggedTile = (() => {
     if (!drag) return null;

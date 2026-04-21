@@ -1,4 +1,5 @@
 type Props = {
+  puzzleId: string;
   moves: number;
   par: number;
   exhausted: boolean;
@@ -6,7 +7,7 @@ type Props = {
   onHome: () => void;
 };
 
-export default function WinScreen({ moves, par, exhausted, onNext, onHome }: Props) {
+export default function WinScreen({ puzzleId, moves, par, exhausted, onNext, onHome }: Props) {
   const rating = moves <= par ? 'Perfect!' : moves <= par + 2 ? 'Nice work!' : 'Solved!';
   const ratingColor =
     moves <= par ? 'var(--success)' : moves <= par + 2 ? 'var(--warning)' : 'var(--text)';
@@ -123,6 +124,19 @@ export default function WinScreen({ moves, par, exhausted, onNext, onHome }: Pro
             Next puzzle
           </button>
         )}
+      </div>
+
+      <div
+        style={{
+          fontSize: 11,
+          color: 'var(--text-muted)',
+          opacity: 0.6,
+          fontFamily: 'ui-monospace, SFMono-Regular, Menlo, monospace',
+          letterSpacing: '0.05em',
+          marginTop: 'auto',
+        }}
+      >
+        #{puzzleId}
       </div>
     </div>
   );

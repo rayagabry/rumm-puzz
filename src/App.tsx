@@ -8,7 +8,7 @@ import { isDifficultyExhausted } from './state/usePuzzle';
 type Screen =
   | { kind: 'home' }
   | { kind: 'puzzle'; difficulty: Difficulty }
-  | { kind: 'win'; moves: number; par: number; difficulty: Difficulty };
+  | { kind: 'win'; moves: number; par: number; difficulty: Difficulty; puzzleId: string };
 
 export default function App() {
   const [screen, setScreen] = useState<Screen>({ kind: 'home' });
@@ -24,8 +24,8 @@ export default function App() {
       return (
         <PuzzleScreen
           difficulty={screen.difficulty}
-          onWin={(moves, par) =>
-            setScreen({ kind: 'win', moves, par, difficulty: screen.difficulty })
+          onWin={(moves, par, puzzleId) =>
+            setScreen({ kind: 'win', moves, par, difficulty: screen.difficulty, puzzleId })
           }
           onHome={() => setScreen({ kind: 'home' })}
         />
@@ -33,6 +33,7 @@ export default function App() {
     case 'win':
       return (
         <WinScreen
+          puzzleId={screen.puzzleId}
           moves={screen.moves}
           par={screen.par}
           exhausted={isDifficultyExhausted(screen.difficulty)}
