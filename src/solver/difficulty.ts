@@ -1,4 +1,5 @@
 import type { Board, Tile } from '../domain/tile';
+import { isValidSet } from '../domain/set';
 import { findAllPartitions } from './partition';
 
 /**
@@ -125,6 +126,57 @@ function findMaxStayMatching(weights: number[][], deadline?: number): number[] {
   return bestSigma;
 }
 
+/**
+ * Exhaustive check for 2-move solutions: hand tile goes to some destination
+ * and exactly one batch of tiles moves from one original set to one other
+ * destination. Returns true if such a solution exists.
+ *
+ * Enumeration is bounded (sets × 2^setSize × destinations² ≈ 10·64·100 for
+ * typical boards) so we can run it without a deadline.
+ */
+function hasTwoMoveSolution(board: Board, hand: Tile): boolean {
+  for (let i = 0; i < board.length; i++) {
+    const orig = board[i];
+    const n = orig.length;
+    for (let mask = 1; mask < 1 << n; mask++) {
+      const batch: Tile[] = [];
+      const residual: Tile[] = [];
+      for (let b = 0; b < n; b++) {
+        if (mask & (1 << b)) batch.push(orig[b]);
+        else residual.push(orig[b]);
+      }
+      if (residual.length > 0 && !isValidSet(residual)) continue;
+
+      const others: Tile[][] = [];
+      for (let j = 0; j < board.length; j++) {
+        if (j !== i) others.push(board[j]);
+      }
+
+      // Case A: batch + hand both merge into the same existing other set.
+      for (const dst of others) {
+        if (isValidSet([...dst, ...batch, hand])) return true;
+      }
+      // Case B: batch to one existing set, hand to a different existing set.
+      for (let a = 0; a < others.length; a++) {
+        if (!isValidSet([...others[a], ...batch])) continue;
+        for (let b = 0; b < others.length; b++) {
+          if (a === b) continue;
+          if (isValidSet([...others[b], hand])) return true;
+        }
+      }
+      // Case C: batch alone forms a new valid set, hand joins an existing set.
+      if (isValidSet(batch)) {
+        for (const dst of others) {
+          if (isValidSet([...dst, hand])) return true;
+        }
+      }
+      // Case D: batch + hand together form a new valid standalone set.
+      if (isValidSet([...batch, hand])) return true;
+    }
+  }
+  return false;
+}
+
 export function countMoves(
   originalBoard: Board,
   solutionBoard: Board,
@@ -226,6 +278,21 @@ export function computeMinMoves(
   maxMs?: number,
 ): number | null {
   const deadline = maxMs ? Date.now() + maxMs : undefined;
+
+  // Fast path: enumerate k-move solutions for small k directly. The general
+  // matching search in countMoves is O(n!) and can time out, missing trivial
+  // solutions that are buried deep in the partition search tree. 1-move and
+  // 2-move solutions dominate player experience at the easy/medium floor, so
+  // we check them exhaustively.
+  //
+  // 1 move: hand tile completes an existing set into a valid set.
+  for (const set of originalBoard) {
+    if (isValidSet([...set, handTile])) return 1;
+  }
+  // 2 moves: hand tile goes somewhere + exactly one batch of tiles from one
+  // original set is relocated. Enumerate (source i, subset S, destinations).
+  if (hasTwoMoveSolution(originalBoard, handTile)) return 2;
+
   const allTiles = [...originalBoard.flat(), handTile];
   const partitions = findAllPartitions(allTiles, maxPartitions);
 
