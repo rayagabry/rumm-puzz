@@ -12,11 +12,12 @@ React 18 + TypeScript + Vite + vite-plugin-pwa. Tests via Vitest.
 - `src/solver/partition.ts` — Backtracking partition solver (can tiles be split into valid runs/groups?)
 - `src/solver/difficulty.ts` — Min-moves scorer: counts distinct (source-set, dest-set) transfers under the max-stay matching
 - `src/generator/generate.ts` — Reverse-construction puzzle generator (guarantees solvability)
-- `src/puzzles/library.json` — 90 pre-generated puzzles (30 easy/medium/hard)
-- `src/state/usePuzzle.ts` — React game state hook
+- `src/puzzles/library.json` — 110 pre-generated puzzles (30 easy, 30 medium, 50 hard)
+- `src/state/usePuzzle.ts` — React game state hook. Played history lives in localStorage under `rumikube:played`, gated by `LIBRARY_VERSION` (`rumikube:libVersion`) — bump the constant when puzzle IDs are reused for new content so stale history clears on next load.
 - `src/components/` — Tile, SetRow, Board, Hand, PuzzleScreen
 - `src/screens/` — HomeScreen, WinScreen
-- `scripts/generate-puzzles.ts` — Offline puzzle generation script
+- `scripts/generate-puzzles.ts` — Full library generation (easy + medium + hard)
+- `scripts/regenerate-hard.ts` — One-off: keeps existing easy/medium, regenerates hard with `maxStartingSetSize=4`
 
 ## Commands
 
@@ -43,6 +44,7 @@ Overlap uses tile type, not ID. setOverlap in difficulty.ts compares by (color, 
 - **Generator post-verifies.** `generatePuzzle` runs `computeMinMoves` twice: a fast check (100 partitions / 500ms) to filter, then a slow confirm (2000 partitions / 5000ms) to catch hidden shorter solutions before shipping. Shipped `minMoves` comes from the verification pass.
 - **Budgets are threaded through.** `findAllPartitions` (maxNodes), `findMaxStayMatching` (deadline), and `countMoves` (deadline) all bail on time/node limits. Without this the 8×8 matching blows up (~43M nodes).
 - **Parallel-runs filter.** `hasParallelRuns` rejects boards with 3+ same-range runs across different colors (e.g. red/blue/black 11-12-13) — the regroup-by-number solution is too obvious.
+- **Optional max set size.** `generatePuzzle` accepts `maxStartingSetSize` to cap tiles per set on the starting board (current hard library uses 4 — keeps boards visually compact on mobile). Filter is post-partition, so tighter caps lower yield.
 
 ## Deploy
 
