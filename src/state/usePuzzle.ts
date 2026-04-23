@@ -29,8 +29,24 @@ type PuzzleState = {
 };
 
 const PLAYED_KEY = 'rumikube:played';
+const LIB_VERSION_KEY = 'rumikube:libVersion';
+// Bump when puzzle IDs are reused for new content so stored history clears.
+const LIBRARY_VERSION = 2;
+
+function ensureLibraryVersion() {
+  try {
+    const stored = Number(localStorage.getItem(LIB_VERSION_KEY) ?? 0);
+    if (stored !== LIBRARY_VERSION) {
+      localStorage.removeItem(PLAYED_KEY);
+      localStorage.setItem(LIB_VERSION_KEY, String(LIBRARY_VERSION));
+    }
+  } catch {
+    // ignore unavailable storage
+  }
+}
 
 function loadPlayed(): Record<Difficulty, string[]> {
+  ensureLibraryVersion();
   try {
     const raw = localStorage.getItem(PLAYED_KEY);
     if (!raw) return { easy: [], medium: [], hard: [] };
