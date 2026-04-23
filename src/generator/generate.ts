@@ -152,6 +152,7 @@ let puzzleCounter = 0;
 export function generatePuzzle(
   difficulty: Difficulty,
   seed: number,
+  maxStartingSetSize?: number,
 ): Puzzle | null {
   const rng = makeRng(seed);
   const [minMoves, maxMoves] = DIFFICULTY_RANGES[difficulty];
@@ -181,6 +182,7 @@ export function generatePuzzle(
     }
     if (!startingBoard) continue;
     if (hasParallelRuns(startingBoard)) continue;
+    if (maxStartingSetSize !== undefined && startingBoard.some((s) => s.length > maxStartingSetSize)) continue;
 
     const actualMinMoves = computeMinMoves(startingBoard, hand, 100, 500);
     if (actualMinMoves === null) continue;
