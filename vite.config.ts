@@ -4,6 +4,10 @@ import { VitePWA } from 'vite-plugin-pwa';
 
 export default defineConfig({
   base: '/rumm-puzz/',
+  server: {
+    host: true,
+    allowedHosts: ['.local'],
+  },
   plugins: [
     react(),
     VitePWA({
