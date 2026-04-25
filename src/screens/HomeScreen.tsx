@@ -160,7 +160,7 @@ export default function HomeScreen({ onStart }: Props) {
             }}
           >
             <span style={{ fontSize: 12, color: 'var(--text-muted)', lineHeight: 1.4 }}>
-              You've solved every {d.label.toLowerCase()} puzzle.
+              You've solved every puzzle.
             </span>
             <button
               type="button"
