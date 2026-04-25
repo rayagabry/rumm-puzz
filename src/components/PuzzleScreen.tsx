@@ -1,5 +1,4 @@
 import { useEffect, useRef, useState } from 'react';
-import type { Difficulty } from '../domain/tile';
 import { isBoardValid } from '../domain/set';
 import { usePuzzle } from '../state/usePuzzle';
 import Board from './Board';
@@ -7,15 +6,8 @@ import Hand from './Hand';
 import Tile from './Tile';
 
 type Props = {
-  difficulty: Difficulty;
   onWin: (moves: number, par: number, puzzleId: string) => void;
   onHome: () => void;
-};
-
-const DIFFICULTY_LABELS: Record<Difficulty, string> = {
-  easy: 'Easy',
-  medium: 'Medium',
-  hard: 'Hard',
 };
 
 type DragSource =
@@ -53,7 +45,7 @@ function resolveDropTarget(x: number, y: number): DropTarget | null {
   return null;
 }
 
-export default function PuzzleScreen({ difficulty, onWin, onHome }: Props) {
+export default function PuzzleScreen({ onWin, onHome }: Props) {
   const {
     puzzle,
     workingBoard,
@@ -72,7 +64,7 @@ export default function PuzzleScreen({ difficulty, onWin, onHome }: Props) {
     reset,
     undo,
     returnToHand,
-  } = usePuzzle(difficulty);
+  } = usePuzzle();
 
   const [drag, setDrag] = useState<DragState | null>(null);
   const dragRef = useRef<DragState | null>(null);
@@ -178,7 +170,7 @@ export default function PuzzleScreen({ difficulty, onWin, onHome }: Props) {
         </button>
         <div style={{ textAlign: 'center' }}>
           <div style={{ fontSize: 10, color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '0.12em', fontWeight: 600 }}>
-            {DIFFICULTY_LABELS[difficulty]}
+            Moves
           </div>
           <div style={{ fontSize: 14, fontWeight: 600, marginTop: 2 }}>
             {moveCount} {puzzle.minMoves > 0 && <span style={{ color: 'var(--text-soft)', fontWeight: 500 }}>/ par {puzzle.minMoves}</span>}

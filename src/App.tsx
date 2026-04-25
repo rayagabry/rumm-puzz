@@ -1,31 +1,25 @@
 import { useState } from 'react';
-import type { Difficulty } from './domain/tile';
 import HomeScreen from './screens/HomeScreen';
 import PuzzleScreen from './components/PuzzleScreen';
 import WinScreen from './screens/WinScreen';
-import { isDifficultyExhausted } from './state/usePuzzle';
+import { isLibraryExhausted } from './state/usePuzzle';
 
 type Screen =
   | { kind: 'home' }
-  | { kind: 'puzzle'; difficulty: Difficulty }
-  | { kind: 'win'; moves: number; par: number; difficulty: Difficulty; puzzleId: string };
+  | { kind: 'puzzle' }
+  | { kind: 'win'; moves: number; par: number; puzzleId: string };
 
 export default function App() {
   const [screen, setScreen] = useState<Screen>({ kind: 'home' });
 
   switch (screen.kind) {
     case 'home':
-      return (
-        <HomeScreen
-          onSelect={(difficulty) => setScreen({ kind: 'puzzle', difficulty })}
-        />
-      );
+      return <HomeScreen onStart={() => setScreen({ kind: 'puzzle' })} />;
     case 'puzzle':
       return (
         <PuzzleScreen
-          difficulty={screen.difficulty}
           onWin={(moves, par, puzzleId) =>
-            setScreen({ kind: 'win', moves, par, difficulty: screen.difficulty, puzzleId })
+            setScreen({ kind: 'win', moves, par, puzzleId })
           }
           onHome={() => setScreen({ kind: 'home' })}
         />
@@ -36,8 +30,8 @@ export default function App() {
           puzzleId={screen.puzzleId}
           moves={screen.moves}
           par={screen.par}
-          exhausted={isDifficultyExhausted(screen.difficulty)}
-          onNext={() => setScreen({ kind: 'puzzle', difficulty: screen.difficulty })}
+          exhausted={isLibraryExhausted()}
+          onNext={() => setScreen({ kind: 'puzzle' })}
           onHome={() => setScreen({ kind: 'home' })}
         />
       );

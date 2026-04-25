@@ -1,5 +1,5 @@
 import { useState, useCallback, useMemo, useEffect } from 'react';
-import type { Tile, Board, Difficulty } from '../domain/tile';
+import type { Tile, Board } from '../domain/tile';
 import { cloneBoard } from '../domain/board';
 import { isBoardValid } from '../domain/set';
 import { applyUndo, pushHistory, type Snapshot } from './history';
@@ -10,7 +10,6 @@ type PuzzleData = {
   board: Board;
   hand: Tile;
   minMoves: number;
-  difficulty: Difficulty;
 };
 
 type BoardSelTile = { tileId: string; setIndex: number };
@@ -33,7 +32,7 @@ type PuzzleState = {
 const PLAYED_KEY = 'rumikube:played';
 const LIB_VERSION_KEY = 'rumikube:libVersion';
 // Bump when puzzle IDs are reused for new content so stored history clears.
-const LIBRARY_VERSION = 2;
+const LIBRARY_VERSION = 3;
 
 function ensureLibraryVersion() {
   try {
@@ -47,23 +46,19 @@ function ensureLibraryVersion() {
   }
 }
 
-function loadPlayed(): Record<Difficulty, string[]> {
+function loadPlayed(): string[] {
   ensureLibraryVersion();
   try {
     const raw = localStorage.getItem(PLAYED_KEY);
-    if (!raw) return { easy: [], medium: [], hard: [] };
+    if (!raw) return [];
     const parsed = JSON.parse(raw);
-    return {
-      easy: Array.isArray(parsed.easy) ? parsed.easy : [],
-      medium: Array.isArray(parsed.medium) ? parsed.medium : [],
-      hard: Array.isArray(parsed.hard) ? parsed.hard : [],
-    };
+    return Array.isArray(parsed) ? parsed : [];
   } catch {
-    return { easy: [], medium: [], hard: [] };
+    return [];
   }
 }
 
-function savePlayed(played: Record<Difficulty, string[]>) {
+function savePlayed(played: string[]) {
   try {
     localStorage.setItem(PLAYED_KEY, JSON.stringify(played));
   } catch {
@@ -71,50 +66,39 @@ function savePlayed(played: Record<Difficulty, string[]>) {
   }
 }
 
-function markPlayed(difficulty: Difficulty, id: string) {
+function markPlayed(id: string) {
   const played = loadPlayed();
-  if (!played[difficulty].includes(id)) {
-    played[difficulty].push(id);
+  if (!played.includes(id)) {
+    played.push(id);
     savePlayed(played);
   }
 }
 
-/** Total puzzles in the library for a given difficulty. */
-export function totalForDifficulty(difficulty: Difficulty): number {
-  return (puzzleLibrary as PuzzleData[]).filter((p) => p.difficulty === difficulty).length;
+/** Total puzzles in the library. */
+export function totalPuzzles(): number {
+  return (puzzleLibrary as PuzzleData[]).length;
 }
 
-/** How many puzzles the user has played for a given difficulty. */
-export function playedCountForDifficulty(difficulty: Difficulty): number {
-  const total = totalForDifficulty(difficulty);
-  return Math.min(loadPlayed()[difficulty].length, total);
+/** How many puzzles the user has played. */
+export function playedCount(): number {
+  return Math.min(loadPlayed().length, totalPuzzles());
 }
 
-/** True if the user has played every puzzle of this difficulty. */
-export function isDifficultyExhausted(difficulty: Difficulty): boolean {
-  return playedCountForDifficulty(difficulty) >= totalForDifficulty(difficulty);
+/** True if the user has played every puzzle. */
+export function isLibraryExhausted(): boolean {
+  return playedCount() >= totalPuzzles();
 }
 
-/** Clear play history for one difficulty (or all if omitted). */
-export function resetPlayHistory(difficulty?: Difficulty) {
-  const played = loadPlayed();
-  if (difficulty) {
-    played[difficulty] = [];
-  } else {
-    played.easy = [];
-    played.medium = [];
-    played.hard = [];
-  }
-  savePlayed(played);
+/** Clear play history. */
+export function resetPlayHistory() {
+  savePlayed([]);
 }
 
-/** Pick a random unplayed puzzle from the library for the given difficulty.
- *  Returns null if every puzzle of this difficulty has been played. */
-function pickPuzzle(difficulty: Difficulty, exclude?: string): PuzzleData | null {
-  const all = (puzzleLibrary as PuzzleData[]).filter((p) => p.difficulty === difficulty);
-  const played = new Set(loadPlayed()[difficulty]);
+/** Pick a random unplayed puzzle. Returns null if all have been played. */
+function pickPuzzle(exclude?: string): PuzzleData | null {
+  const all = puzzleLibrary as PuzzleData[];
+  const played = new Set(loadPlayed());
   const unplayed = all.filter((p) => !played.has(p.id));
-  // Exhausted: caller is responsible for handling this.
   if (unplayed.length === 0) return null;
   // Prefer to avoid the just-finished puzzle, but allow it if it's the only one left.
   const preferred = unplayed.filter((p) => p.id !== exclude);
@@ -122,13 +106,13 @@ function pickPuzzle(difficulty: Difficulty, exclude?: string): PuzzleData | null
   return candidates[Math.floor(Math.random() * candidates.length)];
 }
 
-function initState(difficulty: Difficulty, exclude?: string): PuzzleState {
-  const puzzle = pickPuzzle(difficulty, exclude);
+function initState(exclude?: string): PuzzleState {
+  const puzzle = pickPuzzle(exclude);
   if (!puzzle) {
     // Shouldn't happen — HomeScreen blocks selection when exhausted. As a
     // last-resort safety net, reset history so the app can still function.
-    resetPlayHistory(difficulty);
-    const fallback = pickPuzzle(difficulty)!;
+    resetPlayHistory();
+    const fallback = pickPuzzle()!;
     return {
       puzzle: fallback,
       workingBoard: cloneBoard(fallback.board),
@@ -150,16 +134,16 @@ function initState(difficulty: Difficulty, exclude?: string): PuzzleState {
   };
 }
 
-export function usePuzzle(difficulty: Difficulty) {
-  const [state, setState] = useState<PuzzleState>(() => initState(difficulty));
+export function usePuzzle() {
+  const [state, setState] = useState<PuzzleState>(() => initState());
 
   // Record a puzzle as played only once it's actually solved. markPlayed is
   // idempotent on id, so StrictMode's double-invocation is harmless here.
   useEffect(() => {
     if (state.solved) {
-      markPlayed(state.puzzle.difficulty, state.puzzle.id);
+      markPlayed(state.puzzle.id);
     }
-  }, [state.solved, state.puzzle.id, state.puzzle.difficulty]);
+  }, [state.solved, state.puzzle.id]);
 
   const selectedTileIds = useMemo(() => {
     const ids = new Set<string>();
@@ -504,7 +488,7 @@ export function usePuzzle(difficulty: Difficulty) {
 
   /** Load next puzzle. */
   const nextPuzzle = useCallback(() => {
-    setState((s) => initState(s.puzzle.difficulty, s.puzzle.id));
+    setState((s) => initState(s.puzzle.id));
   }, []);
 
   return {

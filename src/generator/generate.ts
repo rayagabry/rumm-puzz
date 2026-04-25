@@ -1,4 +1,4 @@
-import type { Tile, Board, Difficulty, Puzzle, Color } from '../domain/tile';
+import type { Tile, Board, Puzzle, Color } from '../domain/tile';
 import { COLORS, makeRng, shuffle } from '../domain/tile';
 import { findPartition, findAllPartitions } from '../solver/partition';
 import { computeMinMoves } from '../solver/difficulty';
@@ -6,11 +6,10 @@ import { classifyPuzzle } from './classify';
 
 export type PuzzleCandidate = Puzzle & { signature: string };
 
-const DIFFICULTY_RANGES: Record<Difficulty, [number, number]> = {
-  easy: [1, 2],
-  medium: [3, 4],
-  hard: [5, 8],
-};
+const MIN_MOVES = 5;
+const MAX_MOVES = 8;
+const MIN_SETS = 5;
+const MAX_SETS = 8;
 
 /**
  * Build a random valid solution board by assembling random runs and groups.
@@ -163,18 +162,13 @@ let puzzleCounter = 0;
  * Returns null if generation fails within the attempt budget.
  */
 export function generatePuzzle(
-  difficulty: Difficulty,
   seed: number,
   maxStartingSetSize?: number,
 ): Puzzle | null {
   const rng = makeRng(seed);
-  const [minMoves, maxMoves] = DIFFICULTY_RANGES[difficulty];
-
-  const [minSets, maxSets] =
-    difficulty === 'hard' ? [5, 8] : difficulty === 'medium' ? [4, 6] : [4, 5];
 
   for (let attempt = 0; attempt < 100; attempt++) {
-    const numSets = Math.floor(rng() * (maxSets - minSets + 1)) + minSets;
+    const numSets = Math.floor(rng() * (MAX_SETS - MIN_SETS + 1)) + MIN_SETS;
     const solution = buildRandomSolution(rng, numSets);
     if (!solution) continue;
 
@@ -199,18 +193,15 @@ export function generatePuzzle(
 
     const actualMinMoves = computeMinMoves(startingBoard, hand, 100, 500);
     if (actualMinMoves === null) continue;
-    if (actualMinMoves < minMoves || actualMinMoves > maxMoves) continue;
+    if (actualMinMoves < MIN_MOVES || actualMinMoves > MAX_MOVES) continue;
 
     // Post-verify with a much larger budget. The fast check can miss a
     // shorter solution hiding behind many partitions — if verification
     // finds one below the difficulty floor, skip this puzzle.
     const verifiedMinMoves = computeMinMoves(startingBoard, hand, 2000, 5000);
     if (verifiedMinMoves === null) continue;
-    if (verifiedMinMoves < minMoves || verifiedMinMoves > maxMoves) continue;
+    if (verifiedMinMoves < MIN_MOVES || verifiedMinMoves > MAX_MOVES) continue;
 
-    // Find the best solution (the one with min moves)
-    // We already have `solution` from construction, but we need to find
-    // the partition that achieves actualMinMoves from the starting board's perspective
     puzzleCounter++;
     return {
       id: `puzzle-${puzzleCounter}`,
@@ -218,7 +209,6 @@ export function generatePuzzle(
       hand,
       solution,
       minMoves: verifiedMinMoves,
-      difficulty,
     };
   }
 
@@ -233,18 +223,14 @@ export function generatePuzzle(
  * first.
  */
 export function generatePuzzleVariants(
-  difficulty: Difficulty,
   seed: number,
   maxStartingSetSize?: number,
   maxVariants: number = 32,
 ): PuzzleCandidate[] {
   const rng = makeRng(seed);
-  const [minMoves, maxMoves] = DIFFICULTY_RANGES[difficulty];
-  const [minSets, maxSets] =
-    difficulty === 'hard' ? [5, 8] : difficulty === 'medium' ? [4, 6] : [4, 5];
 
   for (let attempt = 0; attempt < 100; attempt++) {
-    const numSets = Math.floor(rng() * (maxSets - minSets + 1)) + minSets;
+    const numSets = Math.floor(rng() * (MAX_SETS - MIN_SETS + 1)) + MIN_SETS;
     const solution = buildRandomSolution(rng, numSets);
     if (!solution) continue;
 
@@ -268,7 +254,7 @@ export function generatePuzzleVariants(
       // variants it actually selects, since slow-verifying every candidate
       // makes large pool builds intractable.
       const fast = computeMinMoves(startingBoard, hand, 200, 1000);
-      if (fast === null || fast < minMoves || fast > maxMoves) continue;
+      if (fast === null || fast < MIN_MOVES || fast > MAX_MOVES) continue;
 
       const sig = classifyPuzzle(startingBoard, hand, 500, 1500);
       if (!sig) continue;
@@ -280,7 +266,6 @@ export function generatePuzzleVariants(
         hand,
         solution,
         minMoves: fast,
-        difficulty,
         signature: sig.signature,
       });
     }
@@ -292,38 +277,34 @@ export function generatePuzzleVariants(
 }
 
 /**
- * Generate a library of puzzles for all difficulty levels.
+ * Generate a library of puzzles.
  */
 export function generateLibrary(
-  puzzlesPerDifficulty: number = 30,
+  totalPuzzles: number = 50,
   baseSeed: number = 42,
-  onProgress?: (diff: Difficulty, count: number, attempts: number, puzzle: Puzzle) => void,
+  onProgress?: (count: number, attempts: number, puzzle: Puzzle) => void,
 ): Puzzle[] {
   const puzzles: Puzzle[] = [];
-  const difficulties: Difficulty[] = ['easy', 'medium', 'hard'];
+  let count = 0;
+  let seed = baseSeed;
+  let attempts = 0;
 
-  for (const diff of difficulties) {
-    let count = 0;
-    let seed = baseSeed;
-    let attempts = 0;
-
-    while (count < puzzlesPerDifficulty && attempts - count < puzzlesPerDifficulty * 20) {
-      seed++;
-      attempts++;
-      const puzzle = generatePuzzle(diff, seed);
-      if (puzzle) {
-        puzzle.id = `${diff}-${count + 1}`;
-        puzzles.push(puzzle);
-        count++;
-        onProgress?.(diff, count, attempts, puzzle);
-      }
+  while (count < totalPuzzles && attempts - count < totalPuzzles * 20) {
+    seed++;
+    attempts++;
+    const puzzle = generatePuzzle(seed);
+    if (puzzle) {
+      puzzle.id = `hard-${count + 1}`;
+      puzzles.push(puzzle);
+      count++;
+      onProgress?.(count, attempts, puzzle);
     }
+  }
 
-    if (count < puzzlesPerDifficulty) {
-      console.warn(
-        `Only generated ${count}/${puzzlesPerDifficulty} ${diff} puzzles after ${attempts} attempts`,
-      );
-    }
+  if (count < totalPuzzles) {
+    console.warn(
+      `Only generated ${count}/${totalPuzzles} puzzles after ${attempts} attempts`,
+    );
   }
 
   return puzzles;
