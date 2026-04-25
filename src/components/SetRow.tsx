@@ -29,6 +29,7 @@ export default function SetRow({
   const hasSelection = selectedTileIds.size > 0;
   const valid = isValidSet(tiles);
   const sorted = tiles.length > 0 ? sortSetForDisplay(tiles) : tiles;
+  const fullRow = tiles.length > 3;
 
   return (
     <div
@@ -60,9 +61,10 @@ export default function SetRow({
                 ? 'transparent'
                 : 'var(--set-invalid-border)'
         }`,
-        minHeight: 78,
-        minWidth: 60,
+        minHeight: 98,
+        gridColumn: fullRow ? '1 / -1' : 'auto',
         alignItems: 'center',
+        justifyContent: 'center',
         transition: 'background 0.2s ease, border-color 0.2s ease',
         cursor: hasSelection ? 'pointer' : 'default',
         flexWrap: 'wrap',

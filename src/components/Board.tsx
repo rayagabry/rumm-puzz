@@ -59,10 +59,10 @@ export default function Board({
       >
         <div
           style={{
-            display: 'flex',
-            flexWrap: 'wrap',
+            display: 'grid',
+            gridTemplateColumns: '1fr 1fr',
+            gridAutoFlow: 'row dense',
             gap: 10,
-            alignContent: 'flex-start',
           }}
         >
           {board.map((set, i) => (
