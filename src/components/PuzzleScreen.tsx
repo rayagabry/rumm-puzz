@@ -12,7 +12,7 @@ type Props = {
 
 type DragSource =
   | { kind: 'hand' }
-  | { kind: 'board'; tiles: { tileId: string; setIndex: number }[] };
+  | { kind: 'board'; tiles: { tileId: string; setIndex: number }[]; withHand?: boolean };
 
 type DropTarget =
   | { kind: 'set'; index: number }
@@ -71,10 +71,10 @@ export default function PuzzleScreen({ onWin, onHome }: Props) {
   dragRef.current = drag;
 
   const canCheck = handTile === null && isBoardValid(workingBoard);
-  const isHandSelected = selection.kind === 'hand';
+  const isHandSelected = selection.hand;
 
   const selectedIsHandTile =
-    selection.kind === 'board' &&
+    !selection.hand &&
     selection.tiles.length === 1 &&
     selection.tiles[0].tileId === puzzle.hand.id;
 
@@ -85,6 +85,7 @@ export default function PuzzleScreen({ onWin, onHome }: Props) {
   const draggedTile = (() => {
     if (!drag) return null;
     if (drag.source.kind === 'hand') return handTile;
+    if (drag.source.withHand && handTile && drag.tileId === handTile.id) return handTile;
     for (const { tileId, setIndex } of drag.source.tiles) {
       if (tileId !== drag.tileId) continue;
       return workingBoard[setIndex]?.find((t) => t.id === tileId) ?? null;
@@ -92,12 +93,18 @@ export default function PuzzleScreen({ onWin, onHome }: Props) {
     return null;
   })();
 
-  const multiCount = drag?.source.kind === 'board' ? drag.source.tiles.length : 1;
+  const multiCount =
+    drag?.source.kind === 'board'
+      ? drag.source.tiles.length + (drag.source.withHand ? 1 : 0)
+      : 1;
 
   const startDrag = (source: DragSource, tileId: string, e: PointerEvent) => {
     const tileIds = new Set<string>();
     if (source.kind === 'hand') tileIds.add(tileId);
-    else for (const t of source.tiles) tileIds.add(t.tileId);
+    else {
+      for (const t of source.tiles) tileIds.add(t.tileId);
+      if (source.withHand && handTile) tileIds.add(handTile.id);
+    }
 
     const initial: DragState = {
       source,
@@ -219,14 +226,10 @@ export default function PuzzleScreen({ onWin, onHome }: Props) {
         onSetClick={onSetClick}
         onNewSetClick={onNewSet}
         onTileDragStart={(tileId, setIndex, e) => {
-          const useMulti =
-            selection.kind === 'board' &&
-            selection.tiles.length > 1 &&
-            selection.tiles.some((t) => t.tileId === tileId);
-          const tiles = useMulti && selection.kind === 'board'
-            ? selection.tiles
-            : [{ tileId, setIndex }];
-          startDrag({ kind: 'board', tiles }, tileId, e);
+          const inSelection = selection.tiles.some((t) => t.tileId === tileId);
+          const useMulti = inSelection && (selection.tiles.length > 1 || selection.hand);
+          const tiles = useMulti ? selection.tiles : [{ tileId, setIndex }];
+          startDrag({ kind: 'board', tiles, withHand: useMulti && selection.hand }, tileId, e);
         }}
       />
 
@@ -257,7 +260,9 @@ export default function PuzzleScreen({ onWin, onHome }: Props) {
       <Hand
         tile={handTile}
         selected={isHandSelected}
-        draggedTileId={drag?.tileId ?? null}
+        draggedTileId={
+          drag && handTile && drag.tileIds.has(handTile.id) ? handTile.id : null
+        }
         isDropHover={drag?.hover?.kind === 'hand'}
         canAcceptDrop={
           handTile === null &&
@@ -266,7 +271,18 @@ export default function PuzzleScreen({ onWin, onHome }: Props) {
           drag.source.tiles[0].tileId === puzzle.hand.id
         }
         onTileClick={selectHand}
-        onTileDragStart={(e) => handTile && startDrag({ kind: 'hand' }, handTile.id, e)}
+        onTileDragStart={(e) => {
+          if (!handTile) return;
+          if (selection.hand && selection.tiles.length > 0) {
+            startDrag(
+              { kind: 'board', tiles: selection.tiles, withHand: true },
+              handTile.id,
+              e,
+            );
+          } else {
+            startDrag({ kind: 'hand' }, handTile.id, e);
+          }
+        }}
       />
 
       {/* Drag preview */}
