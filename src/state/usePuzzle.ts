@@ -14,10 +14,14 @@ type PuzzleData = {
 
 type BoardSelTile = { tileId: string; setIndex: number };
 
-type Selection =
-  | { kind: 'none' }
-  | { kind: 'hand' }
-  | { kind: 'board'; tiles: BoardSelTile[] };
+/** Unified selection: any combination of board tiles plus optionally the hand tile. */
+type Selection = { hand: boolean; tiles: BoardSelTile[] };
+
+const EMPTY_SELECTION: Selection = { hand: false, tiles: [] };
+
+function isEmptySelection(s: Selection): boolean {
+  return !s.hand && s.tiles.length === 0;
+}
 
 type PuzzleState = {
   puzzle: PuzzleData;
@@ -117,7 +121,7 @@ function initState(exclude?: string): PuzzleState {
       puzzle: fallback,
       workingBoard: cloneBoard(fallback.board),
       handTile: { ...fallback.hand },
-      selection: { kind: 'none' },
+      selection: EMPTY_SELECTION,
       moveCount: 0,
       solved: false,
       history: [],
@@ -127,7 +131,7 @@ function initState(exclude?: string): PuzzleState {
     puzzle,
     workingBoard: cloneBoard(puzzle.board),
     handTile: { ...puzzle.hand },
-    selection: { kind: 'none' },
+    selection: EMPTY_SELECTION,
     moveCount: 0,
     solved: false,
     history: [],
@@ -147,32 +151,27 @@ export function usePuzzle() {
 
   const selectedTileIds = useMemo(() => {
     const ids = new Set<string>();
-    if (state.selection.kind === 'board') {
-      for (const t of state.selection.tiles) ids.add(t.tileId);
-    } else if (state.selection.kind === 'hand' && state.handTile) {
-      ids.add(state.handTile.id);
-    }
+    for (const t of state.selection.tiles) ids.add(t.tileId);
+    if (state.selection.hand && state.handTile) ids.add(state.handTile.id);
     return ids;
   }, [state.selection, state.handTile]);
 
-  /** Select/deselect the hand tile. */
+  /** Select/deselect the hand tile (preserves any board tiles already selected). */
   const selectHand = useCallback(() => {
     setState((s) => {
       if (s.solved || !s.handTile) return s;
-      if (s.selection.kind === 'hand') {
-        return { ...s, selection: { kind: 'none' } };
-      }
-      return { ...s, selection: { kind: 'hand' } };
+      return { ...s, selection: { ...s.selection, hand: !s.selection.hand } };
     });
   }, []);
 
-  /** Handle clicking a tile on the board. Toggles tile in/out of multi-selection. */
+  /** Handle clicking a tile on the board. Toggles tile in/out of multi-selection.
+   *  Shortcut: if only the hand tile is selected, clicking a board tile places
+   *  the hand tile into that tile's set. */
   const onTileClick = useCallback((tileId: string, setIndex: number) => {
     setState((s) => {
       if (s.solved) return s;
 
-      // Hand tile is selected -> place it into this tile's set
-      if (s.selection.kind === 'hand' && s.handTile) {
+      if (s.selection.hand && s.selection.tiles.length === 0 && s.handTile) {
         const newBoard = s.workingBoard.map((set, i) =>
           i === setIndex ? [...set, s.handTile!] : [...set],
         );
@@ -181,152 +180,105 @@ export function usePuzzle() {
           history: pushHistory(s),
           workingBoard: newBoard,
           handTile: null,
-          selection: { kind: 'none' },
+          selection: EMPTY_SELECTION,
           moveCount: s.moveCount + 1,
         };
       }
 
-      // No selection -> start a board selection with this tile
-      if (s.selection.kind === 'none') {
-        return { ...s, selection: { kind: 'board', tiles: [{ tileId, setIndex }] } };
-      }
-
-      // Board selection -> toggle this tile
-      if (s.selection.kind === 'board') {
-        const already = s.selection.tiles.some((t) => t.tileId === tileId);
-        if (already) {
-          const remaining = s.selection.tiles.filter((t) => t.tileId !== tileId);
-          return {
-            ...s,
-            selection:
-              remaining.length === 0
-                ? { kind: 'none' }
-                : { kind: 'board', tiles: remaining },
-          };
-        }
-        return {
-          ...s,
-          selection: {
-            kind: 'board',
-            tiles: [...s.selection.tiles, { tileId, setIndex }],
-          },
-        };
-      }
-
-      return s;
+      const already = s.selection.tiles.some((t) => t.tileId === tileId);
+      const tiles = already
+        ? s.selection.tiles.filter((t) => t.tileId !== tileId)
+        : [...s.selection.tiles, { tileId, setIndex }];
+      return { ...s, selection: { hand: s.selection.hand, tiles } };
     });
   }, []);
 
-  /** Handle clicking a set (for placing selected tiles into it). */
+  /** Handle clicking a set: moves the entire current selection (board tiles +
+   *  optionally the hand tile) into the clicked set. */
   const onSetClick = useCallback((setIndex: number) => {
     setState((s) => {
       if (s.solved) return s;
+      if (isEmptySelection(s.selection)) return s;
 
-      // Place hand tile into clicked set
-      if (s.selection.kind === 'hand' && s.handTile) {
-        const newBoard = s.workingBoard.map((set, i) =>
-          i === setIndex ? [...set, s.handTile!] : [...set],
-        );
-        return {
-          ...s,
-          history: pushHistory(s),
-          workingBoard: newBoard,
-          handTile: null,
-          selection: { kind: 'none' },
-          moveCount: s.moveCount + 1,
-        };
+      const includeHand = s.selection.hand && s.handTile !== null;
+      const bySource = new Map<number, string[]>();
+      for (const sel of s.selection.tiles) {
+        if (sel.setIndex === setIndex) continue; // already there
+        const list = bySource.get(sel.setIndex) ?? [];
+        list.push(sel.tileId);
+        bySource.set(sel.setIndex, list);
+      }
+      if (bySource.size === 0 && !includeHand) {
+        return { ...s, selection: EMPTY_SELECTION };
       }
 
-      // Move all selected board tiles to clicked set
-      if (s.selection.kind === 'board') {
-        const bySource = new Map<number, string[]>();
-        for (const sel of s.selection.tiles) {
-          if (sel.setIndex === setIndex) continue; // already there
-          const list = bySource.get(sel.setIndex) ?? [];
-          list.push(sel.tileId);
-          bySource.set(sel.setIndex, list);
+      const toMove: Tile[] = [];
+      for (const [srcIdx, ids] of bySource) {
+        for (const id of ids) {
+          const t = s.workingBoard[srcIdx]?.find((tt) => tt.id === id);
+          if (t) toMove.push(t);
         }
-        if (bySource.size === 0) return { ...s, selection: { kind: 'none' } };
-
-        const toMove: Tile[] = [];
-        for (const [srcIdx, ids] of bySource) {
-          for (const id of ids) {
-            const t = s.workingBoard[srcIdx]?.find((tt) => tt.id === id);
-            if (t) toMove.push(t);
-          }
-        }
-
-        let newBoard = s.workingBoard.map((set, i) => {
-          const removeIds = bySource.get(i);
-          let next = removeIds ? set.filter((t) => !removeIds.includes(t.id)) : [...set];
-          if (i === setIndex) next = [...next, ...toMove];
-          return next;
-        });
-        newBoard = newBoard.filter((set) => set.length > 0);
-
-        return {
-          ...s,
-          history: pushHistory(s),
-          workingBoard: newBoard,
-          selection: { kind: 'none' },
-          moveCount: s.moveCount + bySource.size,
-        };
       }
+      if (includeHand) toMove.push(s.handTile!);
 
-      return s;
+      let newBoard = s.workingBoard.map((set, i) => {
+        const removeIds = bySource.get(i);
+        let next = removeIds ? set.filter((t) => !removeIds.includes(t.id)) : [...set];
+        if (i === setIndex) next = [...next, ...toMove];
+        return next;
+      });
+      newBoard = newBoard.filter((set) => set.length > 0);
+
+      return {
+        ...s,
+        history: pushHistory(s),
+        workingBoard: newBoard,
+        handTile: includeHand ? null : s.handTile,
+        selection: EMPTY_SELECTION,
+        moveCount: s.moveCount + bySource.size + (includeHand ? 1 : 0),
+      };
     });
   }, []);
 
-  /** Create a new set with the selected tile(s). */
+  /** Create a new set with the current selection (board tiles + optionally hand). */
   const onNewSet = useCallback(() => {
     setState((s) => {
       if (s.solved) return s;
+      if (isEmptySelection(s.selection)) return s;
 
-      if (s.selection.kind === 'hand' && s.handTile) {
-        return {
-          ...s,
-          history: pushHistory(s),
-          workingBoard: [...s.workingBoard, [s.handTile]],
-          handTile: null,
-          selection: { kind: 'none' },
-          moveCount: s.moveCount + 1,
-        };
+      const includeHand = s.selection.hand && s.handTile !== null;
+      const bySource = new Map<number, string[]>();
+      for (const sel of s.selection.tiles) {
+        const list = bySource.get(sel.setIndex) ?? [];
+        list.push(sel.tileId);
+        bySource.set(sel.setIndex, list);
       }
 
-      if (s.selection.kind === 'board') {
-        const bySource = new Map<number, string[]>();
-        for (const sel of s.selection.tiles) {
-          const list = bySource.get(sel.setIndex) ?? [];
-          list.push(sel.tileId);
-          bySource.set(sel.setIndex, list);
+      const toMove: Tile[] = [];
+      for (const [srcIdx, ids] of bySource) {
+        for (const id of ids) {
+          const t = s.workingBoard[srcIdx]?.find((tt) => tt.id === id);
+          if (t) toMove.push(t);
         }
-
-        const toMove: Tile[] = [];
-        for (const [srcIdx, ids] of bySource) {
-          for (const id of ids) {
-            const t = s.workingBoard[srcIdx]?.find((tt) => tt.id === id);
-            if (t) toMove.push(t);
-          }
-        }
-        if (toMove.length === 0) return { ...s, selection: { kind: 'none' } };
-
-        let newBoard = s.workingBoard.map((set, i) => {
-          const removeIds = bySource.get(i);
-          return removeIds ? set.filter((t) => !removeIds.includes(t.id)) : [...set];
-        });
-        newBoard = newBoard.filter((set) => set.length > 0);
-        newBoard.push(toMove);
-
-        return {
-          ...s,
-          history: pushHistory(s),
-          workingBoard: newBoard,
-          selection: { kind: 'none' },
-          moveCount: s.moveCount + bySource.size,
-        };
       }
+      if (includeHand) toMove.push(s.handTile!);
+      if (toMove.length === 0) return { ...s, selection: EMPTY_SELECTION };
 
-      return s;
+      let newBoard = s.workingBoard.map((set, i) => {
+        const removeIds = bySource.get(i);
+        return removeIds ? set.filter((t) => !removeIds.includes(t.id)) : [...set];
+      });
+      newBoard = newBoard.filter((set) => set.length > 0);
+      newBoard.push(toMove);
+
+      return {
+        ...s,
+        history: pushHistory(s),
+        workingBoard: newBoard,
+        handTile: includeHand ? null : s.handTile,
+        selection: EMPTY_SELECTION,
+        moveCount: s.moveCount + bySource.size + (includeHand ? 1 : 0),
+      };
     });
   }, []);
 
@@ -337,7 +289,9 @@ export function usePuzzle() {
    */
   const performMove = useCallback(
     (
-      source: { kind: 'hand' } | { kind: 'board'; tiles: BoardSelTile[] },
+      source:
+        | { kind: 'hand' }
+        | { kind: 'board'; tiles: BoardSelTile[]; withHand?: boolean },
       dest: { kind: 'set'; index: number } | { kind: 'new-set' } | { kind: 'hand' },
     ) => {
       setState((s) => {
@@ -346,7 +300,7 @@ export function usePuzzle() {
         // Hand source
         if (source.kind === 'hand') {
           if (!s.handTile) return s;
-          if (dest.kind === 'hand') return { ...s, selection: { kind: 'none' } };
+          if (dest.kind === 'hand') return { ...s, selection: EMPTY_SELECTION };
           const handTile = s.handTile;
           let newBoard: Board = s.workingBoard.map((set) => [...set]);
           if (dest.kind === 'set') {
@@ -359,7 +313,7 @@ export function usePuzzle() {
             history: pushHistory(s),
             workingBoard: newBoard,
             handTile: null,
-            selection: { kind: 'none' },
+            selection: EMPTY_SELECTION,
             moveCount: s.moveCount + 1,
           };
         }
@@ -383,7 +337,7 @@ export function usePuzzle() {
             history: pushHistory(s),
             workingBoard: newBoard,
             handTile: tile,
-            selection: { kind: 'none' },
+            selection: EMPTY_SELECTION,
             moveCount: Math.max(0, s.moveCount - 1),
           };
         }
@@ -397,7 +351,9 @@ export function usePuzzle() {
           list.push(sel.tileId);
           bySource.set(sel.setIndex, list);
         }
-        if (bySource.size === 0) return { ...s, selection: { kind: 'none' } };
+        if (bySource.size === 0) return { ...s, selection: EMPTY_SELECTION };
+
+        const includeHand = !!source.withHand && s.handTile !== null;
 
         const toMove: Tile[] = [];
         for (const [srcIdx, ids] of bySource) {
@@ -406,6 +362,7 @@ export function usePuzzle() {
             if (t) toMove.push(t);
           }
         }
+        if (includeHand) toMove.push(s.handTile!);
 
         let newBoard: Board = s.workingBoard.map((set, i) => {
           const removeIds = bySource.get(i);
@@ -420,8 +377,9 @@ export function usePuzzle() {
           ...s,
           history: pushHistory(s),
           workingBoard: newBoard,
-          selection: { kind: 'none' },
-          moveCount: s.moveCount + bySource.size,
+          handTile: includeHand ? null : s.handTile,
+          selection: EMPTY_SELECTION,
+          moveCount: s.moveCount + bySource.size + (includeHand ? 1 : 0),
         };
       });
     },
@@ -443,7 +401,7 @@ export function usePuzzle() {
       ...s,
       workingBoard: cloneBoard(s.puzzle.board),
       handTile: { ...s.puzzle.hand },
-      selection: { kind: 'none' },
+      selection: EMPTY_SELECTION,
       moveCount: 0,
       solved: false,
       history: [],
@@ -455,7 +413,7 @@ export function usePuzzle() {
     setState((s) => {
       const restored = applyUndo(s);
       if (restored === s) return s;
-      return { ...restored, selection: { kind: 'none' } };
+      return { ...restored, selection: EMPTY_SELECTION };
     });
   }, []);
 
@@ -463,7 +421,7 @@ export function usePuzzle() {
   const returnToHand = useCallback(() => {
     setState((s) => {
       if (s.handTile !== null) return s; // hand already has a tile
-      if (s.selection.kind !== 'board') return s;
+      if (s.selection.hand) return s;
       if (s.selection.tiles.length !== 1) return s;
 
       const { tileId, setIndex: setIdx } = s.selection.tiles[0];
@@ -480,7 +438,7 @@ export function usePuzzle() {
         history: pushHistory(s),
         workingBoard: newBoard,
         handTile: tile,
-        selection: { kind: 'none' },
+        selection: EMPTY_SELECTION,
         moveCount: Math.max(0, s.moveCount - 1),
       };
     });
