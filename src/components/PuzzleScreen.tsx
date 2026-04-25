@@ -227,9 +227,20 @@ export default function PuzzleScreen({ onWin, onHome }: Props) {
         onNewSetClick={onNewSet}
         onTileDragStart={(tileId, setIndex, e) => {
           const inSelection = selection.tiles.some((t) => t.tileId === tileId);
-          const useMulti = inSelection && (selection.tiles.length > 1 || selection.hand);
-          const tiles = useMulti ? selection.tiles : [{ tileId, setIndex }];
-          startDrag({ kind: 'board', tiles, withHand: useMulti && selection.hand }, tileId, e);
+          const hasOtherSelection = selection.tiles.length > 0 || selection.hand;
+          let tiles: { tileId: string; setIndex: number }[];
+          let withHand = false;
+          if (inSelection) {
+            tiles = selection.tiles;
+            withHand = selection.hand;
+          } else if (hasOtherSelection) {
+            // Drag pulls along the existing multi-selection plus this tile.
+            tiles = [...selection.tiles, { tileId, setIndex }];
+            withHand = selection.hand;
+          } else {
+            tiles = [{ tileId, setIndex }];
+          }
+          startDrag({ kind: 'board', tiles, withHand }, tileId, e);
         }}
       />
 
@@ -273,7 +284,8 @@ export default function PuzzleScreen({ onWin, onHome }: Props) {
         onTileClick={selectHand}
         onTileDragStart={(e) => {
           if (!handTile) return;
-          if (selection.hand && selection.tiles.length > 0) {
+          // If board tiles are already selected, dragging from hand pulls them along too.
+          if (selection.tiles.length > 0) {
             startDrag(
               { kind: 'board', tiles: selection.tiles, withHand: true },
               handTile.id,
