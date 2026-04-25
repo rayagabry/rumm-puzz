@@ -53,13 +53,7 @@ export default function HomeScreen({ onStart }: Props) {
       </div>
 
       {/* Play button */}
-      <button
-        onClick={() => {
-          if (exhausted) return;
-          onStart();
-        }}
-        disabled={exhausted}
-        aria-disabled={exhausted}
+      <div
         style={{
           display: 'flex',
           flexDirection: 'column',
@@ -77,6 +71,12 @@ export default function HomeScreen({ onStart }: Props) {
           cursor: exhausted ? 'default' : 'pointer',
           opacity: exhausted ? 0.78 : 1,
         }}
+        onClick={() => {
+          if (exhausted) return;
+          onStart();
+        }}
+        role="button"
+        aria-disabled={exhausted}
       >
         <span
           style={{
@@ -147,8 +147,9 @@ export default function HomeScreen({ onStart }: Props) {
           </span>
         </span>
 
+        {/* Exhausted callout */}
         {exhausted && (
-          <span
+          <div
             style={{
               display: 'flex',
               alignItems: 'center',
@@ -159,23 +160,14 @@ export default function HomeScreen({ onStart }: Props) {
             }}
           >
             <span style={{ fontSize: 12, color: 'var(--text-muted)', lineHeight: 1.4 }}>
-              You've solved every puzzle.
+              You've solved every {d.label.toLowerCase()} puzzle.
             </span>
-            <span
-              role="button"
-              tabIndex={0}
+            <button
+              type="button"
               onClick={(e) => {
                 e.stopPropagation();
                 resetPlayHistory();
                 setVersion((v) => v + 1);
-              }}
-              onKeyDown={(e) => {
-                if (e.key === 'Enter' || e.key === ' ') {
-                  e.preventDefault();
-                  e.stopPropagation();
-                  resetPlayHistory();
-                  setVersion((v) => v + 1);
-                }
               }}
               style={{
                 fontSize: 12,
@@ -189,10 +181,10 @@ export default function HomeScreen({ onStart }: Props) {
               }}
             >
               Reset history
-            </span>
-          </span>
+            </button>
+          </div>
         )}
-      </button>
+      </div>
 
       {/* How to play */}
       <div
