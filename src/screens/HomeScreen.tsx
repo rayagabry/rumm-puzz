@@ -66,14 +66,8 @@ export default function HomeScreen({ onSelect }: Props) {
         {rows.map((d) => {
           const pct = d.total === 0 ? 0 : Math.round((d.played / d.total) * 100);
           return (
-            <button
+            <div
               key={d.key}
-              onClick={() => {
-                if (d.exhausted) return;
-                onSelect(d.key);
-              }}
-              disabled={d.exhausted}
-              aria-disabled={d.exhausted}
               style={{
                 display: 'flex',
                 flexDirection: 'column',
@@ -91,6 +85,12 @@ export default function HomeScreen({ onSelect }: Props) {
                 cursor: d.exhausted ? 'default' : 'pointer',
                 opacity: d.exhausted ? 0.78 : 1,
               }}
+              onClick={() => {
+                if (d.exhausted) return;
+                onSelect(d.key);
+              }}
+              role="button"
+              aria-disabled={d.exhausted}
             >
               {/* Top row: label + meta */}
               <span
@@ -165,7 +165,7 @@ export default function HomeScreen({ onSelect }: Props) {
 
               {/* Exhausted callout */}
               {d.exhausted && (
-                <span
+                <div
                   style={{
                     display: 'flex',
                     alignItems: 'center',
@@ -178,27 +178,19 @@ export default function HomeScreen({ onSelect }: Props) {
                   <span style={{ fontSize: 12, color: 'var(--text-muted)', lineHeight: 1.4 }}>
                     You've solved every {d.label.toLowerCase()} puzzle.
                   </span>
-                  <span
-                    role="button"
-                    tabIndex={0}
+                  <button
+                    type="button"
                     onClick={(e) => {
                       e.stopPropagation();
                       resetPlayHistory(d.key);
                       setVersion((v) => v + 1);
-                    }}
-                    onKeyDown={(e) => {
-                      if (e.key === 'Enter' || e.key === ' ') {
-                        e.preventDefault();
-                        e.stopPropagation();
-                        resetPlayHistory(d.key);
-                        setVersion((v) => v + 1);
-                      }
                     }}
                     style={{
                       fontSize: 12,
                       fontWeight: 600,
                       color: 'var(--accent)',
                       background: 'var(--accent-soft)',
+                      border: 'none',
                       padding: '6px 10px',
                       borderRadius: 999,
                       cursor: 'pointer',
@@ -206,10 +198,10 @@ export default function HomeScreen({ onSelect }: Props) {
                     }}
                   >
                     Reset history
-                  </span>
-                </span>
+                  </button>
+                </div>
               )}
-            </button>
+            </div>
           );
         })}
       </div>
