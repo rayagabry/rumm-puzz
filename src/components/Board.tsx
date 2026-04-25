@@ -57,19 +57,28 @@ export default function Board({
           padding: 16,
         }}
       >
-        {board.map((set, i) => (
-          <SetRow
-            key={i}
-            tiles={set}
-            setIndex={i}
-            selectedTileIds={selectedTileIds}
-            draggedTileIds={draggedTileIds}
-            onTileClick={onTileClick}
-            onSetClick={onSetClick}
-            onTileDragStart={onTileDragStart}
-            isDropHover={dropHover?.kind === 'set' && dropHover.index === i}
-          />
-        ))}
+        <div
+          style={{
+            display: 'flex',
+            flexWrap: 'wrap',
+            gap: 10,
+            alignContent: 'flex-start',
+          }}
+        >
+          {board.map((set, i) => (
+            <SetRow
+              key={i}
+              tiles={set}
+              setIndex={i}
+              selectedTileIds={selectedTileIds}
+              draggedTileIds={draggedTileIds}
+              onTileClick={onTileClick}
+              onSetClick={onSetClick}
+              onTileDragStart={onTileDragStart}
+              isDropHover={dropHover?.kind === 'set' && dropHover.index === i}
+            />
+          ))}
+        </div>
 
         <div
           data-drop-kind="new-set"
