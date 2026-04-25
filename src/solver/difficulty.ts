@@ -23,7 +23,15 @@ import { findAllPartitions } from './partition';
  * of distinct non-stay (source, destination) pairs.
  */
 
-const HAND_SOURCE = -1;
+export const HAND_SOURCE = -1;
+
+export type MovePair = { source: number; dest: number };
+export type SolutionWitness = {
+  moves: number;
+  solution: Board;
+  sigma: number[];
+  pairs: MovePair[];
+};
 
 function tileKey(t: Tile): string {
   return `${t.color}-${t.number}`;
@@ -177,12 +185,17 @@ function hasTwoMoveSolution(board: Board, hand: Tile): boolean {
   return false;
 }
 
-export function countMoves(
+function parsePair(key: string): MovePair {
+  const [s, d] = key.split('|');
+  return { source: Number(s), dest: Number(d) };
+}
+
+function countMovesInternal(
   originalBoard: Board,
   solutionBoard: Board,
   handTile?: Tile,
   deadline?: number,
-): number {
+): { moves: number; pairs: MovePair[]; sigma: number[] } | null {
   const sourcesByType = new Map<string, number[]>();
   const destsByType = new Map<string, number[]>();
 
@@ -216,7 +229,7 @@ export function countMoves(
   for (const t of typeList) {
     const src = sourcesByType.get(t) ?? [];
     const dst = destsByType.get(t) ?? [];
-    if (src.length !== dst.length) return Infinity;
+    if (src.length !== dst.length) return null;
   }
 
   // Find the matching that maximizes stays.
@@ -232,13 +245,17 @@ export function countMoves(
   }
 
   let best = Infinity;
+  let bestPairKeys: string[] = [];
   const pairs = new Set<string>();
 
   function recurse(tIdx: number): void {
     if (pairs.size >= best) return;
     if (deadline && tIdx % 4 === 0 && Date.now() >= deadline) return;
     if (tIdx === typeList.length) {
-      if (pairs.size < best) best = pairs.size;
+      if (pairs.size < best) {
+        best = pairs.size;
+        bestPairKeys = [...pairs];
+      }
       return;
     }
     const type = typeList[tIdx];
@@ -263,7 +280,18 @@ export function countMoves(
     }
   }
   recurse(0);
-  return best;
+  if (!isFinite(best)) return null;
+  return { moves: best, pairs: bestPairKeys.map(parsePair), sigma };
+}
+
+export function countMoves(
+  originalBoard: Board,
+  solutionBoard: Board,
+  handTile?: Tile,
+  deadline?: number,
+): number {
+  const r = countMovesInternal(originalBoard, solutionBoard, handTile, deadline);
+  return r ? r.moves : Infinity;
 }
 
 /**
@@ -305,4 +333,32 @@ export function computeMinMoves(
     if (moves < minMoves) minMoves = moves;
   }
   return isFinite(minMoves) ? minMoves : null;
+}
+
+/**
+ * Like computeMinMoves but returns the witnessing solution partition,
+ * the origin→solution matching σ, and the set of (source, dest) move pairs.
+ * Used by the generator's technique classifier.
+ */
+export function computeOptimalSolution(
+  originalBoard: Board,
+  handTile: Tile,
+  maxPartitions: number = 2000,
+  maxMs: number = 5000,
+): SolutionWitness | null {
+  const deadline = Date.now() + maxMs;
+  const allTiles = [...originalBoard.flat(), handTile];
+  const partitions = findAllPartitions(allTiles, maxPartitions);
+  if (partitions.length === 0) return null;
+
+  let best: SolutionWitness | null = null;
+  for (const partition of partitions) {
+    if (Date.now() >= deadline) break;
+    const r = countMovesInternal(originalBoard, partition, handTile, deadline);
+    if (!r) continue;
+    if (!best || r.moves < best.moves) {
+      best = { moves: r.moves, solution: partition, sigma: r.sigma, pairs: r.pairs };
+    }
+  }
+  return best;
 }

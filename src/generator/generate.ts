@@ -1,7 +1,10 @@
 import type { Tile, Board, Difficulty, Puzzle, Color } from '../domain/tile';
 import { COLORS, makeRng, shuffle } from '../domain/tile';
-import { findPartition } from '../solver/partition';
+import { findPartition, findAllPartitions } from '../solver/partition';
 import { computeMinMoves } from '../solver/difficulty';
+import { classifyPuzzle } from './classify';
+
+export type PuzzleCandidate = Puzzle & { signature: string };
 
 const DIFFICULTY_RANGES: Record<Difficulty, [number, number]> = {
   easy: [1, 2],
@@ -116,9 +119,19 @@ function makeStartingBoard(
   solutionWithoutHand: Tile[],
   rng: () => number,
 ): Board | null {
-  // Shuffle tiles and try to find a different partition
+  // Shuffle the tile order so findPartition's lexicographic-first heuristic
+  // explores different sub-trees on different seeds.
   const shuffled = shuffle(solutionWithoutHand, rng);
-  return findPartition(shuffled);
+  // Enumerate up to N valid partitions (cheap because we cap), then pick one
+  // at random. Picking the first partition (the previous behavior) biased
+  // the library hard toward the same shape — most baseline hard puzzles
+  // landed in just three signature buckets. Random selection from a wider
+  // partition pool is the cheapest way to broaden technique variety.
+  const all = findAllPartitions(shuffled, 32, 200_000);
+  if (all.length === 0) {
+    return findPartition(shuffled);
+  }
+  return all[Math.floor(rng() * all.length)];
 }
 
 /**
@@ -210,6 +223,72 @@ export function generatePuzzle(
   }
 
   return null;
+}
+
+/**
+ * Enumerate all valid starting-board variants for a single (solution, hand) pair.
+ * Each variant is fully verified against the difficulty range and classified
+ * by technique signature. Used by balanced-selection scripts that want to pick
+ * variants with rare signatures rather than taking whichever partition arrived
+ * first.
+ */
+export function generatePuzzleVariants(
+  difficulty: Difficulty,
+  seed: number,
+  maxStartingSetSize?: number,
+  maxVariants: number = 32,
+): PuzzleCandidate[] {
+  const rng = makeRng(seed);
+  const [minMoves, maxMoves] = DIFFICULTY_RANGES[difficulty];
+  const [minSets, maxSets] =
+    difficulty === 'hard' ? [5, 8] : difficulty === 'medium' ? [4, 6] : [4, 5];
+
+  for (let attempt = 0; attempt < 100; attempt++) {
+    const numSets = Math.floor(rng() * (maxSets - minSets + 1)) + minSets;
+    const solution = buildRandomSolution(rng, numSets);
+    if (!solution) continue;
+
+    const allTiles = solution.flat();
+    if (allTiles.length < 9) continue;
+
+    const handIdx = Math.floor(rng() * allTiles.length);
+    const hand = allTiles[handIdx];
+    const remaining = [...allTiles.slice(0, handIdx), ...allTiles.slice(handIdx + 1)];
+
+    const shuffled = shuffle(remaining, rng);
+    const partitions = findAllPartitions(shuffled, maxVariants, 200_000);
+    if (partitions.length === 0) continue;
+
+    const candidates: PuzzleCandidate[] = [];
+    for (const startingBoard of partitions) {
+      if (hasParallelRuns(startingBoard)) continue;
+      if (maxStartingSetSize !== undefined && startingBoard.some((s) => s.length > maxStartingSetSize)) continue;
+
+      // Fast verification only — caller is expected to slow-verify the
+      // variants it actually selects, since slow-verifying every candidate
+      // makes large pool builds intractable.
+      const fast = computeMinMoves(startingBoard, hand, 200, 1000);
+      if (fast === null || fast < minMoves || fast > maxMoves) continue;
+
+      const sig = classifyPuzzle(startingBoard, hand, 500, 1500);
+      if (!sig) continue;
+
+      puzzleCounter++;
+      candidates.push({
+        id: `puzzle-${puzzleCounter}`,
+        board: startingBoard,
+        hand,
+        solution,
+        minMoves: fast,
+        difficulty,
+        signature: sig.signature,
+      });
+    }
+
+    if (candidates.length > 0) return candidates;
+  }
+
+  return [];
 }
 
 /**
