@@ -111,7 +111,7 @@ export default function WinScreen({ puzzleId, moves, par, exhausted, onNext, onH
             marginTop: -8,
           }}
         >
-          That was the last puzzle at this difficulty. Reset history from the home screen to play them again.
+          That was the last puzzle. Reset history from the home screen to play them again.
         </div>
       )}
 

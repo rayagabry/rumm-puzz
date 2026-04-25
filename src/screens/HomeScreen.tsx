@@ -1,32 +1,23 @@
 import { useState } from 'react';
-import type { Difficulty } from '../domain/tile';
 import {
-  isDifficultyExhausted,
-  playedCountForDifficulty,
+  isLibraryExhausted,
+  playedCount,
   resetPlayHistory,
-  totalForDifficulty,
+  totalPuzzles,
 } from '../state/usePuzzle';
 
 type Props = {
-  onSelect: (difficulty: Difficulty) => void;
+  onStart: () => void;
 };
 
-const DIFFICULTIES: Array<{ key: Difficulty; label: string; desc: string; dot: string }> = [
-  { key: 'easy', label: 'Easy', desc: '1–2 moves', dot: 'var(--success)' },
-  { key: 'medium', label: 'Medium', desc: '3–4 moves', dot: 'var(--warning)' },
-  { key: 'hard', label: 'Hard', desc: '5+ moves', dot: 'var(--accent)' },
-];
-
-export default function HomeScreen({ onSelect }: Props) {
+export default function HomeScreen({ onStart }: Props) {
   // Bumped on reset so the row re-reads from localStorage.
   const [version, setVersion] = useState(0);
 
-  const rows = DIFFICULTIES.map((d) => {
-    const total = totalForDifficulty(d.key);
-    const played = playedCountForDifficulty(d.key);
-    const exhausted = isDifficultyExhausted(d.key);
-    return { ...d, total, played, exhausted };
-  });
+  const total = totalPuzzles();
+  const played = playedCount();
+  const exhausted = isLibraryExhausted();
+  const pct = total === 0 ? 0 : Math.round((played / total) * 100);
 
   return (
     <div
@@ -61,158 +52,147 @@ export default function HomeScreen({ onSelect }: Props) {
         </p>
       </div>
 
-      {/* Difficulty buttons */}
-      <div style={{ display: 'flex', flexDirection: 'column', gap: 10, width: '100%' }}>
-        {rows.map((d) => {
-          const pct = d.total === 0 ? 0 : Math.round((d.played / d.total) * 100);
-          return (
-            <button
-              key={d.key}
-              onClick={() => {
-                if (d.exhausted) return;
-                onSelect(d.key);
-              }}
-              disabled={d.exhausted}
-              aria-disabled={d.exhausted}
+      {/* Play button */}
+      <button
+        onClick={() => {
+          if (exhausted) return;
+          onStart();
+        }}
+        disabled={exhausted}
+        aria-disabled={exhausted}
+        style={{
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'stretch',
+          gap: 10,
+          padding: '16px 20px 14px',
+          background: 'var(--bg-surface)',
+          borderRadius: 16,
+          border: exhausted
+            ? '1px dashed var(--border-strong)'
+            : '1px solid var(--border)',
+          boxShadow: exhausted ? 'none' : 'var(--shadow-sm)',
+          width: '100%',
+          textAlign: 'left',
+          cursor: exhausted ? 'default' : 'pointer',
+          opacity: exhausted ? 0.78 : 1,
+        }}
+      >
+        <span
+          style={{
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+          }}
+        >
+          <span style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+            <span
               style={{
-                display: 'flex',
-                flexDirection: 'column',
-                alignItems: 'stretch',
-                gap: 10,
-                padding: '16px 20px 14px',
-                background: 'var(--bg-surface)',
-                borderRadius: 16,
-                border: d.exhausted
-                  ? '1px dashed var(--border-strong)'
-                  : '1px solid var(--border)',
-                boxShadow: d.exhausted ? 'none' : 'var(--shadow-sm)',
-                width: '100%',
-                textAlign: 'left',
-                cursor: d.exhausted ? 'default' : 'pointer',
-                opacity: d.exhausted ? 0.78 : 1,
+                width: 8,
+                height: 8,
+                borderRadius: '50%',
+                background: 'var(--accent)',
+                opacity: exhausted ? 0.5 : 1,
+              }}
+            />
+            <span style={{ fontSize: 17, fontWeight: 600, color: 'var(--text)' }}>
+              Play
+            </span>
+          </span>
+          <span style={{ fontSize: 13, color: 'var(--text-muted)' }}>
+            {exhausted ? 'All played' : '5–8 moves'}
+          </span>
+        </span>
+
+        <span
+          style={{
+            display: 'flex',
+            alignItems: 'center',
+            gap: 10,
+            paddingLeft: 20,
+          }}
+        >
+          <span
+            style={{
+              flex: 1,
+              height: 4,
+              borderRadius: 999,
+              background: 'var(--border)',
+              overflow: 'hidden',
+              position: 'relative',
+            }}
+          >
+            <span
+              style={{
+                display: 'block',
+                height: '100%',
+                width: `${pct}%`,
+                background: 'var(--accent)',
+                opacity: exhausted ? 0.55 : 0.9,
+                transition: 'width 200ms ease',
+              }}
+            />
+          </span>
+          <span
+            style={{
+              fontSize: 11,
+              fontVariantNumeric: 'tabular-nums',
+              color: 'var(--text-muted)',
+              fontWeight: 500,
+              minWidth: 38,
+              textAlign: 'right',
+            }}
+          >
+            {played}/{total}
+          </span>
+        </span>
+
+        {exhausted && (
+          <span
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'space-between',
+              gap: 12,
+              marginTop: 4,
+              paddingLeft: 20,
+            }}
+          >
+            <span style={{ fontSize: 12, color: 'var(--text-muted)', lineHeight: 1.4 }}>
+              You've solved every puzzle.
+            </span>
+            <span
+              role="button"
+              tabIndex={0}
+              onClick={(e) => {
+                e.stopPropagation();
+                resetPlayHistory();
+                setVersion((v) => v + 1);
+              }}
+              onKeyDown={(e) => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                  e.preventDefault();
+                  e.stopPropagation();
+                  resetPlayHistory();
+                  setVersion((v) => v + 1);
+                }
+              }}
+              style={{
+                fontSize: 12,
+                fontWeight: 600,
+                color: 'var(--accent)',
+                background: 'var(--accent-soft)',
+                padding: '6px 10px',
+                borderRadius: 999,
+                cursor: 'pointer',
+                whiteSpace: 'nowrap',
               }}
             >
-              {/* Top row: label + meta */}
-              <span
-                style={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'space-between',
-                }}
-              >
-                <span style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
-                  <span
-                    style={{
-                      width: 8,
-                      height: 8,
-                      borderRadius: '50%',
-                      background: d.dot,
-                      opacity: d.exhausted ? 0.5 : 1,
-                    }}
-                  />
-                  <span style={{ fontSize: 17, fontWeight: 600, color: 'var(--text)' }}>
-                    {d.label}
-                  </span>
-                </span>
-                <span style={{ fontSize: 13, color: 'var(--text-muted)' }}>
-                  {d.exhausted ? 'All played' : d.desc}
-                </span>
-              </span>
-
-              {/* Progress row: bar + count */}
-              <span
-                style={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: 10,
-                  paddingLeft: 20, // align under label text (8 dot + 12 gap)
-                }}
-              >
-                <span
-                  style={{
-                    flex: 1,
-                    height: 4,
-                    borderRadius: 999,
-                    background: 'var(--border)',
-                    overflow: 'hidden',
-                    position: 'relative',
-                  }}
-                >
-                  <span
-                    style={{
-                      display: 'block',
-                      height: '100%',
-                      width: `${pct}%`,
-                      background: d.dot,
-                      opacity: d.exhausted ? 0.55 : 0.9,
-                      transition: 'width 200ms ease',
-                    }}
-                  />
-                </span>
-                <span
-                  style={{
-                    fontSize: 11,
-                    fontVariantNumeric: 'tabular-nums',
-                    color: 'var(--text-muted)',
-                    fontWeight: 500,
-                    minWidth: 38,
-                    textAlign: 'right',
-                  }}
-                >
-                  {d.played}/{d.total}
-                </span>
-              </span>
-
-              {/* Exhausted callout */}
-              {d.exhausted && (
-                <span
-                  style={{
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'space-between',
-                    gap: 12,
-                    marginTop: 4,
-                    paddingLeft: 20,
-                  }}
-                >
-                  <span style={{ fontSize: 12, color: 'var(--text-muted)', lineHeight: 1.4 }}>
-                    You've solved every {d.label.toLowerCase()} puzzle.
-                  </span>
-                  <span
-                    role="button"
-                    tabIndex={0}
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      resetPlayHistory(d.key);
-                      setVersion((v) => v + 1);
-                    }}
-                    onKeyDown={(e) => {
-                      if (e.key === 'Enter' || e.key === ' ') {
-                        e.preventDefault();
-                        e.stopPropagation();
-                        resetPlayHistory(d.key);
-                        setVersion((v) => v + 1);
-                      }
-                    }}
-                    style={{
-                      fontSize: 12,
-                      fontWeight: 600,
-                      color: 'var(--accent)',
-                      background: 'var(--accent-soft)',
-                      padding: '6px 10px',
-                      borderRadius: 999,
-                      cursor: 'pointer',
-                      whiteSpace: 'nowrap',
-                    }}
-                  >
-                    Reset history
-                  </span>
-                </span>
-              )}
-            </button>
-          );
-        })}
-      </div>
+              Reset history
+            </span>
+          </span>
+        )}
+      </button>
 
       {/* How to play */}
       <div

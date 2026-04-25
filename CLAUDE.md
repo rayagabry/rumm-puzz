@@ -13,13 +13,13 @@ React 18 + TypeScript + Vite + vite-plugin-pwa. Tests via Vitest.
 - `src/solver/difficulty.ts` — Min-moves scorer: counts distinct (source-set, dest-set) transfers under the max-stay matching. Also exports `computeOptimalSolution` which returns the witnessing solution partition + σ matching + move-pair set (used by the classifier).
 - `src/generator/generate.ts` — Reverse-construction puzzle generator (guarantees solvability)
 - `src/generator/classify.ts` — Technique classifier. Tags each puzzle's optimal solution by per-move source/dest kinds (`run`, `group`, `hand`, `new-run`, `new-group`) plus structural tags (`split`, `merge`, `dissolve`, `new-set`). Produces a canonical `signature` string used as a diversity bucket key.
-- `src/puzzles/library.json` — 110 pre-generated puzzles (30 easy, 30 medium, 50 hard)
+- `src/puzzles/library.json` — 50 pre-generated puzzles (all hard difficulty: 5–8 moves)
 - `src/state/usePuzzle.ts` — React game state hook. Played history lives in localStorage under `rumikube:played`, gated by `LIBRARY_VERSION` (`rumikube:libVersion`) — bump the constant when puzzle IDs are reused for new content so stale history clears on next load.
 - `src/components/` — Tile, SetRow, Board, Hand, PuzzleScreen
 - `src/screens/` — HomeScreen, WinScreen
-- `scripts/generate-puzzles.ts` — Full library generation (easy + medium + hard)
-- `scripts/regenerate-hard-balanced.ts` — Keeps existing easy/medium, regenerates hard with `maxStartingSetSize=4`. Enumerates all valid starting partitions for each (solution, hand) source, classifies each, then greedy-picks the variant with the rarest technique signature so far. Yielded 40 distinct signatures across 50 hard puzzles, top-share 4%. Slow: pool build ~11min for 120 sources at MAX_VARIANTS=24.
-- `scripts/classify-library.ts` — Diagnostic: prints the technique-signature histogram for a difficulty (e.g. `npx tsx scripts/classify-library.ts hard`). Useful for spotting when the generator clusters puzzles into a few patterns.
+- `scripts/generate-puzzles.ts` — Full library generation
+- `scripts/regenerate-hard-balanced.ts` — Regenerates the library with `maxStartingSetSize=4`. Enumerates all valid starting partitions for each (solution, hand) source, classifies each, then greedy-picks the variant with the rarest technique signature so far. Yielded 40 distinct signatures across 50 puzzles, top-share 4%. Slow: pool build ~11min for 120 sources at MAX_VARIANTS=24.
+- `scripts/classify-library.ts` — Diagnostic: prints the technique-signature histogram for the library (`npx tsx scripts/classify-library.ts`). Useful for spotting when the generator clusters puzzles into a few patterns.
 
 ## Commands
 
@@ -36,7 +36,7 @@ React 18 + TypeScript + Vite + vite-plugin-pwa. Tests via Vitest.
 
 ## Difficulty
 
-Measured by minimum *batched* moves — one move = one batch of tiles taken from a single source set (or the hand) and placed into a single destination set. Multiple tiles crossing the same (source, destination) pair count once. Ranges: Easy (1–2), Medium (3–4), Hard (5–8).
+Measured by minimum *batched* moves — one move = one batch of tiles taken from a single source set (or the hand) and placed into a single destination set. Multiple tiles crossing the same (source, destination) pair count once. Library targets 5–8 moves.
 
 Overlap uses tile type, not ID. setOverlap in difficulty.ts compares by (color, number), not t.id — the partition solver assigns duplicate copies arbitrarily, so ID-based comparison inflates move counts.
 

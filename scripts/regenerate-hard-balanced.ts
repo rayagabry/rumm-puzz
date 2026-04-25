@@ -1,7 +1,7 @@
 import { generatePuzzleVariants } from '../src/generator/generate';
 import type { PuzzleCandidate } from '../src/generator/generate';
 import { computeMinMoves } from '../src/solver/difficulty';
-import { readFileSync, writeFileSync } from 'fs';
+import { writeFileSync } from 'fs';
 import { resolve } from 'path';
 
 const TARGET_HARD = 50;
@@ -14,16 +14,8 @@ const HARD_MIN = 5;
 const HARD_MAX = 8;
 
 const libPath = resolve(import.meta.dirname ?? '.', '..', 'src', 'puzzles', 'library.json');
-const existing = JSON.parse(readFileSync(libPath, 'utf8')) as Array<{
-  id: string;
-  board: unknown;
-  hand: unknown;
-  minMoves: number;
-  difficulty: 'easy' | 'medium' | 'hard';
-}>;
 
-const kept = existing.filter((p) => p.difficulty !== 'hard');
-console.log(`Keeping ${kept.length} non-hard. Building candidate pool of up to ${POOL_SIZE} sources...\n`);
+console.log(`Building candidate pool of up to ${POOL_SIZE} sources...\n`);
 
 const start = Date.now();
 const sources: PuzzleCandidate[][] = [];
@@ -33,7 +25,7 @@ let sourceAttempts = 0;
 while (sources.length < POOL_SIZE && sourceAttempts < MAX_SOURCE_ATTEMPTS) {
   seed++;
   sourceAttempts++;
-  const variants = generatePuzzleVariants('hard', seed, MAX_SET_SIZE, MAX_VARIANTS);
+  const variants = generatePuzzleVariants(seed, MAX_SET_SIZE, MAX_VARIANTS);
   if (variants.length === 0) continue;
   sources.push(variants);
   if (sources.length % 25 === 0) {
@@ -98,7 +90,6 @@ const hardPuzzles = selected.map((p, i) => ({
   board: p.board,
   hand: p.hand,
   minMoves: p.minMoves,
-  difficulty: 'hard' as const,
 }));
 
 const histogram: Record<number, number> = {};
@@ -118,6 +109,5 @@ const top3 = sigSorted.slice(0, 3).reduce((a, [, c]) => a + c, 0);
 console.log(`\nTop signature share: ${((top / selected.length) * 100).toFixed(0)}%`);
 console.log(`Top-3 share: ${((top3 / selected.length) * 100).toFixed(0)}%`);
 
-const merged = [...kept, ...hardPuzzles];
-writeFileSync(libPath, JSON.stringify(merged, null, 2));
-console.log(`\nWritten ${merged.length} puzzles to ${libPath}`);
+writeFileSync(libPath, JSON.stringify(hardPuzzles, null, 2));
+console.log(`\nWritten ${hardPuzzles.length} puzzles to ${libPath}`);
