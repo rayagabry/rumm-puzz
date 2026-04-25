@@ -2,6 +2,7 @@ import { useState, useCallback, useMemo, useEffect } from 'react';
 import type { Tile, Board, Difficulty } from '../domain/tile';
 import { cloneBoard } from '../domain/board';
 import { isBoardValid } from '../domain/set';
+import { applyUndo, pushHistory, type Snapshot } from './history';
 import puzzleLibrary from '../puzzles/library.json';
 
 type PuzzleData = {
@@ -26,6 +27,7 @@ type PuzzleState = {
   selection: Selection;
   moveCount: number;
   solved: boolean;
+  history: Snapshot[];
 };
 
 const PLAYED_KEY = 'rumikube:played';
@@ -134,6 +136,7 @@ function initState(difficulty: Difficulty, exclude?: string): PuzzleState {
       selection: { kind: 'none' },
       moveCount: 0,
       solved: false,
+      history: [],
     };
   }
   return {
@@ -143,6 +146,7 @@ function initState(difficulty: Difficulty, exclude?: string): PuzzleState {
     selection: { kind: 'none' },
     moveCount: 0,
     solved: false,
+    history: [],
   };
 }
 
@@ -190,6 +194,7 @@ export function usePuzzle(difficulty: Difficulty) {
         );
         return {
           ...s,
+          history: pushHistory(s),
           workingBoard: newBoard,
           handTile: null,
           selection: { kind: 'none' },
@@ -240,6 +245,7 @@ export function usePuzzle(difficulty: Difficulty) {
         );
         return {
           ...s,
+          history: pushHistory(s),
           workingBoard: newBoard,
           handTile: null,
           selection: { kind: 'none' },
@@ -276,6 +282,7 @@ export function usePuzzle(difficulty: Difficulty) {
 
         return {
           ...s,
+          history: pushHistory(s),
           workingBoard: newBoard,
           selection: { kind: 'none' },
           moveCount: s.moveCount + bySource.size,
@@ -294,6 +301,7 @@ export function usePuzzle(difficulty: Difficulty) {
       if (s.selection.kind === 'hand' && s.handTile) {
         return {
           ...s,
+          history: pushHistory(s),
           workingBoard: [...s.workingBoard, [s.handTile]],
           handTile: null,
           selection: { kind: 'none' },
@@ -327,6 +335,7 @@ export function usePuzzle(difficulty: Difficulty) {
 
         return {
           ...s,
+          history: pushHistory(s),
           workingBoard: newBoard,
           selection: { kind: 'none' },
           moveCount: s.moveCount + bySource.size,
@@ -363,6 +372,7 @@ export function usePuzzle(difficulty: Difficulty) {
           }
           return {
             ...s,
+            history: pushHistory(s),
             workingBoard: newBoard,
             handTile: null,
             selection: { kind: 'none' },
@@ -386,6 +396,7 @@ export function usePuzzle(difficulty: Difficulty) {
           newBoard = newBoard.filter((set) => set.length > 0);
           return {
             ...s,
+            history: pushHistory(s),
             workingBoard: newBoard,
             handTile: tile,
             selection: { kind: 'none' },
@@ -423,6 +434,7 @@ export function usePuzzle(difficulty: Difficulty) {
 
         return {
           ...s,
+          history: pushHistory(s),
           workingBoard: newBoard,
           selection: { kind: 'none' },
           moveCount: s.moveCount + bySource.size,
@@ -450,7 +462,17 @@ export function usePuzzle(difficulty: Difficulty) {
       selection: { kind: 'none' },
       moveCount: 0,
       solved: false,
+      history: [],
     }));
+  }, []);
+
+  /** Undo the last move. */
+  const undo = useCallback(() => {
+    setState((s) => {
+      const restored = applyUndo(s);
+      if (restored === s) return s;
+      return { ...restored, selection: { kind: 'none' } };
+    });
   }, []);
 
   /** Pick up a tile from the board back to hand (only if it's the hand tile). */
@@ -471,6 +493,7 @@ export function usePuzzle(difficulty: Difficulty) {
 
       return {
         ...s,
+        history: pushHistory(s),
         workingBoard: newBoard,
         handTile: tile,
         selection: { kind: 'none' },
@@ -492,6 +515,7 @@ export function usePuzzle(difficulty: Difficulty) {
     selectedTileIds,
     moveCount: state.moveCount,
     solved: state.solved,
+    canUndo: state.history.length > 0,
     selectHand,
     onTileClick,
     onSetClick,
@@ -499,6 +523,7 @@ export function usePuzzle(difficulty: Difficulty) {
     performMove,
     checkSolution,
     reset,
+    undo,
     returnToHand,
     nextPuzzle,
   };

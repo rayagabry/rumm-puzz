@@ -62,6 +62,7 @@ export default function PuzzleScreen({ difficulty, onWin, onHome }: Props) {
     selectedTileIds,
     moveCount,
     solved,
+    canUndo,
     selectHand,
     onTileClick,
     onSetClick,
@@ -69,6 +70,7 @@ export default function PuzzleScreen({ difficulty, onWin, onHome }: Props) {
     performMove,
     checkSolution,
     reset,
+    undo,
     returnToHand,
   } = usePuzzle(difficulty);
 
@@ -182,9 +184,19 @@ export default function PuzzleScreen({ difficulty, onWin, onHome }: Props) {
             {moveCount} {puzzle.minMoves > 0 && <span style={{ color: 'var(--text-soft)', fontWeight: 500 }}>/ par {puzzle.minMoves}</span>}
           </div>
         </div>
-        <button className="btn-ghost" onClick={reset} style={{ padding: '8px 12px', fontSize: 14 }}>
-          Reset
-        </button>
+        <div style={{ display: 'flex', gap: 4 }}>
+          <button
+            className="btn-ghost"
+            onClick={undo}
+            disabled={!canUndo || solved}
+            style={{ padding: '8px 12px', fontSize: 14, opacity: !canUndo || solved ? 0.4 : 1 }}
+          >
+            Undo
+          </button>
+          <button className="btn-ghost" onClick={reset} style={{ padding: '8px 12px', fontSize: 14 }}>
+            Reset
+          </button>
+        </div>
       </div>
 
       {/* Instructions */}
