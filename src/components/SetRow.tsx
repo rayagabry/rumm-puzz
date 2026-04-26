@@ -6,6 +6,7 @@ import Tile from './Tile';
 type Props = {
   tiles: TileSet;
   setIndex: number;
+  fullRow: boolean;
   selectedTileIds: Set<string>;
   draggedTileIds?: Set<string> | null;
   onTileClick: (tileId: string, setIndex: number) => void;
@@ -18,6 +19,7 @@ type Props = {
 export default function SetRow({
   tiles,
   setIndex,
+  fullRow,
   selectedTileIds,
   draggedTileIds,
   onTileClick,
@@ -29,7 +31,6 @@ export default function SetRow({
   const hasSelection = selectedTileIds.size > 0;
   const valid = isValidSet(tiles);
   const sorted = tiles.length > 0 ? sortSetForDisplay(tiles) : tiles;
-  const fullRow = tiles.length > 3;
 
   return (
     <div

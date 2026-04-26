@@ -49,6 +49,7 @@ export default function PuzzleScreen({ onWin, onHome }: Props) {
   const {
     puzzle,
     workingBoard,
+    setFullRow,
     handTile,
     selection,
     selectedTileIds,
@@ -218,6 +219,7 @@ export default function PuzzleScreen({ onWin, onHome }: Props) {
       {/* Board */}
       <Board
         board={workingBoard}
+        setFullRow={setFullRow}
         selectedTileIds={selectedTileIds}
         draggedTileIds={drag?.tileIds ?? null}
         dragActive={!!drag}

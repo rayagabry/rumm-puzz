@@ -17,6 +17,7 @@ const t = (id: string, number: number, color: Tile['color'] = 'red'): Tile => ({
 
 const baseState = (overrides: Partial<HistoricalState> = {}): HistoricalState => ({
   workingBoard: [[t('a', 1), t('b', 2), t('c', 3)]],
+  setFullRow: [false],
   handTile: t('h', 5, 'blue'),
   moveCount: 0,
   history: [],
@@ -27,7 +28,7 @@ const baseState = (overrides: Partial<HistoricalState> = {}): HistoricalState =>
 describe('snapshot', () => {
   it('deep-clones the board so later mutations do not affect it', () => {
     const board: Board = [[t('a', 1), t('b', 2)]];
-    const snap = snapshot({ workingBoard: board, handTile: null, moveCount: 0 });
+    const snap = snapshot({ workingBoard: board, setFullRow: [], handTile: null, moveCount: 0 });
     board[0].push(t('c', 3));
     board.push([t('d', 4)]);
     expect(snap.workingBoard).toHaveLength(1);
@@ -36,14 +37,14 @@ describe('snapshot', () => {
 
   it('clones the hand tile', () => {
     const hand = t('h', 5);
-    const snap = snapshot({ workingBoard: [], handTile: hand, moveCount: 3 });
+    const snap = snapshot({ workingBoard: [], setFullRow: [], handTile: hand, moveCount: 3 });
     expect(snap.handTile).not.toBe(hand);
     expect(snap.handTile).toEqual(hand);
     expect(snap.moveCount).toBe(3);
   });
 
   it('preserves null hand', () => {
-    const snap = snapshot({ workingBoard: [], handTile: null, moveCount: 0 });
+    const snap = snapshot({ workingBoard: [], setFullRow: [], handTile: null, moveCount: 0 });
     expect(snap.handTile).toBeNull();
   });
 });
@@ -80,6 +81,7 @@ describe('applyUndo', () => {
   it('restores board, hand, and moveCount from the most recent snapshot', () => {
     const prev: Snapshot = {
       workingBoard: [[t('a', 1)]],
+      setFullRow: [false],
       handTile: t('h', 5),
       moveCount: 0,
     };
@@ -98,9 +100,9 @@ describe('applyUndo', () => {
 
   it('pops only the most recent entry on each call', () => {
     const snaps: Snapshot[] = [
-      { workingBoard: [[t('c', 3)]], handTile: null, moveCount: 2 },
-      { workingBoard: [[t('b', 2)]], handTile: null, moveCount: 1 },
-      { workingBoard: [[t('a', 1)]], handTile: null, moveCount: 0 },
+      { workingBoard: [[t('c', 3)]], setFullRow: [false], handTile: null, moveCount: 2 },
+      { workingBoard: [[t('b', 2)]], setFullRow: [false], handTile: null, moveCount: 1 },
+      { workingBoard: [[t('a', 1)]], setFullRow: [false], handTile: null, moveCount: 0 },
     ];
     let s = baseState({ history: snaps });
     s = applyUndo(s);
@@ -119,14 +121,14 @@ describe('applyUndo', () => {
   });
 
   it('returns input unchanged when solved', () => {
-    const prev: Snapshot = { workingBoard: [], handTile: null, moveCount: 0 };
+    const prev: Snapshot = { workingBoard: [], setFullRow: [], handTile: null, moveCount: 0 };
     const s = baseState({ solved: true, history: [prev] });
     expect(applyUndo(s)).toBe(s);
   });
 
   it('preserves unrelated state fields', () => {
     type Extended = HistoricalState & { extra: string };
-    const prev: Snapshot = { workingBoard: [], handTile: null, moveCount: 0 };
+    const prev: Snapshot = { workingBoard: [], setFullRow: [], handTile: null, moveCount: 0 };
     const s: Extended = { ...baseState({ history: [prev] }), extra: 'keep-me' };
     const next = applyUndo(s);
     expect(next.extra).toBe('keep-me');

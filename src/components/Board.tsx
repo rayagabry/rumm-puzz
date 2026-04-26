@@ -4,6 +4,7 @@ import SetRow from './SetRow';
 
 type Props = {
   board: BoardType;
+  setFullRow: boolean[];
   selectedTileIds: Set<string>;
   draggedTileIds?: Set<string> | null;
   dragActive?: boolean;
@@ -16,6 +17,7 @@ type Props = {
 
 export default function Board({
   board,
+  setFullRow,
   selectedTileIds,
   draggedTileIds,
   dragActive,
@@ -70,6 +72,7 @@ export default function Board({
               key={i}
               tiles={set}
               setIndex={i}
+              fullRow={setFullRow[i] ?? false}
               selectedTileIds={selectedTileIds}
               draggedTileIds={draggedTileIds}
               onTileClick={onTileClick}

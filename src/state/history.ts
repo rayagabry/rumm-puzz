@@ -3,6 +3,7 @@ import { cloneBoard } from '../domain/board';
 
 export type Snapshot = {
   workingBoard: Board;
+  setFullRow: boolean[];
   handTile: Tile | null;
   moveCount: number;
 };
@@ -17,6 +18,7 @@ export type HistoricalState = Snapshot & {
 export function snapshot(s: Snapshot): Snapshot {
   return {
     workingBoard: cloneBoard(s.workingBoard),
+    setFullRow: [...s.setFullRow],
     handTile: s.handTile ? { ...s.handTile } : null,
     moveCount: s.moveCount,
   };
@@ -36,6 +38,7 @@ export function applyUndo<T extends HistoricalState>(s: T): T {
   return {
     ...s,
     workingBoard: prev.workingBoard,
+    setFullRow: prev.setFullRow,
     handTile: prev.handTile,
     moveCount: prev.moveCount,
     history: rest,

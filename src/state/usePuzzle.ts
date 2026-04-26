@@ -26,12 +26,34 @@ function isEmptySelection(s: Selection): boolean {
 type PuzzleState = {
   puzzle: PuzzleData;
   workingBoard: Board;
+  /** Parallel to workingBoard: whether each set should render as a full-row
+   *  pill. Locked at set creation so layout doesn't reflow as tiles move in/out. */
+  setFullRow: boolean[];
   handTile: Tile | null;
   selection: Selection;
   moveCount: number;
   solved: boolean;
   history: Snapshot[];
 };
+
+const FULL_ROW_THRESHOLD = 3;
+function lockFullRow(tileCount: number): boolean {
+  return tileCount > FULL_ROW_THRESHOLD;
+}
+function initFullRow(board: Board): boolean[] {
+  return board.map((set) => lockFullRow(set.length));
+}
+function dropEmpty(board: Board, fullRow: boolean[]): { board: Board; fullRow: boolean[] } {
+  const nb: Board = [];
+  const nf: boolean[] = [];
+  for (let i = 0; i < board.length; i++) {
+    if (board[i].length > 0) {
+      nb.push(board[i]);
+      nf.push(fullRow[i]);
+    }
+  }
+  return { board: nb, fullRow: nf };
+}
 
 const PLAYED_KEY = 'rumikube:played';
 const LIB_VERSION_KEY = 'rumikube:libVersion';
@@ -120,6 +142,7 @@ function initState(exclude?: string): PuzzleState {
     return {
       puzzle: fallback,
       workingBoard: cloneBoard(fallback.board),
+      setFullRow: initFullRow(fallback.board),
       handTile: { ...fallback.hand },
       selection: EMPTY_SELECTION,
       moveCount: 0,
@@ -130,6 +153,7 @@ function initState(exclude?: string): PuzzleState {
   return {
     puzzle,
     workingBoard: cloneBoard(puzzle.board),
+    setFullRow: initFullRow(puzzle.board),
     handTile: { ...puzzle.hand },
     selection: EMPTY_SELECTION,
     moveCount: 0,
@@ -221,18 +245,19 @@ export function usePuzzle() {
       }
       if (includeHand) toMove.push(s.handTile!);
 
-      let newBoard = s.workingBoard.map((set, i) => {
+      const mapped = s.workingBoard.map((set, i) => {
         const removeIds = bySource.get(i);
         let next = removeIds ? set.filter((t) => !removeIds.includes(t.id)) : [...set];
         if (i === setIndex) next = [...next, ...toMove];
         return next;
       });
-      newBoard = newBoard.filter((set) => set.length > 0);
+      const cleaned = dropEmpty(mapped, s.setFullRow);
 
       return {
         ...s,
         history: pushHistory(s),
-        workingBoard: newBoard,
+        workingBoard: cleaned.board,
+        setFullRow: cleaned.fullRow,
         handTile: includeHand ? null : s.handTile,
         selection: EMPTY_SELECTION,
         moveCount: s.moveCount + bySource.size + (includeHand ? 1 : 0),
@@ -264,17 +289,19 @@ export function usePuzzle() {
       if (includeHand) toMove.push(s.handTile!);
       if (toMove.length === 0) return { ...s, selection: EMPTY_SELECTION };
 
-      let newBoard = s.workingBoard.map((set, i) => {
+      const mapped = s.workingBoard.map((set, i) => {
         const removeIds = bySource.get(i);
         return removeIds ? set.filter((t) => !removeIds.includes(t.id)) : [...set];
       });
-      newBoard = newBoard.filter((set) => set.length > 0);
-      newBoard.push(toMove);
+      const cleaned = dropEmpty(mapped, s.setFullRow);
+      cleaned.board.push(toMove);
+      cleaned.fullRow.push(lockFullRow(toMove.length));
 
       return {
         ...s,
         history: pushHistory(s),
-        workingBoard: newBoard,
+        workingBoard: cleaned.board,
+        setFullRow: cleaned.fullRow,
         handTile: includeHand ? null : s.handTile,
         selection: EMPTY_SELECTION,
         moveCount: s.moveCount + bySource.size + (includeHand ? 1 : 0),
@@ -302,16 +329,19 @@ export function usePuzzle() {
           if (!s.handTile) return s;
           if (dest.kind === 'hand') return { ...s, selection: EMPTY_SELECTION };
           const handTile = s.handTile;
-          let newBoard: Board = s.workingBoard.map((set) => [...set]);
+          const newBoard: Board = s.workingBoard.map((set) => [...set]);
+          const newFullRow = [...s.setFullRow];
           if (dest.kind === 'set') {
             newBoard[dest.index] = [...newBoard[dest.index], handTile];
           } else {
             newBoard.push([handTile]);
+            newFullRow.push(lockFullRow(1));
           }
           return {
             ...s,
             history: pushHistory(s),
             workingBoard: newBoard,
+            setFullRow: newFullRow,
             handTile: null,
             selection: EMPTY_SELECTION,
             moveCount: s.moveCount + 1,
@@ -328,14 +358,15 @@ export function usePuzzle() {
           const { tileId, setIndex } = source.tiles[0];
           const tile = s.workingBoard[setIndex]?.find((t) => t.id === tileId);
           if (!tile || tile.id !== s.puzzle.hand.id) return s;
-          let newBoard = s.workingBoard.map((set, i) =>
+          const mapped = s.workingBoard.map((set, i) =>
             i === setIndex ? set.filter((t) => t.id !== tileId) : [...set],
           );
-          newBoard = newBoard.filter((set) => set.length > 0);
+          const cleaned = dropEmpty(mapped, s.setFullRow);
           return {
             ...s,
             history: pushHistory(s),
-            workingBoard: newBoard,
+            workingBoard: cleaned.board,
+            setFullRow: cleaned.fullRow,
             handTile: tile,
             selection: EMPTY_SELECTION,
             moveCount: Math.max(0, s.moveCount - 1),
@@ -364,19 +395,23 @@ export function usePuzzle() {
         }
         if (includeHand) toMove.push(s.handTile!);
 
-        let newBoard: Board = s.workingBoard.map((set, i) => {
+        const mapped: Board = s.workingBoard.map((set, i) => {
           const removeIds = bySource.get(i);
           let next = removeIds ? set.filter((t) => !removeIds.includes(t.id)) : [...set];
           if (dest.kind === 'set' && i === dest.index) next = [...next, ...toMove];
           return next;
         });
-        if (dest.kind === 'new-set') newBoard.push(toMove);
-        newBoard = newBoard.filter((set) => set.length > 0);
+        const cleaned = dropEmpty(mapped, s.setFullRow);
+        if (dest.kind === 'new-set') {
+          cleaned.board.push(toMove);
+          cleaned.fullRow.push(lockFullRow(toMove.length));
+        }
 
         return {
           ...s,
           history: pushHistory(s),
-          workingBoard: newBoard,
+          workingBoard: cleaned.board,
+          setFullRow: cleaned.fullRow,
           handTile: includeHand ? null : s.handTile,
           selection: EMPTY_SELECTION,
           moveCount: s.moveCount + bySource.size + (includeHand ? 1 : 0),
@@ -400,6 +435,7 @@ export function usePuzzle() {
     setState((s) => ({
       ...s,
       workingBoard: cloneBoard(s.puzzle.board),
+      setFullRow: initFullRow(s.puzzle.board),
       handTile: { ...s.puzzle.hand },
       selection: EMPTY_SELECTION,
       moveCount: 0,
@@ -428,15 +464,16 @@ export function usePuzzle() {
       const tile = s.workingBoard[setIdx].find((t) => t.id === tileId);
       if (!tile || tile.id !== s.puzzle.hand.id) return s; // can only return the hand tile
 
-      let newBoard = s.workingBoard.map((set, i) =>
+      const mapped = s.workingBoard.map((set, i) =>
         i === setIdx ? set.filter((t) => t.id !== tileId) : [...set],
       );
-      newBoard = newBoard.filter((set) => set.length > 0);
+      const cleaned = dropEmpty(mapped, s.setFullRow);
 
       return {
         ...s,
         history: pushHistory(s),
-        workingBoard: newBoard,
+        workingBoard: cleaned.board,
+        setFullRow: cleaned.fullRow,
         handTile: tile,
         selection: EMPTY_SELECTION,
         moveCount: Math.max(0, s.moveCount - 1),
@@ -452,6 +489,7 @@ export function usePuzzle() {
   return {
     puzzle: state.puzzle,
     workingBoard: state.workingBoard,
+    setFullRow: state.setFullRow,
     handTile: state.handTile,
     selection: state.selection,
     selectedTileIds,
