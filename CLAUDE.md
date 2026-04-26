@@ -13,20 +13,22 @@ React 18 + TypeScript + Vite + vite-plugin-pwa. Tests via Vitest.
 - `src/solver/difficulty.ts` — Min-moves scorer: counts distinct (source-set, dest-set) transfers under the max-stay matching. Also exports `computeOptimalSolution` which returns the witnessing solution partition + σ matching + move-pair set (used by the classifier).
 - `src/generator/generate.ts` — Reverse-construction puzzle generator (guarantees solvability)
 - `src/generator/classify.ts` — Technique classifier. Tags each puzzle's optimal solution by per-move source/dest kinds (`run`, `group`, `hand`, `new-run`, `new-group`) plus structural tags (`split`, `merge`, `dissolve`, `new-set`). Produces a canonical `signature` string used as a diversity bucket key.
-- `src/puzzles/library.json` — 50 pre-generated puzzles (all hard difficulty: 5–8 moves)
+- `src/puzzles/library.json` — Pre-generated puzzles (all hard difficulty: 5–8 moves). Grows over time via `append-puzzles`; check the file for the current count.
 - `src/state/usePuzzle.ts` — React game state hook. Played history lives in localStorage under `rumikube:played`, gated by `LIBRARY_VERSION` (`rumikube:libVersion`) — bump the constant when puzzle IDs are reused for new content so stale history clears on next load.
 - `src/components/` — Tile, SetRow, Board, Hand, PuzzleScreen
 - `src/screens/` — HomeScreen, WinScreen
 - `scripts/generate-puzzles.ts` — Full library generation
 - `scripts/regenerate-hard-balanced.ts` — Regenerates the library with `maxStartingSetSize=4`. Enumerates all valid starting partitions for each (solution, hand) source, classifies each, then greedy-picks the variant with the rarest technique signature so far. Yielded 40 distinct signatures across 50 puzzles, top-share 4%. Slow: pool build ~11min for 120 sources at MAX_VARIANTS=24.
+- `scripts/append-puzzles.ts` — Appends N new puzzles to `library.json`, balanced against the signatures already present (re-classifies the existing library at startup to seed `sigCounts`). New IDs continue from `existing.length + 1`, so stored play history (`rumikube:played`) keeps working without bumping `LIBRARY_VERSION`. Pool size scales with N (≥4× target). Driven by `--count=N` or `COUNT` env. Used by the `Generate Puzzles` workflow.
 - `scripts/classify-library.ts` — Diagnostic: prints the technique-signature histogram for the library (`npx tsx scripts/classify-library.ts`). Useful for spotting when the generator clusters puzzles into a few patterns.
 
 ## Commands
 
 - `npm run dev` — Dev server
-- `npm run test` — 45 unit tests
+- `npm run test` — Unit tests (Vitest)
 - `npm run build` — Production PWA build
 - `npm run gen-puzzles` — Regenerate `src/puzzles/library.json`. Run this after changing difficulty logic or ranges — library.json is derived data and its minMoves values go stale.
+- `npm run append-puzzles -- --count=N` — Append N puzzles to the library (preserves existing puzzles and their IDs). Phased logging (`[init] [classify] [pool] [select] [verify] [summary] [write]`) with 5s heartbeats — designed to stream usefully in the GitHub Actions log.
 
 ## Rules (no jokers)
 
@@ -54,3 +56,9 @@ Overlap uses tile type, not ID. setOverlap in difficulty.ts compares by (color, 
 ## Deploy
 
 GitHub Pages via `.github/workflows/deploy.yml`. Base path: `/rumikube-puzzle/`.
+
+## Adding puzzles in production
+
+`.github/workflows/generate-puzzles.yml` is a manual `workflow_dispatch` workflow (Actions tab → Generate Puzzles → Run workflow → enter count). It runs `append-puzzles`, commits the updated `src/puzzles/library.json` as `github-actions[bot]`, and pushes to `main` — which fires the deploy workflow. Uses the default `GITHUB_TOKEN` (no PAT). Logs stream live; `stdbuf -oL` ensures phase logs and heartbeats aren't block-buffered.
+
+The home screen (`src/screens/HomeScreen.tsx`) deep-links to the workflow page and polls `api.github.com/.../runs?per_page=1` every 90s for the latest run's status (queued / running / succeeded / failed). Polling stops on terminal status to stay under GitHub's 60-req/hr unauthenticated limit. Only people with write access to the repo can actually trigger the workflow — by design. To open this up to anonymous users, you'd need an auth proxy (Cloudflare Worker / Vercel function) holding a fine-scoped PAT and exposing a dispatch endpoint.

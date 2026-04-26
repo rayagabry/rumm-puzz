@@ -9,7 +9,8 @@
     "preview": "vite preview",
     "test": "vitest run",
     "test:watch": "vitest",
-    "gen-puzzles": "tsx scripts/generate-puzzles.ts"
+    "gen-puzzles": "tsx scripts/generate-puzzles.ts",
+    "append-puzzles": "tsx scripts/append-puzzles.ts"
   },
   "dependencies": {
     "@dnd-kit/core": "^6.3.1",
