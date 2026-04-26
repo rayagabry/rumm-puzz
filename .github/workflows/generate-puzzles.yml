@@ -1,0 +1,60 @@
+name: Generate Puzzles
+
+# Manual-only: trigger from the Actions tab. Appends N new puzzles to
+# src/puzzles/library.json and pushes to main, which fires the deploy
+# workflow.
+on:
+  workflow_dispatch:
+    inputs:
+      count:
+        description: 'Number of puzzles to append'
+        required: true
+        default: '5'
+        type: string
+
+permissions:
+  contents: write
+
+concurrency:
+  group: generate-puzzles
+  cancel-in-progress: false
+
+jobs:
+  generate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    env:
+      # Disable color codes so logs stay readable in the Actions UI.
+      FORCE_COLOR: '0'
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Install deps
+        run: npm ci
+
+      - name: Append puzzles
+        env:
+          COUNT: ${{ inputs.count }}
+        # Force unbuffered stdout so phase logs and heartbeats stream live
+        # to the Actions log instead of arriving in a final block.
+        run: stdbuf -oL -eL npm run append-puzzles -- --count=$COUNT
+
+      - name: Commit and push
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add src/puzzles/library.json
+          if git diff --cached --quiet; then
+            echo "::error::No changes to commit — append-puzzles produced nothing."
+            exit 1
+          fi
+          COUNT="${{ inputs.count }}"
+          git commit -m "Add $COUNT puzzles via generate-puzzles workflow"
+          git push
