@@ -206,26 +206,10 @@ export function usePuzzle(difficulty: Difficulty) {
     });
   }, []);
 
-  /** Handle clicking a tile on the board. Toggles tile in/out of multi-selection.
-   *  Shortcut: if only the hand tile is selected, clicking a board tile places
-   *  the hand tile into that tile's set. */
+  /** Handle clicking a tile on the board. Toggles tile in/out of multi-selection. */
   const onTileClick = useCallback((tileId: string, setIndex: number) => {
     setState((s) => {
       if (s.solved) return s;
-
-      if (s.selection.hand && s.selection.tiles.length === 0 && s.handTile) {
-        const newBoard = s.workingBoard.map((set, i) =>
-          i === setIndex ? [...set, s.handTile!] : [...set],
-        );
-        return {
-          ...s,
-          history: pushHistory(s),
-          workingBoard: newBoard,
-          handTile: null,
-          selection: EMPTY_SELECTION,
-          moveCount: s.moveCount + 1,
-        };
-      }
 
       const already = s.selection.tiles.some((t) => t.tileId === tileId);
       const tiles = already
