@@ -432,7 +432,7 @@ export function usePuzzle(difficulty: Difficulty) {
   const checkSolution = useCallback(() => {
     setState((s) => {
       if (s.handTile !== null) return s; // hand tile not placed yet
-      if (!isBoardValid(s.workingBoard)) return s;
+      if (!isBoardValid(s.workingBoard.filter((set) => set.length > 0))) return s;
       return { ...s, solved: true };
     });
   }, []);

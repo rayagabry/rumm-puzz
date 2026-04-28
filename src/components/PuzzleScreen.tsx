@@ -74,7 +74,7 @@ export default function PuzzleScreen({ difficulty, onWin, onHome }: Props) {
   const dragRef = useRef<DragState | null>(null);
   dragRef.current = drag;
 
-  const canCheck = handTile === null && isBoardValid(workingBoard);
+  const canCheck = handTile === null && isBoardValid(workingBoard.filter((s) => s.length > 0));
   const isHandSelected = selection.hand;
 
   const selectedIsHandTile =
