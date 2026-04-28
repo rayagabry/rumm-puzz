@@ -29,6 +29,7 @@ export default function SetRow({
   highlight,
 }: Props) {
   const hasSelection = selectedTileIds.size > 0;
+  const isEmpty = tiles.length === 0;
   const valid = isValidSet(tiles);
   const sorted = tiles.length > 0 ? sortSetForDisplay(tiles) : tiles;
 
@@ -50,17 +51,21 @@ export default function SetRow({
           ? 'var(--drop-soft-strong)'
           : highlight
             ? 'var(--success-soft)'
-            : valid
-              ? 'var(--set-bg)'
-              : 'var(--set-invalid)',
-        border: `1px solid ${
+            : isEmpty
+              ? 'transparent'
+              : valid
+                ? 'var(--set-bg)'
+                : 'var(--set-invalid)',
+        border: `1px ${isEmpty && !isDropHover ? 'dashed' : 'solid'} ${
           isDropHover
             ? 'var(--drop)'
             : highlight
               ? 'var(--success)'
-              : valid
-                ? 'transparent'
-                : 'var(--set-invalid-border)'
+              : isEmpty
+                ? 'var(--border-strong)'
+                : valid
+                  ? 'transparent'
+                  : 'var(--set-invalid-border)'
         }`,
         minHeight: 98,
         gridColumn: fullRow ? '1 / -1' : 'auto',
@@ -69,6 +74,7 @@ export default function SetRow({
         transition: 'background 0.2s ease, border-color 0.2s ease',
         cursor: hasSelection ? 'pointer' : 'default',
         flexWrap: 'wrap',
+        opacity: isEmpty && !isDropHover ? 0.4 : 1,
       }}
     >
       {sorted.map((tile) => (

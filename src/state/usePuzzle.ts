@@ -42,6 +42,10 @@ type PuzzleState = {
   history: Snapshot[];
 };
 
+// When true, emptied set slots stay in place instead of collapsing.
+// Flip to false to restore the original collapse behavior.
+const PRESERVE_EMPTY_SLOTS = true;
+
 const FULL_ROW_THRESHOLD = 3;
 function lockFullRow(tileCount: number): boolean {
   return tileCount > FULL_ROW_THRESHOLD;
@@ -50,6 +54,7 @@ function initFullRow(board: Board): boolean[] {
   return board.map((set) => lockFullRow(set.length));
 }
 function dropEmpty(board: Board, fullRow: boolean[]): { board: Board; fullRow: boolean[] } {
+  if (PRESERVE_EMPTY_SLOTS) return { board, fullRow };
   const nb: Board = [];
   const nf: boolean[] = [];
   for (let i = 0; i < board.length; i++) {
