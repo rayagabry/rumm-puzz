@@ -9,12 +9,12 @@ on:
       count:
         description: 'Number of puzzles to append'
         required: true
-        default: '5'
+        default: '25'
         type: string
       difficulty:
         description: 'Difficulty tier'
         required: true
-        default: 'hard'
+        default: 'extra-hard'
         type: choice
         options:
           - hard
