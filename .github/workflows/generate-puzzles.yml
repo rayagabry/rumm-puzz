@@ -11,6 +11,14 @@ on:
         required: true
         default: '5'
         type: string
+      difficulty:
+        description: 'Difficulty tier'
+        required: true
+        default: 'hard'
+        type: choice
+        options:
+          - hard
+          - extra-hard
 
 permissions:
   contents: write
@@ -42,9 +50,10 @@ jobs:
       - name: Append puzzles
         env:
           COUNT: ${{ inputs.count }}
+          DIFFICULTY: ${{ inputs.difficulty }}
         # Force unbuffered stdout so phase logs and heartbeats stream live
         # to the Actions log instead of arriving in a final block.
-        run: stdbuf -oL -eL npm run append-puzzles -- --count=$COUNT
+        run: stdbuf -oL -eL npm run append-puzzles -- --count=$COUNT --difficulty=$DIFFICULTY
 
       - name: Commit and push
         run: |
@@ -56,5 +65,6 @@ jobs:
             exit 1
           fi
           COUNT="${{ inputs.count }}"
-          git commit -m "Add $COUNT puzzles via generate-puzzles workflow"
+          DIFFICULTY="${{ inputs.difficulty }}"
+          git commit -m "Add $COUNT $DIFFICULTY puzzles via generate-puzzles workflow"
           git push

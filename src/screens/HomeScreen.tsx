@@ -1,10 +1,11 @@
 import { useEffect, useRef, useState } from 'react';
 import {
-  isLibraryExhausted,
+  isTierExhausted,
   playedCount,
   resetPlayHistory,
   totalPuzzles,
 } from '../state/usePuzzle';
+import type { Difficulty } from '../domain/tile';
 
 const REPO = 'rayagabry/rumm-puzz';
 const WORKFLOW_FILE = 'generate-puzzles.yml';
@@ -13,6 +14,15 @@ const RUNS_API = `https://api.github.com/repos/${REPO}/actions/workflows/${WORKF
 // 90s keeps us under GitHub's 60 req/hr unauth limit even with a few
 // concurrent visitors. We also stop polling once the run is terminal.
 const POLL_MS = 90_000;
+
+const TIERS: Array<{
+  difficulty: Difficulty;
+  label: string;
+  range: string;
+}> = [
+  { difficulty: 'hard', label: 'Hard', range: '5–8 moves' },
+  { difficulty: 'extra-hard', label: 'Extra hard', range: '7–11 moves' },
+];
 
 type WorkflowRun = {
   id: number;
@@ -57,7 +67,6 @@ function useLatestRun() {
       try {
         const res = await fetch(RUNS_API, { headers: { Accept: 'application/vnd.github+json' } });
         if (!res.ok) {
-          // 404 = workflow file not yet on default branch; 403 = rate-limited.
           if (!cancelled) setLoaded(true);
           return;
         }
@@ -84,18 +93,162 @@ function useLatestRun() {
 }
 
 type Props = {
-  onStart: () => void;
+  onStart: (difficulty: Difficulty) => void;
 };
+
+type TierCardProps = {
+  difficulty: Difficulty;
+  label: string;
+  range: string;
+  onStart: (difficulty: Difficulty) => void;
+  onResetTier: () => void;
+};
+
+function TierCard({ difficulty, label, range, onStart, onResetTier }: TierCardProps) {
+  const total = totalPuzzles(difficulty);
+  const played = playedCount(difficulty);
+  const exhausted = isTierExhausted(difficulty);
+  const pct = total === 0 ? 0 : Math.round((played / total) * 100);
+
+  return (
+    <div
+      style={{
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'stretch',
+        gap: 10,
+        padding: '16px 20px 14px',
+        background: 'var(--bg-surface)',
+        borderRadius: 16,
+        border: exhausted
+          ? '1px dashed var(--border-strong)'
+          : '1px solid var(--border)',
+        boxShadow: exhausted ? 'none' : 'var(--shadow-sm)',
+        width: '100%',
+        textAlign: 'left',
+        cursor: exhausted || total === 0 ? 'default' : 'pointer',
+        opacity: exhausted ? 0.78 : total === 0 ? 0.6 : 1,
+      }}
+      onClick={() => {
+        if (exhausted || total === 0) return;
+        onStart(difficulty);
+      }}
+      role="button"
+      aria-disabled={exhausted || total === 0}
+    >
+      <span
+        style={{
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'space-between',
+        }}
+      >
+        <span style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+          <span
+            style={{
+              width: 8,
+              height: 8,
+              borderRadius: '50%',
+              background: 'var(--accent)',
+              opacity: exhausted ? 0.5 : 1,
+            }}
+          />
+          <span style={{ fontSize: 17, fontWeight: 600, color: 'var(--text)' }}>
+            {label}
+          </span>
+        </span>
+        <span style={{ fontSize: 13, color: 'var(--text-muted)' }}>
+          {total === 0 ? 'No puzzles yet' : exhausted ? 'All played' : range}
+        </span>
+      </span>
+
+      <span
+        style={{
+          display: 'flex',
+          alignItems: 'center',
+          gap: 10,
+          paddingLeft: 20,
+        }}
+      >
+        <span
+          style={{
+            flex: 1,
+            height: 4,
+            borderRadius: 999,
+            background: 'var(--border)',
+            overflow: 'hidden',
+            position: 'relative',
+          }}
+        >
+          <span
+            style={{
+              display: 'block',
+              height: '100%',
+              width: `${pct}%`,
+              background: 'var(--accent)',
+              opacity: exhausted ? 0.55 : 0.9,
+              transition: 'width 200ms ease',
+            }}
+          />
+        </span>
+        <span
+          style={{
+            fontSize: 11,
+            fontVariantNumeric: 'tabular-nums',
+            color: 'var(--text-muted)',
+            fontWeight: 500,
+            minWidth: 38,
+            textAlign: 'right',
+          }}
+        >
+          {played}/{total}
+        </span>
+      </span>
+
+      {exhausted && (
+        <div
+          style={{
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+            gap: 12,
+            marginTop: 4,
+            paddingLeft: 20,
+          }}
+        >
+          <span style={{ fontSize: 12, color: 'var(--text-muted)', lineHeight: 1.4 }}>
+            You've solved every {label.toLowerCase()} puzzle.
+          </span>
+          <button
+            type="button"
+            onClick={(e) => {
+              e.stopPropagation();
+              onResetTier();
+            }}
+            style={{
+              fontSize: 12,
+              fontWeight: 600,
+              color: 'var(--accent)',
+              background: 'var(--accent-soft)',
+              padding: '6px 10px',
+              borderRadius: 999,
+              cursor: 'pointer',
+              whiteSpace: 'nowrap',
+              border: 'none',
+            }}
+          >
+            Reset
+          </button>
+        </div>
+      )}
+    </div>
+  );
+}
 
 export default function HomeScreen({ onStart }: Props) {
   // Bumped on reset so the row re-reads from localStorage.
   const [version, setVersion] = useState(0);
   const { run, loaded } = useLatestRun();
-
-  const total = totalPuzzles();
-  const played = playedCount();
-  const exhausted = isLibraryExhausted();
-  const pct = total === 0 ? 0 : Math.round((played / total) * 100);
 
   return (
     <div
@@ -104,15 +257,14 @@ export default function HomeScreen({ onStart }: Props) {
         flexDirection: 'column',
         alignItems: 'center',
         justifyContent: 'center',
-        height: '100%',
-        gap: 36,
+        minHeight: '100%',
+        gap: 28,
         padding: 28,
         maxWidth: 420,
         margin: '0 auto',
       }}
       key={version}
     >
-      {/* Title */}
       <div style={{ textAlign: 'center' }}>
         <h1
           style={{
@@ -130,141 +282,22 @@ export default function HomeScreen({ onStart }: Props) {
         </p>
       </div>
 
-      {/* Play button */}
-      <div
-        style={{
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'stretch',
-          gap: 10,
-          padding: '16px 20px 14px',
-          background: 'var(--bg-surface)',
-          borderRadius: 16,
-          border: exhausted
-            ? '1px dashed var(--border-strong)'
-            : '1px solid var(--border)',
-          boxShadow: exhausted ? 'none' : 'var(--shadow-sm)',
-          width: '100%',
-          textAlign: 'left',
-          cursor: exhausted ? 'default' : 'pointer',
-          opacity: exhausted ? 0.78 : 1,
-        }}
-        onClick={() => {
-          if (exhausted) return;
-          onStart();
-        }}
-        role="button"
-        aria-disabled={exhausted}
-      >
-        <span
-          style={{
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'space-between',
-          }}
-        >
-          <span style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
-            <span
-              style={{
-                width: 8,
-                height: 8,
-                borderRadius: '50%',
-                background: 'var(--accent)',
-                opacity: exhausted ? 0.5 : 1,
-              }}
-            />
-            <span style={{ fontSize: 17, fontWeight: 600, color: 'var(--text)' }}>
-              Play
-            </span>
-          </span>
-          <span style={{ fontSize: 13, color: 'var(--text-muted)' }}>
-            {exhausted ? 'All played' : '5–8 moves'}
-          </span>
-        </span>
-
-        <span
-          style={{
-            display: 'flex',
-            alignItems: 'center',
-            gap: 10,
-            paddingLeft: 20,
-          }}
-        >
-          <span
-            style={{
-              flex: 1,
-              height: 4,
-              borderRadius: 999,
-              background: 'var(--border)',
-              overflow: 'hidden',
-              position: 'relative',
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 12, width: '100%' }}>
+        {TIERS.map((t) => (
+          <TierCard
+            key={t.difficulty}
+            difficulty={t.difficulty}
+            label={t.label}
+            range={t.range}
+            onStart={onStart}
+            onResetTier={() => {
+              resetPlayHistory(t.difficulty);
+              setVersion((v) => v + 1);
             }}
-          >
-            <span
-              style={{
-                display: 'block',
-                height: '100%',
-                width: `${pct}%`,
-                background: 'var(--accent)',
-                opacity: exhausted ? 0.55 : 0.9,
-                transition: 'width 200ms ease',
-              }}
-            />
-          </span>
-          <span
-            style={{
-              fontSize: 11,
-              fontVariantNumeric: 'tabular-nums',
-              color: 'var(--text-muted)',
-              fontWeight: 500,
-              minWidth: 38,
-              textAlign: 'right',
-            }}
-          >
-            {played}/{total}
-          </span>
-        </span>
-
-        {/* Exhausted callout */}
-        {exhausted && (
-          <div
-            style={{
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'space-between',
-              gap: 12,
-              marginTop: 4,
-              paddingLeft: 20,
-            }}
-          >
-            <span style={{ fontSize: 12, color: 'var(--text-muted)', lineHeight: 1.4 }}>
-              You've solved every puzzle.
-            </span>
-            <button
-              type="button"
-              onClick={(e) => {
-                e.stopPropagation();
-                resetPlayHistory();
-                setVersion((v) => v + 1);
-              }}
-              style={{
-                fontSize: 12,
-                fontWeight: 600,
-                color: 'var(--accent)',
-                background: 'var(--accent-soft)',
-                padding: '6px 10px',
-                borderRadius: 999,
-                cursor: 'pointer',
-                whiteSpace: 'nowrap',
-              }}
-            >
-              Reset history
-            </button>
-          </div>
-        )}
+          />
+        ))}
       </div>
 
-      {/* How to play */}
       <div
         style={{
           background: 'var(--bg-surface)',
@@ -307,7 +340,6 @@ export default function HomeScreen({ onStart }: Props) {
         </ol>
       </div>
 
-      {/* Generate more puzzles */}
       <div
         style={{
           background: 'var(--bg-surface)',
@@ -340,8 +372,7 @@ export default function HomeScreen({ onStart }: Props) {
         </a>
         <p style={{ fontSize: 12, color: 'var(--text-muted)', lineHeight: 1.5, margin: 0 }}>
           Opens GitHub Actions. Click <strong style={{ fontWeight: 600 }}>Run workflow</strong>,
-          set how many to add, then watch the live log. New puzzles ship after the deploy
-          workflow finishes.
+          pick the difficulty and how many to add, then watch the live log.
         </p>
         {loaded && run && (
           <a

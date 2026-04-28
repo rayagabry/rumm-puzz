@@ -10,17 +10,19 @@
  *   npm run append-puzzles -- --count=5
  *   COUNT=5 npm run append-puzzles
  */
-import { generatePuzzleVariants } from '../src/generator/generate';
+import {
+  generatePuzzleVariants,
+  DIFFICULTY_RANGES,
+  DIFFICULTY_MAX_SET_SIZE,
+} from '../src/generator/generate';
 import type { PuzzleCandidate } from '../src/generator/generate';
+import type { Difficulty } from '../src/domain/tile';
 import { classifyPuzzle } from '../src/generator/classify';
 import { computeMinMoves } from '../src/solver/difficulty';
 import { readFileSync, writeFileSync } from 'fs';
 import { resolve } from 'path';
 
-const MAX_SET_SIZE = 4;
 const MAX_VARIANTS = 24;
-const HARD_MIN = 5;
-const HARD_MAX = 8;
 
 // Pool size scales with the number of puzzles requested. Empirically each
 // successful pick requires ~3 sources after slow-verify rejects, so we
@@ -39,6 +41,27 @@ function parseCount(): number {
   }
   if (process.env.COUNT) return parseInt(process.env.COUNT, 10);
   throw new Error('Missing --count=N (or COUNT env var)');
+}
+
+function parseDifficulty(): Difficulty {
+  const argv = process.argv.slice(2);
+  for (const a of argv) {
+    const m = /^--difficulty=(.+)$/.exec(a);
+    if (m) {
+      if (m[1] !== 'hard' && m[1] !== 'extra-hard') {
+        throw new Error(`Invalid difficulty: ${m[1]} (expected hard | extra-hard)`);
+      }
+      return m[1];
+    }
+  }
+  const env = process.env.DIFFICULTY;
+  if (env) {
+    if (env !== 'hard' && env !== 'extra-hard') {
+      throw new Error(`Invalid DIFFICULTY: ${env} (expected hard | extra-hard)`);
+    }
+    return env;
+  }
+  return 'hard';
 }
 
 function log(phase: string, msg: string) {
@@ -70,6 +93,9 @@ const COUNT = parseCount();
 if (!Number.isFinite(COUNT) || COUNT <= 0) {
   throw new Error(`Invalid count: ${COUNT}`);
 }
+const DIFFICULTY = parseDifficulty();
+const [TIER_MIN, TIER_MAX] = DIFFICULTY_RANGES[DIFFICULTY];
+const MAX_SET_SIZE = DIFFICULTY_MAX_SET_SIZE[DIFFICULTY];
 
 const libPath = resolve(import.meta.dirname ?? '.', '..', 'src', 'puzzles', 'library.json');
 
@@ -78,24 +104,28 @@ type StoredPuzzle = {
   board: PuzzleCandidate['board'];
   hand: PuzzleCandidate['hand'];
   minMoves: number;
+  difficulty: Difficulty;
 };
 
-log('init', `target: append ${COUNT} puzzle(s)`);
+log('init', `target: append ${COUNT} ${DIFFICULTY} puzzle(s) (${TIER_MIN}-${TIER_MAX} moves, max set size ${MAX_SET_SIZE})`);
 log('init', `library path: ${libPath}`);
 
 const existing: StoredPuzzle[] = JSON.parse(readFileSync(libPath, 'utf8'));
 log('init', `existing library size: ${existing.length}`);
+const existingSameTier = existing.filter((p) => p.difficulty === DIFFICULTY);
+log('init', `existing ${DIFFICULTY} count: ${existingSameTier.length}`);
 
-// Seed signature counts from existing puzzles so balanced selection
-// continues against the current shape of the library, not a fresh slate.
-log('classify', `classifying ${existing.length} existing puzzles to seed signature counts...`);
+// Seed signature counts from existing same-tier puzzles only — balancing
+// against signatures from a different difficulty would just confuse the
+// rare-signature heuristic.
+log('classify', `classifying ${existingSameTier.length} existing ${DIFFICULTY} puzzles to seed signature counts...`);
 const sigCounts = new Map<string, number>();
-const classifyHb = new Heartbeat('classify', () => `${[...sigCounts.values()].reduce((a, b) => a + b, 0)}/${existing.length} done`);
+const classifyHb = new Heartbeat('classify', () => `${[...sigCounts.values()].reduce((a, b) => a + b, 0)}/${existingSameTier.length} done`);
 classifyHb.begin();
 const classifyStart = Date.now();
 let classifyFailures = 0;
-for (let i = 0; i < existing.length; i++) {
-  const p = existing[i];
+for (let i = 0; i < existingSameTier.length; i++) {
+  const p = existingSameTier[i];
   const sig = classifyPuzzle(p.board, p.hand);
   if (sig) {
     sigCounts.set(sig.signature, (sigCounts.get(sig.signature) ?? 0) + 1);
@@ -126,7 +156,7 @@ poolHb.begin();
 while (sources.length < POOL_SIZE && sourceAttempts < MAX_SOURCE_ATTEMPTS) {
   seed++;
   sourceAttempts++;
-  const variants = generatePuzzleVariants(seed, MAX_SET_SIZE, MAX_VARIANTS);
+  const variants = generatePuzzleVariants(seed, DIFFICULTY, MAX_SET_SIZE, MAX_VARIANTS);
   if (variants.length === 0) continue;
   sources.push(variants);
   if (sources.length % Math.max(1, Math.floor(POOL_SIZE / 8)) === 0) {
@@ -172,7 +202,7 @@ while (selected.length < COUNT && remaining.some((s) => s.length > 0)) {
 
   const candidate = remaining[bestSourceIdx][bestVariantIdx];
   const verified = computeMinMoves(candidate.board, candidate.hand, 2000, 5000);
-  if (verified === null || verified < HARD_MIN || verified > HARD_MAX) {
+  if (verified === null || verified < TIER_MIN || verified > TIER_MAX) {
     slowFailures++;
     log('verify', `reject (verified=${verified}, sig=${candidate.signature.slice(0, 60)}...)`);
     remaining[bestSourceIdx].splice(bestVariantIdx, 1);
@@ -194,13 +224,15 @@ if (selected.length < COUNT) {
   log('select', `WARN: only produced ${selected.length} of ${COUNT} requested`);
 }
 
-// Build the new entries with IDs continuing from the existing library.
-const startIndex = existing.length;
+// IDs continue from the existing same-tier count so per-tier IDs stay
+// dense (`hard-1..N`, `extra-hard-1..M`) and stable across appends.
+const startIndex = existingSameTier.length;
 const newPuzzles: StoredPuzzle[] = selected.map((p, i) => ({
-  id: `hard-${startIndex + i + 1}`,
+  id: `${DIFFICULTY}-${startIndex + i + 1}`,
   board: p.board,
   hand: p.hand,
   minMoves: p.minMoves,
+  difficulty: DIFFICULTY,
 }));
 
 // Summary.

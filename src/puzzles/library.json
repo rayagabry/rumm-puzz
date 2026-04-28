@@ -178,7 +178,8 @@
       "color": "black",
       "number": 9
     },
-    "minMoves": 8
+    "minMoves": 8,
+    "difficulty": "hard"
   },
   {
     "id": "hard-2",
@@ -318,7 +319,8 @@
       "color": "blue",
       "number": 12
     },
-    "minMoves": 6
+    "minMoves": 6,
+    "difficulty": "hard"
   },
   {
     "id": "hard-3",
@@ -519,7 +521,8 @@
       "color": "yellow",
       "number": 13
     },
-    "minMoves": 7
+    "minMoves": 7,
+    "difficulty": "hard"
   },
   {
     "id": "hard-4",
@@ -688,7 +691,8 @@
       "color": "blue",
       "number": 4
     },
-    "minMoves": 7
+    "minMoves": 7,
+    "difficulty": "hard"
   },
   {
     "id": "hard-5",
@@ -879,7 +883,8 @@
       "color": "red",
       "number": 8
     },
-    "minMoves": 5
+    "minMoves": 5,
+    "difficulty": "hard"
   },
   {
     "id": "hard-6",
@@ -1058,7 +1063,8 @@
       "color": "blue",
       "number": 8
     },
-    "minMoves": 5
+    "minMoves": 5,
+    "difficulty": "hard"
   },
   {
     "id": "hard-7",
@@ -1276,7 +1282,8 @@
       "color": "yellow",
       "number": 8
     },
-    "minMoves": 6
+    "minMoves": 6,
+    "difficulty": "hard"
   },
   {
     "id": "hard-8",
@@ -1438,7 +1445,8 @@
       "color": "red",
       "number": 3
     },
-    "minMoves": 5
+    "minMoves": 5,
+    "difficulty": "hard"
   },
   {
     "id": "hard-9",
@@ -1617,7 +1625,8 @@
       "color": "black",
       "number": 13
     },
-    "minMoves": 6
+    "minMoves": 6,
+    "difficulty": "hard"
   },
   {
     "id": "hard-10",
@@ -1779,7 +1788,8 @@
       "color": "yellow",
       "number": 2
     },
-    "minMoves": 8
+    "minMoves": 8,
+    "difficulty": "hard"
   },
   {
     "id": "hard-11",
@@ -1970,7 +1980,8 @@
       "color": "blue",
       "number": 6
     },
-    "minMoves": 5
+    "minMoves": 5,
+    "difficulty": "hard"
   },
   {
     "id": "hard-12",
@@ -2120,7 +2131,8 @@
       "color": "yellow",
       "number": 10
     },
-    "minMoves": 8
+    "minMoves": 8,
+    "difficulty": "hard"
   },
   {
     "id": "hard-13",
@@ -2316,7 +2328,8 @@
       "color": "yellow",
       "number": 7
     },
-    "minMoves": 6
+    "minMoves": 6,
+    "difficulty": "hard"
   },
   {
     "id": "hard-14",
@@ -2434,7 +2447,8 @@
       "color": "yellow",
       "number": 12
     },
-    "minMoves": 6
+    "minMoves": 6,
+    "difficulty": "hard"
   },
   {
     "id": "hard-15",
@@ -2579,7 +2593,8 @@
       "color": "blue",
       "number": 8
     },
-    "minMoves": 5
+    "minMoves": 5,
+    "difficulty": "hard"
   },
   {
     "id": "hard-16",
@@ -2765,7 +2780,8 @@
       "color": "red",
       "number": 6
     },
-    "minMoves": 6
+    "minMoves": 6,
+    "difficulty": "hard"
   },
   {
     "id": "hard-17",
@@ -2949,7 +2965,8 @@
       "color": "red",
       "number": 8
     },
-    "minMoves": 5
+    "minMoves": 5,
+    "difficulty": "hard"
   },
   {
     "id": "hard-18",
@@ -3128,7 +3145,8 @@
       "color": "red",
       "number": 5
     },
-    "minMoves": 7
+    "minMoves": 7,
+    "difficulty": "hard"
   },
   {
     "id": "hard-19",
@@ -3324,7 +3342,8 @@
       "color": "red",
       "number": 11
     },
-    "minMoves": 5
+    "minMoves": 5,
+    "difficulty": "hard"
   },
   {
     "id": "hard-20",
@@ -3525,7 +3544,8 @@
       "color": "blue",
       "number": 7
     },
-    "minMoves": 5
+    "minMoves": 5,
+    "difficulty": "hard"
   },
   {
     "id": "hard-21",
@@ -3670,7 +3690,8 @@
       "color": "yellow",
       "number": 6
     },
-    "minMoves": 5
+    "minMoves": 5,
+    "difficulty": "hard"
   },
   {
     "id": "hard-22",
@@ -3878,7 +3899,8 @@
       "color": "black",
       "number": 11
     },
-    "minMoves": 5
+    "minMoves": 5,
+    "difficulty": "hard"
   },
   {
     "id": "hard-23",
@@ -4057,7 +4079,8 @@
       "color": "yellow",
       "number": 13
     },
-    "minMoves": 6
+    "minMoves": 6,
+    "difficulty": "hard"
   },
   {
     "id": "hard-24",
@@ -4226,7 +4249,8 @@
       "color": "red",
       "number": 12
     },
-    "minMoves": 6
+    "minMoves": 6,
+    "difficulty": "hard"
   },
   {
     "id": "hard-25",
@@ -4427,7 +4451,8 @@
       "color": "yellow",
       "number": 11
     },
-    "minMoves": 6
+    "minMoves": 6,
+    "difficulty": "hard"
   },
   {
     "id": "hard-26",
@@ -4618,7 +4643,8 @@
       "color": "black",
       "number": 4
     },
-    "minMoves": 7
+    "minMoves": 7,
+    "difficulty": "hard"
   },
   {
     "id": "hard-27",
@@ -4770,7 +4796,8 @@
       "color": "blue",
       "number": 11
     },
-    "minMoves": 8
+    "minMoves": 8,
+    "difficulty": "hard"
   },
   {
     "id": "hard-28",
@@ -4944,7 +4971,8 @@
       "color": "blue",
       "number": 9
     },
-    "minMoves": 8
+    "minMoves": 8,
+    "difficulty": "hard"
   },
   {
     "id": "hard-29",
@@ -5135,7 +5163,8 @@
       "color": "black",
       "number": 10
     },
-    "minMoves": 5
+    "minMoves": 5,
+    "difficulty": "hard"
   },
   {
     "id": "hard-30",
@@ -5241,7 +5270,8 @@
       "color": "blue",
       "number": 5
     },
-    "minMoves": 8
+    "minMoves": 8,
+    "difficulty": "hard"
   },
   {
     "id": "hard-31",
@@ -5393,7 +5423,8 @@
       "color": "yellow",
       "number": 12
     },
-    "minMoves": 6
+    "minMoves": 6,
+    "difficulty": "hard"
   },
   {
     "id": "hard-32",
@@ -5545,7 +5576,8 @@
       "color": "black",
       "number": 7
     },
-    "minMoves": 7
+    "minMoves": 7,
+    "difficulty": "hard"
   },
   {
     "id": "hard-33",
@@ -5692,7 +5724,8 @@
       "color": "black",
       "number": 4
     },
-    "minMoves": 6
+    "minMoves": 6,
+    "difficulty": "hard"
   },
   {
     "id": "hard-34",
@@ -5832,7 +5865,8 @@
       "color": "black",
       "number": 2
     },
-    "minMoves": 8
+    "minMoves": 8,
+    "difficulty": "hard"
   },
   {
     "id": "hard-35",
@@ -6006,7 +6040,8 @@
       "color": "black",
       "number": 8
     },
-    "minMoves": 6
+    "minMoves": 6,
+    "difficulty": "hard"
   },
   {
     "id": "hard-36",
@@ -6192,7 +6227,8 @@
       "color": "red",
       "number": 10
     },
-    "minMoves": 7
+    "minMoves": 7,
+    "difficulty": "hard"
   },
   {
     "id": "hard-37",
@@ -6349,7 +6385,8 @@
       "color": "black",
       "number": 10
     },
-    "minMoves": 7
+    "minMoves": 7,
+    "difficulty": "hard"
   },
   {
     "id": "hard-38",
@@ -6513,7 +6550,8 @@
       "color": "blue",
       "number": 8
     },
-    "minMoves": 5
+    "minMoves": 5,
+    "difficulty": "hard"
   },
   {
     "id": "hard-39",
@@ -6677,7 +6715,8 @@
       "color": "yellow",
       "number": 13
     },
-    "minMoves": 6
+    "minMoves": 6,
+    "difficulty": "hard"
   },
   {
     "id": "hard-40",
@@ -6885,7 +6924,8 @@
       "color": "black",
       "number": 10
     },
-    "minMoves": 5
+    "minMoves": 5,
+    "difficulty": "hard"
   },
   {
     "id": "hard-41",
@@ -7020,7 +7060,8 @@
       "color": "black",
       "number": 8
     },
-    "minMoves": 5
+    "minMoves": 5,
+    "difficulty": "hard"
   },
   {
     "id": "hard-42",
@@ -7172,7 +7213,8 @@
       "color": "black",
       "number": 13
     },
-    "minMoves": 7
+    "minMoves": 7,
+    "difficulty": "hard"
   },
   {
     "id": "hard-43",
@@ -7339,7 +7381,8 @@
       "color": "red",
       "number": 10
     },
-    "minMoves": 6
+    "minMoves": 6,
+    "difficulty": "hard"
   },
   {
     "id": "hard-44",
@@ -7469,7 +7512,8 @@
       "color": "red",
       "number": 6
     },
-    "minMoves": 6
+    "minMoves": 6,
+    "difficulty": "hard"
   },
   {
     "id": "hard-45",
@@ -7604,7 +7648,8 @@
       "color": "red",
       "number": 13
     },
-    "minMoves": 5
+    "minMoves": 5,
+    "difficulty": "hard"
   },
   {
     "id": "hard-46",
@@ -7805,7 +7850,8 @@
       "color": "yellow",
       "number": 9
     },
-    "minMoves": 6
+    "minMoves": 6,
+    "difficulty": "hard"
   },
   {
     "id": "hard-47",
@@ -7969,7 +8015,8 @@
       "color": "blue",
       "number": 5
     },
-    "minMoves": 5
+    "minMoves": 5,
+    "difficulty": "hard"
   },
   {
     "id": "hard-48",
@@ -8138,7 +8185,8 @@
       "color": "red",
       "number": 4
     },
-    "minMoves": 6
+    "minMoves": 6,
+    "difficulty": "hard"
   },
   {
     "id": "hard-49",
@@ -8317,7 +8365,8 @@
       "color": "black",
       "number": 10
     },
-    "minMoves": 5
+    "minMoves": 5,
+    "difficulty": "hard"
   },
   {
     "id": "hard-50",
@@ -8486,7 +8535,8 @@
       "color": "blue",
       "number": 12
     },
-    "minMoves": 6
+    "minMoves": 6,
+    "difficulty": "hard"
   },
   {
     "id": "hard-51",
@@ -8677,7 +8727,8 @@
       "color": "yellow",
       "number": 13
     },
-    "minMoves": 7
+    "minMoves": 7,
+    "difficulty": "hard"
   },
   {
     "id": "hard-52",
@@ -8878,7 +8929,8 @@
       "color": "red",
       "number": 7
     },
-    "minMoves": 7
+    "minMoves": 7,
+    "difficulty": "hard"
   },
   {
     "id": "hard-53",
@@ -9069,7 +9121,8 @@
       "color": "yellow",
       "number": 5
     },
-    "minMoves": 7
+    "minMoves": 7,
+    "difficulty": "hard"
   },
   {
     "id": "hard-54",
@@ -9253,7 +9306,8 @@
       "color": "yellow",
       "number": 7
     },
-    "minMoves": 6
+    "minMoves": 6,
+    "difficulty": "hard"
   },
   {
     "id": "hard-55",
@@ -9442,7 +9496,8 @@
       "color": "yellow",
       "number": 11
     },
-    "minMoves": 6
+    "minMoves": 6,
+    "difficulty": "hard"
   },
   {
     "id": "hard-56",
@@ -9636,7 +9691,8 @@
       "color": "red",
       "number": 7
     },
-    "minMoves": 6
+    "minMoves": 6,
+    "difficulty": "hard"
   },
   {
     "id": "hard-57",
@@ -9759,7 +9815,8 @@
       "color": "blue",
       "number": 8
     },
-    "minMoves": 5
+    "minMoves": 5,
+    "difficulty": "hard"
   },
   {
     "id": "hard-58",
@@ -9877,7 +9934,8 @@
       "color": "yellow",
       "number": 7
     },
-    "minMoves": 6
+    "minMoves": 6,
+    "difficulty": "hard"
   },
   {
     "id": "hard-59",
@@ -10073,7 +10131,8 @@
       "color": "blue",
       "number": 8
     },
-    "minMoves": 6
+    "minMoves": 6,
+    "difficulty": "hard"
   },
   {
     "id": "hard-60",
@@ -10235,7 +10294,8 @@
       "color": "blue",
       "number": 12
     },
-    "minMoves": 5
+    "minMoves": 5,
+    "difficulty": "hard"
   },
   {
     "id": "hard-61",
@@ -10421,7 +10481,8 @@
       "color": "blue",
       "number": 8
     },
-    "minMoves": 7
+    "minMoves": 7,
+    "difficulty": "hard"
   },
   {
     "id": "hard-62",
@@ -10600,7 +10661,8 @@
       "color": "red",
       "number": 11
     },
-    "minMoves": 5
+    "minMoves": 5,
+    "difficulty": "hard"
   },
   {
     "id": "hard-63",
@@ -10791,7 +10853,8 @@
       "color": "blue",
       "number": 12
     },
-    "minMoves": 6
+    "minMoves": 6,
+    "difficulty": "hard"
   },
   {
     "id": "hard-64",
@@ -10948,7 +11011,8 @@
       "color": "blue",
       "number": 6
     },
-    "minMoves": 7
+    "minMoves": 7,
+    "difficulty": "hard"
   },
   {
     "id": "hard-65",
@@ -11105,7 +11169,8 @@
       "color": "blue",
       "number": 3
     },
-    "minMoves": 7
+    "minMoves": 7,
+    "difficulty": "hard"
   },
   {
     "id": "hard-66",
@@ -11306,7 +11371,8 @@
       "color": "blue",
       "number": 4
     },
-    "minMoves": 5
+    "minMoves": 5,
+    "difficulty": "hard"
   },
   {
     "id": "hard-67",
@@ -11485,7 +11551,8 @@
       "color": "yellow",
       "number": 6
     },
-    "minMoves": 7
+    "minMoves": 7,
+    "difficulty": "hard"
   },
   {
     "id": "hard-68",
@@ -11598,7 +11665,8 @@
       "color": "red",
       "number": 12
     },
-    "minMoves": 5
+    "minMoves": 5,
+    "difficulty": "hard"
   },
   {
     "id": "hard-69",
@@ -11762,7 +11830,8 @@
       "color": "red",
       "number": 8
     },
-    "minMoves": 6
+    "minMoves": 6,
+    "difficulty": "hard"
   },
   {
     "id": "hard-70",
@@ -11914,7 +11983,8 @@
       "color": "red",
       "number": 9
     },
-    "minMoves": 5
+    "minMoves": 5,
+    "difficulty": "hard"
   },
   {
     "id": "hard-71",
@@ -12098,7 +12168,8 @@
       "color": "red",
       "number": 11
     },
-    "minMoves": 5
+    "minMoves": 5,
+    "difficulty": "hard"
   },
   {
     "id": "hard-72",
@@ -12304,7 +12375,8 @@
       "color": "yellow",
       "number": 10
     },
-    "minMoves": 5
+    "minMoves": 5,
+    "difficulty": "hard"
   },
   {
     "id": "hard-73",
@@ -12461,7 +12533,8 @@
       "color": "blue",
       "number": 4
     },
-    "minMoves": 5
+    "minMoves": 5,
+    "difficulty": "hard"
   },
   {
     "id": "hard-74",
@@ -12647,7 +12720,8 @@
       "color": "yellow",
       "number": 6
     },
-    "minMoves": 7
+    "minMoves": 7,
+    "difficulty": "hard"
   },
   {
     "id": "hard-75",
@@ -12833,7 +12907,8 @@
       "color": "black",
       "number": 5
     },
-    "minMoves": 5
+    "minMoves": 5,
+    "difficulty": "hard"
   },
   {
     "id": "hard-76",
@@ -13019,7 +13094,8 @@
       "color": "black",
       "number": 9
     },
-    "minMoves": 8
+    "minMoves": 8,
+    "difficulty": "hard"
   },
   {
     "id": "hard-77",
@@ -13159,7 +13235,8 @@
       "color": "red",
       "number": 13
     },
-    "minMoves": 5
+    "minMoves": 5,
+    "difficulty": "hard"
   },
   {
     "id": "hard-78",
@@ -13255,7 +13332,8 @@
       "color": "black",
       "number": 9
     },
-    "minMoves": 6
+    "minMoves": 6,
+    "difficulty": "hard"
   },
   {
     "id": "hard-79",
@@ -13446,7 +13524,8 @@
       "color": "black",
       "number": 2
     },
-    "minMoves": 5
+    "minMoves": 5,
+    "difficulty": "hard"
   },
   {
     "id": "hard-80",
@@ -13613,7 +13692,8 @@
       "color": "blue",
       "number": 11
     },
-    "minMoves": 5
+    "minMoves": 5,
+    "difficulty": "hard"
   },
   {
     "id": "hard-81",
@@ -13792,7 +13872,8 @@
       "color": "yellow",
       "number": 7
     },
-    "minMoves": 6
+    "minMoves": 6,
+    "difficulty": "hard"
   },
   {
     "id": "hard-82",
@@ -13939,7 +14020,8 @@
       "color": "black",
       "number": 11
     },
-    "minMoves": 8
+    "minMoves": 8,
+    "difficulty": "hard"
   },
   {
     "id": "hard-83",
@@ -14108,7 +14190,8 @@
       "color": "yellow",
       "number": 11
     },
-    "minMoves": 5
+    "minMoves": 5,
+    "difficulty": "hard"
   },
   {
     "id": "hard-84",
@@ -14304,7 +14387,8 @@
       "color": "red",
       "number": 6
     },
-    "minMoves": 5
+    "minMoves": 5,
+    "difficulty": "hard"
   },
   {
     "id": "hard-85",
@@ -14466,7 +14550,8 @@
       "color": "red",
       "number": 3
     },
-    "minMoves": 6
+    "minMoves": 6,
+    "difficulty": "hard"
   },
   {
     "id": "hard-86",
@@ -14613,7 +14698,8 @@
       "color": "red",
       "number": 8
     },
-    "minMoves": 6
+    "minMoves": 6,
+    "difficulty": "hard"
   },
   {
     "id": "hard-87",
@@ -14775,7 +14861,8 @@
       "color": "black",
       "number": 13
     },
-    "minMoves": 7
+    "minMoves": 7,
+    "difficulty": "hard"
   },
   {
     "id": "hard-88",
@@ -14959,7 +15046,8 @@
       "color": "yellow",
       "number": 8
     },
-    "minMoves": 5
+    "minMoves": 5,
+    "difficulty": "hard"
   },
   {
     "id": "hard-89",
@@ -15065,7 +15153,8 @@
       "color": "yellow",
       "number": 8
     },
-    "minMoves": 7
+    "minMoves": 7,
+    "difficulty": "hard"
   },
   {
     "id": "hard-90",
@@ -15256,7 +15345,8 @@
       "color": "red",
       "number": 6
     },
-    "minMoves": 5
+    "minMoves": 5,
+    "difficulty": "hard"
   },
   {
     "id": "hard-91",
@@ -15391,7 +15481,8 @@
       "color": "blue",
       "number": 9
     },
-    "minMoves": 6
+    "minMoves": 6,
+    "difficulty": "hard"
   },
   {
     "id": "hard-92",
@@ -15492,7 +15583,8 @@
       "color": "black",
       "number": 8
     },
-    "minMoves": 8
+    "minMoves": 8,
+    "difficulty": "hard"
   },
   {
     "id": "hard-93",
@@ -15632,7 +15724,8 @@
       "color": "blue",
       "number": 10
     },
-    "minMoves": 8
+    "minMoves": 8,
+    "difficulty": "hard"
   },
   {
     "id": "hard-94",
@@ -15799,7 +15892,8 @@
       "color": "black",
       "number": 2
     },
-    "minMoves": 8
+    "minMoves": 8,
+    "difficulty": "hard"
   },
   {
     "id": "hard-95",
@@ -15951,7 +16045,8 @@
       "color": "black",
       "number": 4
     },
-    "minMoves": 8
+    "minMoves": 8,
+    "difficulty": "hard"
   },
   {
     "id": "hard-96",
@@ -16147,7 +16242,8 @@
       "color": "blue",
       "number": 8
     },
-    "minMoves": 5
+    "minMoves": 5,
+    "difficulty": "hard"
   },
   {
     "id": "hard-97",
@@ -16314,7 +16410,8 @@
       "color": "blue",
       "number": 4
     },
-    "minMoves": 5
+    "minMoves": 5,
+    "difficulty": "hard"
   },
   {
     "id": "hard-98",
@@ -16510,7 +16607,8 @@
       "color": "red",
       "number": 12
     },
-    "minMoves": 6
+    "minMoves": 6,
+    "difficulty": "hard"
   },
   {
     "id": "hard-99",
@@ -16662,7 +16760,8 @@
       "color": "yellow",
       "number": 8
     },
-    "minMoves": 6
+    "minMoves": 6,
+    "difficulty": "hard"
   },
   {
     "id": "hard-100",
@@ -16831,7 +16930,8 @@
       "color": "blue",
       "number": 11
     },
-    "minMoves": 6
+    "minMoves": 6,
+    "difficulty": "hard"
   },
   {
     "id": "hard-101",
@@ -17005,7 +17105,8 @@
       "color": "red",
       "number": 5
     },
-    "minMoves": 6
+    "minMoves": 6,
+    "difficulty": "hard"
   },
   {
     "id": "hard-102",
@@ -17211,7 +17312,8 @@
       "color": "red",
       "number": 10
     },
-    "minMoves": 7
+    "minMoves": 7,
+    "difficulty": "hard"
   },
   {
     "id": "hard-103",
@@ -17402,7 +17504,8 @@
       "color": "red",
       "number": 11
     },
-    "minMoves": 7
+    "minMoves": 7,
+    "difficulty": "hard"
   },
   {
     "id": "hard-104",
@@ -17581,7 +17684,8 @@
       "color": "blue",
       "number": 9
     },
-    "minMoves": 7
+    "minMoves": 7,
+    "difficulty": "hard"
   },
   {
     "id": "hard-105",
@@ -17772,7 +17876,8 @@
       "color": "yellow",
       "number": 5
     },
-    "minMoves": 6
+    "minMoves": 6,
+    "difficulty": "hard"
   },
   {
     "id": "hard-106",
@@ -17963,7 +18068,8 @@
       "color": "black",
       "number": 6
     },
-    "minMoves": 5
+    "minMoves": 5,
+    "difficulty": "hard"
   },
   {
     "id": "hard-107",
@@ -18159,7 +18265,8 @@
       "color": "red",
       "number": 3
     },
-    "minMoves": 5
+    "minMoves": 5,
+    "difficulty": "hard"
   },
   {
     "id": "hard-108",
@@ -18360,7 +18467,8 @@
       "color": "red",
       "number": 5
     },
-    "minMoves": 8
+    "minMoves": 8,
+    "difficulty": "hard"
   },
   {
     "id": "hard-109",
@@ -18561,7 +18669,8 @@
       "color": "black",
       "number": 6
     },
-    "minMoves": 5
+    "minMoves": 5,
+    "difficulty": "hard"
   },
   {
     "id": "hard-110",
@@ -18750,7 +18859,8 @@
       "color": "black",
       "number": 12
     },
-    "minMoves": 5
+    "minMoves": 5,
+    "difficulty": "hard"
   },
   {
     "id": "hard-111",
@@ -18924,7 +19034,8 @@
       "color": "red",
       "number": 11
     },
-    "minMoves": 5
+    "minMoves": 5,
+    "difficulty": "hard"
   },
   {
     "id": "hard-112",
@@ -19098,7 +19209,8 @@
       "color": "yellow",
       "number": 5
     },
-    "minMoves": 6
+    "minMoves": 6,
+    "difficulty": "hard"
   },
   {
     "id": "hard-113",
@@ -19287,7 +19399,8 @@
       "color": "yellow",
       "number": 4
     },
-    "minMoves": 6
+    "minMoves": 6,
+    "difficulty": "hard"
   },
   {
     "id": "hard-114",
@@ -19456,7 +19569,8 @@
       "color": "red",
       "number": 1
     },
-    "minMoves": 7
+    "minMoves": 7,
+    "difficulty": "hard"
   },
   {
     "id": "hard-115",
@@ -19657,7 +19771,8 @@
       "color": "red",
       "number": 6
     },
-    "minMoves": 7
+    "minMoves": 7,
+    "difficulty": "hard"
   },
   {
     "id": "hard-116",
@@ -19848,7 +19963,8 @@
       "color": "red",
       "number": 3
     },
-    "minMoves": 6
+    "minMoves": 6,
+    "difficulty": "hard"
   },
   {
     "id": "hard-117",
@@ -20044,7 +20160,8 @@
       "color": "blue",
       "number": 9
     },
-    "minMoves": 5
+    "minMoves": 5,
+    "difficulty": "hard"
   },
   {
     "id": "hard-118",
@@ -20208,7 +20325,8 @@
       "color": "red",
       "number": 6
     },
-    "minMoves": 8
+    "minMoves": 8,
+    "difficulty": "hard"
   },
   {
     "id": "hard-119",
@@ -20394,7 +20512,8 @@
       "color": "blue",
       "number": 9
     },
-    "minMoves": 6
+    "minMoves": 6,
+    "difficulty": "hard"
   },
   {
     "id": "hard-120",
@@ -20590,7 +20709,8 @@
       "color": "red",
       "number": 9
     },
-    "minMoves": 5
+    "minMoves": 5,
+    "difficulty": "hard"
   },
   {
     "id": "hard-121",
@@ -20776,7 +20896,8 @@
       "color": "black",
       "number": 12
     },
-    "minMoves": 6
+    "minMoves": 6,
+    "difficulty": "hard"
   },
   {
     "id": "hard-122",
@@ -20955,7 +21076,8 @@
       "color": "black",
       "number": 3
     },
-    "minMoves": 6
+    "minMoves": 6,
+    "difficulty": "hard"
   },
   {
     "id": "hard-123",
@@ -21134,7 +21256,8 @@
       "color": "blue",
       "number": 4
     },
-    "minMoves": 6
+    "minMoves": 6,
+    "difficulty": "hard"
   },
   {
     "id": "hard-124",
@@ -21330,7 +21453,8 @@
       "color": "black",
       "number": 12
     },
-    "minMoves": 5
+    "minMoves": 5,
+    "difficulty": "hard"
   },
   {
     "id": "hard-125",
@@ -21497,7 +21621,8 @@
       "color": "yellow",
       "number": 8
     },
-    "minMoves": 5
+    "minMoves": 5,
+    "difficulty": "hard"
   },
   {
     "id": "hard-126",
@@ -21681,7 +21806,8 @@
       "color": "yellow",
       "number": 10
     },
-    "minMoves": 5
+    "minMoves": 5,
+    "difficulty": "hard"
   },
   {
     "id": "hard-127",
@@ -21865,7 +21991,8 @@
       "color": "yellow",
       "number": 5
     },
-    "minMoves": 5
+    "minMoves": 5,
+    "difficulty": "hard"
   },
   {
     "id": "hard-128",
@@ -22044,7 +22171,8 @@
       "color": "yellow",
       "number": 8
     },
-    "minMoves": 6
+    "minMoves": 6,
+    "difficulty": "hard"
   },
   {
     "id": "hard-129",
@@ -22184,7 +22312,8 @@
       "color": "blue",
       "number": 7
     },
-    "minMoves": 6
+    "minMoves": 6,
+    "difficulty": "hard"
   },
   {
     "id": "hard-130",
@@ -22358,7 +22487,8 @@
       "color": "red",
       "number": 8
     },
-    "minMoves": 5
+    "minMoves": 5,
+    "difficulty": "hard"
   },
   {
     "id": "hard-131",
@@ -22554,7 +22684,8 @@
       "color": "blue",
       "number": 6
     },
-    "minMoves": 7
+    "minMoves": 7,
+    "difficulty": "hard"
   },
   {
     "id": "hard-132",
@@ -22728,7 +22859,8 @@
       "color": "black",
       "number": 11
     },
-    "minMoves": 5
+    "minMoves": 5,
+    "difficulty": "hard"
   },
   {
     "id": "hard-133",
@@ -22912,7 +23044,8 @@
       "color": "black",
       "number": 9
     },
-    "minMoves": 6
+    "minMoves": 6,
+    "difficulty": "hard"
   },
   {
     "id": "hard-134",
@@ -23086,7 +23219,8 @@
       "color": "black",
       "number": 8
     },
-    "minMoves": 5
+    "minMoves": 5,
+    "difficulty": "hard"
   },
   {
     "id": "hard-135",
@@ -23236,7 +23370,8 @@
       "color": "red",
       "number": 10
     },
-    "minMoves": 8
+    "minMoves": 8,
+    "difficulty": "hard"
   },
   {
     "id": "hard-136",
@@ -23425,7 +23560,8 @@
       "color": "black",
       "number": 11
     },
-    "minMoves": 6
+    "minMoves": 6,
+    "difficulty": "hard"
   },
   {
     "id": "hard-137",
@@ -23560,7 +23696,8 @@
       "color": "blue",
       "number": 2
     },
-    "minMoves": 5
+    "minMoves": 5,
+    "difficulty": "hard"
   },
   {
     "id": "hard-138",
@@ -23734,7 +23871,8 @@
       "color": "black",
       "number": 2
     },
-    "minMoves": 6
+    "minMoves": 6,
+    "difficulty": "hard"
   },
   {
     "id": "hard-139",
@@ -23913,7 +24051,8 @@
       "color": "red",
       "number": 11
     },
-    "minMoves": 5
+    "minMoves": 5,
+    "difficulty": "hard"
   },
   {
     "id": "hard-140",
@@ -24109,7 +24248,8 @@
       "color": "red",
       "number": 8
     },
-    "minMoves": 5
+    "minMoves": 5,
+    "difficulty": "hard"
   },
   {
     "id": "hard-141",
@@ -24288,7 +24428,8 @@
       "color": "blue",
       "number": 9
     },
-    "minMoves": 5
+    "minMoves": 5,
+    "difficulty": "hard"
   },
   {
     "id": "hard-142",
@@ -24477,7 +24618,8 @@
       "color": "blue",
       "number": 11
     },
-    "minMoves": 7
+    "minMoves": 7,
+    "difficulty": "hard"
   },
   {
     "id": "hard-143",
@@ -24668,7 +24810,8 @@
       "color": "yellow",
       "number": 9
     },
-    "minMoves": 5
+    "minMoves": 5,
+    "difficulty": "hard"
   },
   {
     "id": "hard-144",
@@ -24849,7 +24992,8 @@
       "color": "red",
       "number": 9
     },
-    "minMoves": 6
+    "minMoves": 6,
+    "difficulty": "hard"
   },
   {
     "id": "hard-145",
@@ -25028,7 +25172,8 @@
       "color": "red",
       "number": 10
     },
-    "minMoves": 5
+    "minMoves": 5,
+    "difficulty": "hard"
   },
   {
     "id": "hard-146",
@@ -25234,7 +25379,8 @@
       "color": "blue",
       "number": 9
     },
-    "minMoves": 5
+    "minMoves": 5,
+    "difficulty": "hard"
   },
   {
     "id": "hard-147",
@@ -25413,7 +25559,8 @@
       "color": "black",
       "number": 11
     },
-    "minMoves": 5
+    "minMoves": 5,
+    "difficulty": "hard"
   },
   {
     "id": "hard-148",
@@ -25604,7 +25751,8 @@
       "color": "black",
       "number": 7
     },
-    "minMoves": 5
+    "minMoves": 5,
+    "difficulty": "hard"
   },
   {
     "id": "hard-149",
@@ -25800,7 +25948,8 @@
       "color": "yellow",
       "number": 7
     },
-    "minMoves": 6
+    "minMoves": 6,
+    "difficulty": "hard"
   },
   {
     "id": "hard-150",
@@ -25930,6 +26079,4437 @@
       "color": "red",
       "number": 13
     },
-    "minMoves": 7
+    "minMoves": 7,
+    "difficulty": "hard"
+  },
+  {
+    "id": "extra-hard-1",
+    "board": [
+      [
+        {
+          "id": "red-1-a",
+          "color": "red",
+          "number": 1
+        },
+        {
+          "id": "blue-1-a",
+          "color": "blue",
+          "number": 1
+        },
+        {
+          "id": "yellow-1-a",
+          "color": "yellow",
+          "number": 1
+        }
+      ],
+      [
+        {
+          "id": "red-2-a",
+          "color": "red",
+          "number": 2
+        },
+        {
+          "id": "red-3-a",
+          "color": "red",
+          "number": 3
+        },
+        {
+          "id": "red-4-a",
+          "color": "red",
+          "number": 4
+        }
+      ],
+      [
+        {
+          "id": "red-10-a",
+          "color": "red",
+          "number": 10
+        },
+        {
+          "id": "blue-10-a",
+          "color": "blue",
+          "number": 10
+        },
+        {
+          "id": "yellow-10-a",
+          "color": "yellow",
+          "number": 10
+        },
+        {
+          "id": "black-10-a",
+          "color": "black",
+          "number": 10
+        }
+      ],
+      [
+        {
+          "id": "red-11-a",
+          "color": "red",
+          "number": 11
+        },
+        {
+          "id": "blue-11-b",
+          "color": "blue",
+          "number": 11
+        },
+        {
+          "id": "yellow-11-a",
+          "color": "yellow",
+          "number": 11
+        },
+        {
+          "id": "black-11-a",
+          "color": "black",
+          "number": 11
+        }
+      ],
+      [
+        {
+          "id": "red-11-b",
+          "color": "red",
+          "number": 11
+        },
+        {
+          "id": "blue-11-a",
+          "color": "blue",
+          "number": 11
+        },
+        {
+          "id": "yellow-11-b",
+          "color": "yellow",
+          "number": 11
+        }
+      ],
+      [
+        {
+          "id": "red-12-a",
+          "color": "red",
+          "number": 12
+        },
+        {
+          "id": "blue-12-a",
+          "color": "blue",
+          "number": 12
+        },
+        {
+          "id": "yellow-12-a",
+          "color": "yellow",
+          "number": 12
+        }
+      ],
+      [
+        {
+          "id": "red-12-b",
+          "color": "red",
+          "number": 12
+        },
+        {
+          "id": "blue-12-b",
+          "color": "blue",
+          "number": 12
+        },
+        {
+          "id": "black-12-a",
+          "color": "black",
+          "number": 12
+        }
+      ],
+      [
+        {
+          "id": "blue-7-a",
+          "color": "blue",
+          "number": 7
+        },
+        {
+          "id": "blue-8-a",
+          "color": "blue",
+          "number": 8
+        },
+        {
+          "id": "blue-9-a",
+          "color": "blue",
+          "number": 9
+        },
+        {
+          "id": "blue-10-b",
+          "color": "blue",
+          "number": 10
+        }
+      ],
+      [
+        {
+          "id": "yellow-6-a",
+          "color": "yellow",
+          "number": 6
+        },
+        {
+          "id": "yellow-7-a",
+          "color": "yellow",
+          "number": 7
+        },
+        {
+          "id": "yellow-8-a",
+          "color": "yellow",
+          "number": 8
+        },
+        {
+          "id": "yellow-9-a",
+          "color": "yellow",
+          "number": 9
+        },
+        {
+          "id": "yellow-10-b",
+          "color": "yellow",
+          "number": 10
+        }
+      ]
+    ],
+    "hand": {
+      "id": "red-13-a",
+      "color": "red",
+      "number": 13
+    },
+    "minMoves": 7,
+    "difficulty": "extra-hard"
+  },
+  {
+    "id": "extra-hard-2",
+    "board": [
+      [
+        {
+          "id": "red-5-a",
+          "color": "red",
+          "number": 5
+        },
+        {
+          "id": "blue-5-b",
+          "color": "blue",
+          "number": 5
+        },
+        {
+          "id": "yellow-5-a",
+          "color": "yellow",
+          "number": 5
+        },
+        {
+          "id": "black-5-a",
+          "color": "black",
+          "number": 5
+        }
+      ],
+      [
+        {
+          "id": "red-9-a",
+          "color": "red",
+          "number": 9
+        },
+        {
+          "id": "blue-9-a",
+          "color": "blue",
+          "number": 9
+        },
+        {
+          "id": "black-9-a",
+          "color": "black",
+          "number": 9
+        }
+      ],
+      [
+        {
+          "id": "red-11-a",
+          "color": "red",
+          "number": 11
+        },
+        {
+          "id": "yellow-11-b",
+          "color": "yellow",
+          "number": 11
+        },
+        {
+          "id": "black-11-a",
+          "color": "black",
+          "number": 11
+        }
+      ],
+      [
+        {
+          "id": "red-12-a",
+          "color": "red",
+          "number": 12
+        },
+        {
+          "id": "yellow-12-b",
+          "color": "yellow",
+          "number": 12
+        },
+        {
+          "id": "black-12-b",
+          "color": "black",
+          "number": 12
+        }
+      ],
+      [
+        {
+          "id": "red-13-a",
+          "color": "red",
+          "number": 13
+        },
+        {
+          "id": "yellow-13-a",
+          "color": "yellow",
+          "number": 13
+        },
+        {
+          "id": "black-13-b",
+          "color": "black",
+          "number": 13
+        }
+      ],
+      [
+        {
+          "id": "blue-5-a",
+          "color": "blue",
+          "number": 5
+        },
+        {
+          "id": "blue-6-a",
+          "color": "blue",
+          "number": 6
+        },
+        {
+          "id": "blue-7-a",
+          "color": "blue",
+          "number": 7
+        },
+        {
+          "id": "blue-8-a",
+          "color": "blue",
+          "number": 8
+        }
+      ],
+      [
+        {
+          "id": "yellow-7-a",
+          "color": "yellow",
+          "number": 7
+        },
+        {
+          "id": "yellow-8-a",
+          "color": "yellow",
+          "number": 8
+        },
+        {
+          "id": "yellow-9-b",
+          "color": "yellow",
+          "number": 9
+        },
+        {
+          "id": "yellow-10-a",
+          "color": "yellow",
+          "number": 10
+        }
+      ],
+      [
+        {
+          "id": "yellow-9-a",
+          "color": "yellow",
+          "number": 9
+        },
+        {
+          "id": "yellow-10-b",
+          "color": "yellow",
+          "number": 10
+        },
+        {
+          "id": "yellow-11-a",
+          "color": "yellow",
+          "number": 11
+        },
+        {
+          "id": "yellow-12-a",
+          "color": "yellow",
+          "number": 12
+        }
+      ],
+      [
+        {
+          "id": "black-8-a",
+          "color": "black",
+          "number": 8
+        },
+        {
+          "id": "black-9-b",
+          "color": "black",
+          "number": 9
+        },
+        {
+          "id": "black-10-a",
+          "color": "black",
+          "number": 10
+        }
+      ],
+      [
+        {
+          "id": "black-11-b",
+          "color": "black",
+          "number": 11
+        },
+        {
+          "id": "black-12-a",
+          "color": "black",
+          "number": 12
+        },
+        {
+          "id": "black-13-a",
+          "color": "black",
+          "number": 13
+        }
+      ]
+    ],
+    "hand": {
+      "id": "blue-10-a",
+      "color": "blue",
+      "number": 10
+    },
+    "minMoves": 10,
+    "difficulty": "extra-hard"
+  },
+  {
+    "id": "extra-hard-3",
+    "board": [
+      [
+        {
+          "id": "red-6-a",
+          "color": "red",
+          "number": 6
+        },
+        {
+          "id": "red-7-a",
+          "color": "red",
+          "number": 7
+        },
+        {
+          "id": "red-8-a",
+          "color": "red",
+          "number": 8
+        }
+      ],
+      [
+        {
+          "id": "red-7-b",
+          "color": "red",
+          "number": 7
+        },
+        {
+          "id": "blue-7-a",
+          "color": "blue",
+          "number": 7
+        },
+        {
+          "id": "yellow-7-b",
+          "color": "yellow",
+          "number": 7
+        }
+      ],
+      [
+        {
+          "id": "red-9-a",
+          "color": "red",
+          "number": 9
+        },
+        {
+          "id": "blue-9-b",
+          "color": "blue",
+          "number": 9
+        },
+        {
+          "id": "yellow-9-a",
+          "color": "yellow",
+          "number": 9
+        }
+      ],
+      [
+        {
+          "id": "red-9-b",
+          "color": "red",
+          "number": 9
+        },
+        {
+          "id": "blue-9-a",
+          "color": "blue",
+          "number": 9
+        },
+        {
+          "id": "black-9-a",
+          "color": "black",
+          "number": 9
+        }
+      ],
+      [
+        {
+          "id": "red-10-a",
+          "color": "red",
+          "number": 10
+        },
+        {
+          "id": "blue-10-a",
+          "color": "blue",
+          "number": 10
+        },
+        {
+          "id": "yellow-10-a",
+          "color": "yellow",
+          "number": 10
+        },
+        {
+          "id": "black-10-b",
+          "color": "black",
+          "number": 10
+        }
+      ],
+      [
+        {
+          "id": "blue-4-a",
+          "color": "blue",
+          "number": 4
+        },
+        {
+          "id": "blue-5-a",
+          "color": "blue",
+          "number": 5
+        },
+        {
+          "id": "blue-6-a",
+          "color": "blue",
+          "number": 6
+        }
+      ],
+      [
+        {
+          "id": "blue-7-b",
+          "color": "blue",
+          "number": 7
+        },
+        {
+          "id": "yellow-7-a",
+          "color": "yellow",
+          "number": 7
+        },
+        {
+          "id": "black-7-a",
+          "color": "black",
+          "number": 7
+        }
+      ],
+      [
+        {
+          "id": "yellow-3-a",
+          "color": "yellow",
+          "number": 3
+        },
+        {
+          "id": "yellow-4-a",
+          "color": "yellow",
+          "number": 4
+        },
+        {
+          "id": "yellow-5-a",
+          "color": "yellow",
+          "number": 5
+        },
+        {
+          "id": "yellow-6-a",
+          "color": "yellow",
+          "number": 6
+        }
+      ],
+      [
+        {
+          "id": "black-10-a",
+          "color": "black",
+          "number": 10
+        },
+        {
+          "id": "black-11-a",
+          "color": "black",
+          "number": 11
+        },
+        {
+          "id": "black-12-b",
+          "color": "black",
+          "number": 12
+        },
+        {
+          "id": "black-13-b",
+          "color": "black",
+          "number": 13
+        }
+      ],
+      [
+        {
+          "id": "black-11-b",
+          "color": "black",
+          "number": 11
+        },
+        {
+          "id": "black-12-a",
+          "color": "black",
+          "number": 12
+        },
+        {
+          "id": "black-13-a",
+          "color": "black",
+          "number": 13
+        }
+      ]
+    ],
+    "hand": {
+      "id": "blue-8-a",
+      "color": "blue",
+      "number": 8
+    },
+    "minMoves": 7,
+    "difficulty": "extra-hard"
+  },
+  {
+    "id": "extra-hard-4",
+    "board": [
+      [
+        {
+          "id": "red-1-a",
+          "color": "red",
+          "number": 1
+        },
+        {
+          "id": "red-2-a",
+          "color": "red",
+          "number": 2
+        },
+        {
+          "id": "red-3-a",
+          "color": "red",
+          "number": 3
+        },
+        {
+          "id": "red-4-a",
+          "color": "red",
+          "number": 4
+        },
+        {
+          "id": "red-5-b",
+          "color": "red",
+          "number": 5
+        }
+      ],
+      [
+        {
+          "id": "red-4-b",
+          "color": "red",
+          "number": 4
+        },
+        {
+          "id": "yellow-4-a",
+          "color": "yellow",
+          "number": 4
+        },
+        {
+          "id": "black-4-b",
+          "color": "black",
+          "number": 4
+        }
+      ],
+      [
+        {
+          "id": "red-5-a",
+          "color": "red",
+          "number": 5
+        },
+        {
+          "id": "yellow-5-b",
+          "color": "yellow",
+          "number": 5
+        },
+        {
+          "id": "black-5-a",
+          "color": "black",
+          "number": 5
+        }
+      ],
+      [
+        {
+          "id": "red-6-a",
+          "color": "red",
+          "number": 6
+        },
+        {
+          "id": "yellow-6-a",
+          "color": "yellow",
+          "number": 6
+        },
+        {
+          "id": "black-6-a",
+          "color": "black",
+          "number": 6
+        }
+      ],
+      [
+        {
+          "id": "blue-4-a",
+          "color": "blue",
+          "number": 4
+        },
+        {
+          "id": "yellow-4-b",
+          "color": "yellow",
+          "number": 4
+        },
+        {
+          "id": "black-4-a",
+          "color": "black",
+          "number": 4
+        }
+      ],
+      [
+        {
+          "id": "blue-5-a",
+          "color": "blue",
+          "number": 5
+        },
+        {
+          "id": "yellow-5-a",
+          "color": "yellow",
+          "number": 5
+        },
+        {
+          "id": "black-5-b",
+          "color": "black",
+          "number": 5
+        }
+      ],
+      [
+        {
+          "id": "blue-7-a",
+          "color": "blue",
+          "number": 7
+        },
+        {
+          "id": "yellow-7-a",
+          "color": "yellow",
+          "number": 7
+        },
+        {
+          "id": "black-7-a",
+          "color": "black",
+          "number": 7
+        }
+      ],
+      [
+        {
+          "id": "blue-8-a",
+          "color": "blue",
+          "number": 8
+        },
+        {
+          "id": "blue-9-a",
+          "color": "blue",
+          "number": 9
+        },
+        {
+          "id": "blue-10-a",
+          "color": "blue",
+          "number": 10
+        }
+      ],
+      [
+        {
+          "id": "yellow-7-b",
+          "color": "yellow",
+          "number": 7
+        },
+        {
+          "id": "yellow-8-a",
+          "color": "yellow",
+          "number": 8
+        },
+        {
+          "id": "yellow-9-a",
+          "color": "yellow",
+          "number": 9
+        },
+        {
+          "id": "yellow-10-a",
+          "color": "yellow",
+          "number": 10
+        }
+      ]
+    ],
+    "hand": {
+      "id": "yellow-3-a",
+      "color": "yellow",
+      "number": 3
+    },
+    "minMoves": 7,
+    "difficulty": "extra-hard"
+  },
+  {
+    "id": "extra-hard-5",
+    "board": [
+      [
+        {
+          "id": "red-1-a",
+          "color": "red",
+          "number": 1
+        },
+        {
+          "id": "red-2-a",
+          "color": "red",
+          "number": 2
+        },
+        {
+          "id": "red-3-a",
+          "color": "red",
+          "number": 3
+        }
+      ],
+      [
+        {
+          "id": "red-4-a",
+          "color": "red",
+          "number": 4
+        },
+        {
+          "id": "yellow-4-a",
+          "color": "yellow",
+          "number": 4
+        },
+        {
+          "id": "black-4-a",
+          "color": "black",
+          "number": 4
+        }
+      ],
+      [
+        {
+          "id": "red-9-a",
+          "color": "red",
+          "number": 9
+        },
+        {
+          "id": "yellow-9-a",
+          "color": "yellow",
+          "number": 9
+        },
+        {
+          "id": "black-9-a",
+          "color": "black",
+          "number": 9
+        }
+      ],
+      [
+        {
+          "id": "red-10-a",
+          "color": "red",
+          "number": 10
+        },
+        {
+          "id": "red-11-a",
+          "color": "red",
+          "number": 11
+        },
+        {
+          "id": "red-12-a",
+          "color": "red",
+          "number": 12
+        },
+        {
+          "id": "red-13-b",
+          "color": "red",
+          "number": 13
+        }
+      ],
+      [
+        {
+          "id": "red-10-b",
+          "color": "red",
+          "number": 10
+        },
+        {
+          "id": "yellow-10-a",
+          "color": "yellow",
+          "number": 10
+        },
+        {
+          "id": "black-10-a",
+          "color": "black",
+          "number": 10
+        }
+      ],
+      [
+        {
+          "id": "red-13-a",
+          "color": "red",
+          "number": 13
+        },
+        {
+          "id": "blue-13-a",
+          "color": "blue",
+          "number": 13
+        },
+        {
+          "id": "black-13-a",
+          "color": "black",
+          "number": 13
+        }
+      ],
+      [
+        {
+          "id": "blue-1-a",
+          "color": "blue",
+          "number": 1
+        },
+        {
+          "id": "yellow-1-a",
+          "color": "yellow",
+          "number": 1
+        },
+        {
+          "id": "black-1-a",
+          "color": "black",
+          "number": 1
+        }
+      ],
+      [
+        {
+          "id": "blue-2-a",
+          "color": "blue",
+          "number": 2
+        },
+        {
+          "id": "yellow-2-a",
+          "color": "yellow",
+          "number": 2
+        },
+        {
+          "id": "black-2-a",
+          "color": "black",
+          "number": 2
+        }
+      ],
+      [
+        {
+          "id": "yellow-5-a",
+          "color": "yellow",
+          "number": 5
+        },
+        {
+          "id": "yellow-6-a",
+          "color": "yellow",
+          "number": 6
+        },
+        {
+          "id": "yellow-7-a",
+          "color": "yellow",
+          "number": 7
+        },
+        {
+          "id": "yellow-8-a",
+          "color": "yellow",
+          "number": 8
+        }
+      ],
+      [
+        {
+          "id": "black-5-a",
+          "color": "black",
+          "number": 5
+        },
+        {
+          "id": "black-6-a",
+          "color": "black",
+          "number": 6
+        },
+        {
+          "id": "black-7-a",
+          "color": "black",
+          "number": 7
+        },
+        {
+          "id": "black-8-a",
+          "color": "black",
+          "number": 8
+        }
+      ]
+    ],
+    "hand": {
+      "id": "red-5-a",
+      "color": "red",
+      "number": 5
+    },
+    "minMoves": 7,
+    "difficulty": "extra-hard"
+  },
+  {
+    "id": "extra-hard-6",
+    "board": [
+      [
+        {
+          "id": "red-2-a",
+          "color": "red",
+          "number": 2
+        },
+        {
+          "id": "blue-2-b",
+          "color": "blue",
+          "number": 2
+        },
+        {
+          "id": "black-2-a",
+          "color": "black",
+          "number": 2
+        }
+      ],
+      [
+        {
+          "id": "red-3-a",
+          "color": "red",
+          "number": 3
+        },
+        {
+          "id": "blue-3-a",
+          "color": "blue",
+          "number": 3
+        },
+        {
+          "id": "black-3-a",
+          "color": "black",
+          "number": 3
+        }
+      ],
+      [
+        {
+          "id": "red-4-a",
+          "color": "red",
+          "number": 4
+        },
+        {
+          "id": "blue-4-a",
+          "color": "blue",
+          "number": 4
+        },
+        {
+          "id": "black-4-a",
+          "color": "black",
+          "number": 4
+        }
+      ],
+      [
+        {
+          "id": "red-5-a",
+          "color": "red",
+          "number": 5
+        },
+        {
+          "id": "red-6-a",
+          "color": "red",
+          "number": 6
+        },
+        {
+          "id": "red-7-a",
+          "color": "red",
+          "number": 7
+        }
+      ],
+      [
+        {
+          "id": "red-10-a",
+          "color": "red",
+          "number": 10
+        },
+        {
+          "id": "red-11-a",
+          "color": "red",
+          "number": 11
+        },
+        {
+          "id": "red-12-a",
+          "color": "red",
+          "number": 12
+        }
+      ],
+      [
+        {
+          "id": "blue-1-a",
+          "color": "blue",
+          "number": 1
+        },
+        {
+          "id": "blue-2-a",
+          "color": "blue",
+          "number": 2
+        },
+        {
+          "id": "blue-3-b",
+          "color": "blue",
+          "number": 3
+        }
+      ],
+      [
+        {
+          "id": "yellow-6-a",
+          "color": "yellow",
+          "number": 6
+        },
+        {
+          "id": "yellow-7-a",
+          "color": "yellow",
+          "number": 7
+        },
+        {
+          "id": "yellow-8-b",
+          "color": "yellow",
+          "number": 8
+        },
+        {
+          "id": "yellow-9-a",
+          "color": "yellow",
+          "number": 9
+        }
+      ],
+      [
+        {
+          "id": "yellow-8-a",
+          "color": "yellow",
+          "number": 8
+        },
+        {
+          "id": "yellow-9-b",
+          "color": "yellow",
+          "number": 9
+        },
+        {
+          "id": "yellow-10-a",
+          "color": "yellow",
+          "number": 10
+        },
+        {
+          "id": "yellow-11-a",
+          "color": "yellow",
+          "number": 11
+        }
+      ],
+      [
+        {
+          "id": "black-5-a",
+          "color": "black",
+          "number": 5
+        },
+        {
+          "id": "black-6-b",
+          "color": "black",
+          "number": 6
+        },
+        {
+          "id": "black-7-a",
+          "color": "black",
+          "number": 7
+        },
+        {
+          "id": "black-8-a",
+          "color": "black",
+          "number": 8
+        },
+        {
+          "id": "black-9-a",
+          "color": "black",
+          "number": 9
+        }
+      ],
+      [
+        {
+          "id": "black-5-b",
+          "color": "black",
+          "number": 5
+        },
+        {
+          "id": "black-6-a",
+          "color": "black",
+          "number": 6
+        },
+        {
+          "id": "black-7-b",
+          "color": "black",
+          "number": 7
+        }
+      ]
+    ],
+    "hand": {
+      "id": "blue-1-b",
+      "color": "blue",
+      "number": 1
+    },
+    "minMoves": 8,
+    "difficulty": "extra-hard"
+  },
+  {
+    "id": "extra-hard-7",
+    "board": [
+      [
+        {
+          "id": "red-3-a",
+          "color": "red",
+          "number": 3
+        },
+        {
+          "id": "blue-3-a",
+          "color": "blue",
+          "number": 3
+        },
+        {
+          "id": "yellow-3-a",
+          "color": "yellow",
+          "number": 3
+        }
+      ],
+      [
+        {
+          "id": "red-7-a",
+          "color": "red",
+          "number": 7
+        },
+        {
+          "id": "blue-7-a",
+          "color": "blue",
+          "number": 7
+        },
+        {
+          "id": "yellow-7-a",
+          "color": "yellow",
+          "number": 7
+        },
+        {
+          "id": "black-7-a",
+          "color": "black",
+          "number": 7
+        }
+      ],
+      [
+        {
+          "id": "red-8-a",
+          "color": "red",
+          "number": 8
+        },
+        {
+          "id": "blue-8-b",
+          "color": "blue",
+          "number": 8
+        },
+        {
+          "id": "black-8-b",
+          "color": "black",
+          "number": 8
+        }
+      ],
+      [
+        {
+          "id": "red-11-a",
+          "color": "red",
+          "number": 11
+        },
+        {
+          "id": "blue-11-a",
+          "color": "blue",
+          "number": 11
+        },
+        {
+          "id": "black-11-a",
+          "color": "black",
+          "number": 11
+        }
+      ],
+      [
+        {
+          "id": "red-12-a",
+          "color": "red",
+          "number": 12
+        },
+        {
+          "id": "blue-12-a",
+          "color": "blue",
+          "number": 12
+        },
+        {
+          "id": "black-12-a",
+          "color": "black",
+          "number": 12
+        }
+      ],
+      [
+        {
+          "id": "red-13-a",
+          "color": "red",
+          "number": 13
+        },
+        {
+          "id": "blue-13-a",
+          "color": "blue",
+          "number": 13
+        },
+        {
+          "id": "black-13-a",
+          "color": "black",
+          "number": 13
+        }
+      ],
+      [
+        {
+          "id": "blue-5-a",
+          "color": "blue",
+          "number": 5
+        },
+        {
+          "id": "blue-6-a",
+          "color": "blue",
+          "number": 6
+        },
+        {
+          "id": "blue-7-b",
+          "color": "blue",
+          "number": 7
+        },
+        {
+          "id": "blue-8-a",
+          "color": "blue",
+          "number": 8
+        },
+        {
+          "id": "blue-9-a",
+          "color": "blue",
+          "number": 9
+        }
+      ],
+      [
+        {
+          "id": "black-8-a",
+          "color": "black",
+          "number": 8
+        },
+        {
+          "id": "black-9-a",
+          "color": "black",
+          "number": 9
+        },
+        {
+          "id": "black-10-a",
+          "color": "black",
+          "number": 10
+        }
+      ]
+    ],
+    "hand": {
+      "id": "red-10-a",
+      "color": "red",
+      "number": 10
+    },
+    "minMoves": 7,
+    "difficulty": "extra-hard"
+  },
+  {
+    "id": "extra-hard-8",
+    "board": [
+      [
+        {
+          "id": "red-3-a",
+          "color": "red",
+          "number": 3
+        },
+        {
+          "id": "blue-3-a",
+          "color": "blue",
+          "number": 3
+        },
+        {
+          "id": "yellow-3-a",
+          "color": "yellow",
+          "number": 3
+        }
+      ],
+      [
+        {
+          "id": "red-5-a",
+          "color": "red",
+          "number": 5
+        },
+        {
+          "id": "red-6-a",
+          "color": "red",
+          "number": 6
+        },
+        {
+          "id": "red-7-a",
+          "color": "red",
+          "number": 7
+        },
+        {
+          "id": "red-8-a",
+          "color": "red",
+          "number": 8
+        }
+      ],
+      [
+        {
+          "id": "red-6-b",
+          "color": "red",
+          "number": 6
+        },
+        {
+          "id": "blue-6-b",
+          "color": "blue",
+          "number": 6
+        },
+        {
+          "id": "black-6-a",
+          "color": "black",
+          "number": 6
+        }
+      ],
+      [
+        {
+          "id": "red-9-a",
+          "color": "red",
+          "number": 9
+        },
+        {
+          "id": "blue-9-a",
+          "color": "blue",
+          "number": 9
+        },
+        {
+          "id": "yellow-9-a",
+          "color": "yellow",
+          "number": 9
+        }
+      ],
+      [
+        {
+          "id": "red-11-a",
+          "color": "red",
+          "number": 11
+        },
+        {
+          "id": "yellow-11-b",
+          "color": "yellow",
+          "number": 11
+        },
+        {
+          "id": "black-11-b",
+          "color": "black",
+          "number": 11
+        }
+      ],
+      [
+        {
+          "id": "blue-5-a",
+          "color": "blue",
+          "number": 5
+        },
+        {
+          "id": "blue-6-a",
+          "color": "blue",
+          "number": 6
+        },
+        {
+          "id": "blue-7-a",
+          "color": "blue",
+          "number": 7
+        },
+        {
+          "id": "blue-8-a",
+          "color": "blue",
+          "number": 8
+        }
+      ],
+      [
+        {
+          "id": "blue-11-a",
+          "color": "blue",
+          "number": 11
+        },
+        {
+          "id": "yellow-11-a",
+          "color": "yellow",
+          "number": 11
+        },
+        {
+          "id": "black-11-a",
+          "color": "black",
+          "number": 11
+        }
+      ],
+      [
+        {
+          "id": "yellow-6-a",
+          "color": "yellow",
+          "number": 6
+        },
+        {
+          "id": "yellow-7-b",
+          "color": "yellow",
+          "number": 7
+        },
+        {
+          "id": "yellow-8-a",
+          "color": "yellow",
+          "number": 8
+        },
+        {
+          "id": "yellow-9-b",
+          "color": "yellow",
+          "number": 9
+        },
+        {
+          "id": "yellow-10-a",
+          "color": "yellow",
+          "number": 10
+        }
+      ],
+      [
+        {
+          "id": "yellow-6-b",
+          "color": "yellow",
+          "number": 6
+        },
+        {
+          "id": "yellow-7-a",
+          "color": "yellow",
+          "number": 7
+        },
+        {
+          "id": "yellow-8-b",
+          "color": "yellow",
+          "number": 8
+        }
+      ],
+      [
+        {
+          "id": "black-8-a",
+          "color": "black",
+          "number": 8
+        },
+        {
+          "id": "black-9-a",
+          "color": "black",
+          "number": 9
+        },
+        {
+          "id": "black-10-a",
+          "color": "black",
+          "number": 10
+        }
+      ]
+    ],
+    "hand": {
+      "id": "red-10-a",
+      "color": "red",
+      "number": 10
+    },
+    "minMoves": 7,
+    "difficulty": "extra-hard"
+  },
+  {
+    "id": "extra-hard-9",
+    "board": [
+      [
+        {
+          "id": "red-6-a",
+          "color": "red",
+          "number": 6
+        },
+        {
+          "id": "yellow-6-a",
+          "color": "yellow",
+          "number": 6
+        },
+        {
+          "id": "black-6-a",
+          "color": "black",
+          "number": 6
+        }
+      ],
+      [
+        {
+          "id": "red-7-a",
+          "color": "red",
+          "number": 7
+        },
+        {
+          "id": "yellow-7-a",
+          "color": "yellow",
+          "number": 7
+        },
+        {
+          "id": "black-7-a",
+          "color": "black",
+          "number": 7
+        }
+      ],
+      [
+        {
+          "id": "red-9-a",
+          "color": "red",
+          "number": 9
+        },
+        {
+          "id": "yellow-9-a",
+          "color": "yellow",
+          "number": 9
+        },
+        {
+          "id": "black-9-a",
+          "color": "black",
+          "number": 9
+        }
+      ],
+      [
+        {
+          "id": "red-11-a",
+          "color": "red",
+          "number": 11
+        },
+        {
+          "id": "blue-11-a",
+          "color": "blue",
+          "number": 11
+        },
+        {
+          "id": "black-11-a",
+          "color": "black",
+          "number": 11
+        }
+      ],
+      [
+        {
+          "id": "blue-4-a",
+          "color": "blue",
+          "number": 4
+        },
+        {
+          "id": "yellow-4-a",
+          "color": "yellow",
+          "number": 4
+        },
+        {
+          "id": "black-4-a",
+          "color": "black",
+          "number": 4
+        }
+      ],
+      [
+        {
+          "id": "blue-6-a",
+          "color": "blue",
+          "number": 6
+        },
+        {
+          "id": "blue-7-a",
+          "color": "blue",
+          "number": 7
+        },
+        {
+          "id": "blue-8-a",
+          "color": "blue",
+          "number": 8
+        },
+        {
+          "id": "blue-9-b",
+          "color": "blue",
+          "number": 9
+        },
+        {
+          "id": "blue-10-a",
+          "color": "blue",
+          "number": 10
+        }
+      ],
+      [
+        {
+          "id": "blue-9-a",
+          "color": "blue",
+          "number": 9
+        },
+        {
+          "id": "blue-10-b",
+          "color": "blue",
+          "number": 10
+        },
+        {
+          "id": "blue-11-b",
+          "color": "blue",
+          "number": 11
+        },
+        {
+          "id": "blue-12-a",
+          "color": "blue",
+          "number": 12
+        },
+        {
+          "id": "blue-13-a",
+          "color": "blue",
+          "number": 13
+        }
+      ],
+      [
+        {
+          "id": "yellow-8-a",
+          "color": "yellow",
+          "number": 8
+        },
+        {
+          "id": "yellow-9-b",
+          "color": "yellow",
+          "number": 9
+        },
+        {
+          "id": "yellow-10-a",
+          "color": "yellow",
+          "number": 10
+        }
+      ]
+    ],
+    "hand": {
+      "id": "red-10-a",
+      "color": "red",
+      "number": 10
+    },
+    "minMoves": 7,
+    "difficulty": "extra-hard"
+  },
+  {
+    "id": "extra-hard-10",
+    "board": [
+      [
+        {
+          "id": "red-5-a",
+          "color": "red",
+          "number": 5
+        },
+        {
+          "id": "yellow-5-a",
+          "color": "yellow",
+          "number": 5
+        },
+        {
+          "id": "black-5-a",
+          "color": "black",
+          "number": 5
+        }
+      ],
+      [
+        {
+          "id": "red-6-a",
+          "color": "red",
+          "number": 6
+        },
+        {
+          "id": "red-7-a",
+          "color": "red",
+          "number": 7
+        },
+        {
+          "id": "red-8-b",
+          "color": "red",
+          "number": 8
+        }
+      ],
+      [
+        {
+          "id": "red-7-b",
+          "color": "red",
+          "number": 7
+        },
+        {
+          "id": "blue-7-a",
+          "color": "blue",
+          "number": 7
+        },
+        {
+          "id": "yellow-7-a",
+          "color": "yellow",
+          "number": 7
+        }
+      ],
+      [
+        {
+          "id": "red-8-a",
+          "color": "red",
+          "number": 8
+        },
+        {
+          "id": "blue-8-a",
+          "color": "blue",
+          "number": 8
+        },
+        {
+          "id": "yellow-8-a",
+          "color": "yellow",
+          "number": 8
+        },
+        {
+          "id": "black-8-a",
+          "color": "black",
+          "number": 8
+        }
+      ],
+      [
+        {
+          "id": "red-9-a",
+          "color": "red",
+          "number": 9
+        },
+        {
+          "id": "blue-9-a",
+          "color": "blue",
+          "number": 9
+        },
+        {
+          "id": "black-9-a",
+          "color": "black",
+          "number": 9
+        }
+      ],
+      [
+        {
+          "id": "red-10-a",
+          "color": "red",
+          "number": 10
+        },
+        {
+          "id": "blue-10-a",
+          "color": "blue",
+          "number": 10
+        },
+        {
+          "id": "black-10-a",
+          "color": "black",
+          "number": 10
+        }
+      ],
+      [
+        {
+          "id": "red-11-b",
+          "color": "red",
+          "number": 11
+        },
+        {
+          "id": "blue-11-a",
+          "color": "blue",
+          "number": 11
+        },
+        {
+          "id": "yellow-11-a",
+          "color": "yellow",
+          "number": 11
+        },
+        {
+          "id": "black-11-a",
+          "color": "black",
+          "number": 11
+        }
+      ],
+      [
+        {
+          "id": "red-11-a",
+          "color": "red",
+          "number": 11
+        },
+        {
+          "id": "blue-11-b",
+          "color": "blue",
+          "number": 11
+        },
+        {
+          "id": "black-11-b",
+          "color": "black",
+          "number": 11
+        }
+      ],
+      [
+        {
+          "id": "red-12-a",
+          "color": "red",
+          "number": 12
+        },
+        {
+          "id": "blue-12-b",
+          "color": "blue",
+          "number": 12
+        },
+        {
+          "id": "black-12-b",
+          "color": "black",
+          "number": 12
+        }
+      ],
+      [
+        {
+          "id": "blue-12-a",
+          "color": "blue",
+          "number": 12
+        },
+        {
+          "id": "yellow-12-a",
+          "color": "yellow",
+          "number": 12
+        },
+        {
+          "id": "black-12-a",
+          "color": "black",
+          "number": 12
+        }
+      ]
+    ],
+    "hand": {
+      "id": "blue-8-b",
+      "color": "blue",
+      "number": 8
+    },
+    "minMoves": 8,
+    "difficulty": "extra-hard"
+  },
+  {
+    "id": "extra-hard-11",
+    "board": [
+      [
+        {
+          "id": "red-3-a",
+          "color": "red",
+          "number": 3
+        },
+        {
+          "id": "red-4-a",
+          "color": "red",
+          "number": 4
+        },
+        {
+          "id": "red-5-a",
+          "color": "red",
+          "number": 5
+        },
+        {
+          "id": "red-6-a",
+          "color": "red",
+          "number": 6
+        }
+      ],
+      [
+        {
+          "id": "red-5-b",
+          "color": "red",
+          "number": 5
+        },
+        {
+          "id": "blue-5-b",
+          "color": "blue",
+          "number": 5
+        },
+        {
+          "id": "yellow-5-a",
+          "color": "yellow",
+          "number": 5
+        }
+      ],
+      [
+        {
+          "id": "red-6-b",
+          "color": "red",
+          "number": 6
+        },
+        {
+          "id": "yellow-6-b",
+          "color": "yellow",
+          "number": 6
+        },
+        {
+          "id": "black-6-a",
+          "color": "black",
+          "number": 6
+        }
+      ],
+      [
+        {
+          "id": "blue-3-a",
+          "color": "blue",
+          "number": 3
+        },
+        {
+          "id": "yellow-3-a",
+          "color": "yellow",
+          "number": 3
+        },
+        {
+          "id": "black-3-a",
+          "color": "black",
+          "number": 3
+        }
+      ],
+      [
+        {
+          "id": "blue-4-a",
+          "color": "blue",
+          "number": 4
+        },
+        {
+          "id": "yellow-4-a",
+          "color": "yellow",
+          "number": 4
+        },
+        {
+          "id": "black-4-a",
+          "color": "black",
+          "number": 4
+        }
+      ],
+      [
+        {
+          "id": "blue-5-a",
+          "color": "blue",
+          "number": 5
+        },
+        {
+          "id": "yellow-5-b",
+          "color": "yellow",
+          "number": 5
+        },
+        {
+          "id": "black-5-a",
+          "color": "black",
+          "number": 5
+        }
+      ],
+      [
+        {
+          "id": "blue-6-a",
+          "color": "blue",
+          "number": 6
+        },
+        {
+          "id": "yellow-6-a",
+          "color": "yellow",
+          "number": 6
+        },
+        {
+          "id": "black-6-b",
+          "color": "black",
+          "number": 6
+        }
+      ]
+    ],
+    "hand": {
+      "id": "blue-3-b",
+      "color": "blue",
+      "number": 3
+    },
+    "minMoves": 7,
+    "difficulty": "extra-hard"
+  },
+  {
+    "id": "extra-hard-12",
+    "board": [
+      [
+        {
+          "id": "red-2-a",
+          "color": "red",
+          "number": 2
+        },
+        {
+          "id": "blue-2-a",
+          "color": "blue",
+          "number": 2
+        },
+        {
+          "id": "black-2-a",
+          "color": "black",
+          "number": 2
+        }
+      ],
+      [
+        {
+          "id": "red-7-a",
+          "color": "red",
+          "number": 7
+        },
+        {
+          "id": "red-8-a",
+          "color": "red",
+          "number": 8
+        },
+        {
+          "id": "red-9-a",
+          "color": "red",
+          "number": 9
+        },
+        {
+          "id": "red-10-a",
+          "color": "red",
+          "number": 10
+        }
+      ],
+      [
+        {
+          "id": "blue-3-a",
+          "color": "blue",
+          "number": 3
+        },
+        {
+          "id": "blue-4-a",
+          "color": "blue",
+          "number": 4
+        },
+        {
+          "id": "blue-5-a",
+          "color": "blue",
+          "number": 5
+        }
+      ],
+      [
+        {
+          "id": "blue-9-a",
+          "color": "blue",
+          "number": 9
+        },
+        {
+          "id": "yellow-9-b",
+          "color": "yellow",
+          "number": 9
+        },
+        {
+          "id": "black-9-a",
+          "color": "black",
+          "number": 9
+        }
+      ],
+      [
+        {
+          "id": "yellow-2-a",
+          "color": "yellow",
+          "number": 2
+        },
+        {
+          "id": "yellow-3-a",
+          "color": "yellow",
+          "number": 3
+        },
+        {
+          "id": "yellow-4-a",
+          "color": "yellow",
+          "number": 4
+        }
+      ],
+      [
+        {
+          "id": "yellow-9-a",
+          "color": "yellow",
+          "number": 9
+        },
+        {
+          "id": "yellow-10-a",
+          "color": "yellow",
+          "number": 10
+        },
+        {
+          "id": "yellow-11-a",
+          "color": "yellow",
+          "number": 11
+        },
+        {
+          "id": "yellow-12-a",
+          "color": "yellow",
+          "number": 12
+        },
+        {
+          "id": "yellow-13-a",
+          "color": "yellow",
+          "number": 13
+        }
+      ],
+      [
+        {
+          "id": "black-3-a",
+          "color": "black",
+          "number": 3
+        },
+        {
+          "id": "black-4-a",
+          "color": "black",
+          "number": 4
+        },
+        {
+          "id": "black-5-a",
+          "color": "black",
+          "number": 5
+        }
+      ],
+      [
+        {
+          "id": "black-9-b",
+          "color": "black",
+          "number": 9
+        },
+        {
+          "id": "black-10-a",
+          "color": "black",
+          "number": 10
+        },
+        {
+          "id": "black-11-a",
+          "color": "black",
+          "number": 11
+        }
+      ]
+    ],
+    "hand": {
+      "id": "red-5-a",
+      "color": "red",
+      "number": 5
+    },
+    "minMoves": 7,
+    "difficulty": "extra-hard"
+  },
+  {
+    "id": "extra-hard-13",
+    "board": [
+      [
+        {
+          "id": "red-1-a",
+          "color": "red",
+          "number": 1
+        },
+        {
+          "id": "yellow-1-a",
+          "color": "yellow",
+          "number": 1
+        },
+        {
+          "id": "black-1-a",
+          "color": "black",
+          "number": 1
+        }
+      ],
+      [
+        {
+          "id": "red-4-a",
+          "color": "red",
+          "number": 4
+        },
+        {
+          "id": "red-5-a",
+          "color": "red",
+          "number": 5
+        },
+        {
+          "id": "red-6-a",
+          "color": "red",
+          "number": 6
+        },
+        {
+          "id": "red-7-a",
+          "color": "red",
+          "number": 7
+        }
+      ],
+      [
+        {
+          "id": "red-6-b",
+          "color": "red",
+          "number": 6
+        },
+        {
+          "id": "blue-6-a",
+          "color": "blue",
+          "number": 6
+        },
+        {
+          "id": "black-6-a",
+          "color": "black",
+          "number": 6
+        }
+      ],
+      [
+        {
+          "id": "red-8-a",
+          "color": "red",
+          "number": 8
+        },
+        {
+          "id": "red-9-a",
+          "color": "red",
+          "number": 9
+        },
+        {
+          "id": "red-10-a",
+          "color": "red",
+          "number": 10
+        }
+      ],
+      [
+        {
+          "id": "blue-1-a",
+          "color": "blue",
+          "number": 1
+        },
+        {
+          "id": "blue-2-a",
+          "color": "blue",
+          "number": 2
+        },
+        {
+          "id": "blue-3-a",
+          "color": "blue",
+          "number": 3
+        },
+        {
+          "id": "blue-4-a",
+          "color": "blue",
+          "number": 4
+        }
+      ],
+      [
+        {
+          "id": "blue-4-b",
+          "color": "blue",
+          "number": 4
+        },
+        {
+          "id": "blue-5-a",
+          "color": "blue",
+          "number": 5
+        },
+        {
+          "id": "blue-6-b",
+          "color": "blue",
+          "number": 6
+        },
+        {
+          "id": "blue-7-a",
+          "color": "blue",
+          "number": 7
+        },
+        {
+          "id": "blue-8-a",
+          "color": "blue",
+          "number": 8
+        }
+      ],
+      [
+        {
+          "id": "blue-9-a",
+          "color": "blue",
+          "number": 9
+        },
+        {
+          "id": "blue-10-a",
+          "color": "blue",
+          "number": 10
+        },
+        {
+          "id": "blue-11-a",
+          "color": "blue",
+          "number": 11
+        }
+      ],
+      [
+        {
+          "id": "yellow-4-a",
+          "color": "yellow",
+          "number": 4
+        },
+        {
+          "id": "yellow-5-a",
+          "color": "yellow",
+          "number": 5
+        },
+        {
+          "id": "yellow-6-a",
+          "color": "yellow",
+          "number": 6
+        }
+      ],
+      [
+        {
+          "id": "yellow-9-a",
+          "color": "yellow",
+          "number": 9
+        },
+        {
+          "id": "yellow-10-a",
+          "color": "yellow",
+          "number": 10
+        },
+        {
+          "id": "yellow-11-a",
+          "color": "yellow",
+          "number": 11
+        }
+      ]
+    ],
+    "hand": {
+      "id": "black-5-a",
+      "color": "black",
+      "number": 5
+    },
+    "minMoves": 7,
+    "difficulty": "extra-hard"
+  },
+  {
+    "id": "extra-hard-14",
+    "board": [
+      [
+        {
+          "id": "red-1-a",
+          "color": "red",
+          "number": 1
+        },
+        {
+          "id": "blue-1-a",
+          "color": "blue",
+          "number": 1
+        },
+        {
+          "id": "yellow-1-a",
+          "color": "yellow",
+          "number": 1
+        }
+      ],
+      [
+        {
+          "id": "red-2-a",
+          "color": "red",
+          "number": 2
+        },
+        {
+          "id": "blue-2-a",
+          "color": "blue",
+          "number": 2
+        },
+        {
+          "id": "yellow-2-a",
+          "color": "yellow",
+          "number": 2
+        }
+      ],
+      [
+        {
+          "id": "red-8-a",
+          "color": "red",
+          "number": 8
+        },
+        {
+          "id": "red-9-a",
+          "color": "red",
+          "number": 9
+        },
+        {
+          "id": "red-10-a",
+          "color": "red",
+          "number": 10
+        }
+      ],
+      [
+        {
+          "id": "red-8-b",
+          "color": "red",
+          "number": 8
+        },
+        {
+          "id": "yellow-8-a",
+          "color": "yellow",
+          "number": 8
+        },
+        {
+          "id": "black-8-a",
+          "color": "black",
+          "number": 8
+        }
+      ],
+      [
+        {
+          "id": "blue-8-a",
+          "color": "blue",
+          "number": 8
+        },
+        {
+          "id": "yellow-8-b",
+          "color": "yellow",
+          "number": 8
+        },
+        {
+          "id": "black-8-b",
+          "color": "black",
+          "number": 8
+        }
+      ],
+      [
+        {
+          "id": "blue-11-a",
+          "color": "blue",
+          "number": 11
+        },
+        {
+          "id": "blue-12-a",
+          "color": "blue",
+          "number": 12
+        },
+        {
+          "id": "blue-13-a",
+          "color": "blue",
+          "number": 13
+        }
+      ],
+      [
+        {
+          "id": "yellow-3-a",
+          "color": "yellow",
+          "number": 3
+        },
+        {
+          "id": "yellow-4-a",
+          "color": "yellow",
+          "number": 4
+        },
+        {
+          "id": "yellow-5-b",
+          "color": "yellow",
+          "number": 5
+        }
+      ],
+      [
+        {
+          "id": "yellow-5-a",
+          "color": "yellow",
+          "number": 5
+        },
+        {
+          "id": "yellow-6-a",
+          "color": "yellow",
+          "number": 6
+        },
+        {
+          "id": "yellow-7-a",
+          "color": "yellow",
+          "number": 7
+        }
+      ],
+      [
+        {
+          "id": "black-2-a",
+          "color": "black",
+          "number": 2
+        },
+        {
+          "id": "black-3-a",
+          "color": "black",
+          "number": 3
+        },
+        {
+          "id": "black-4-a",
+          "color": "black",
+          "number": 4
+        },
+        {
+          "id": "black-5-b",
+          "color": "black",
+          "number": 5
+        }
+      ],
+      [
+        {
+          "id": "black-5-a",
+          "color": "black",
+          "number": 5
+        },
+        {
+          "id": "black-6-a",
+          "color": "black",
+          "number": 6
+        },
+        {
+          "id": "black-7-a",
+          "color": "black",
+          "number": 7
+        }
+      ]
+    ],
+    "hand": {
+      "id": "blue-5-a",
+      "color": "blue",
+      "number": 5
+    },
+    "minMoves": 7,
+    "difficulty": "extra-hard"
+  },
+  {
+    "id": "extra-hard-15",
+    "board": [
+      [
+        {
+          "id": "red-9-a",
+          "color": "red",
+          "number": 9
+        },
+        {
+          "id": "red-10-a",
+          "color": "red",
+          "number": 10
+        },
+        {
+          "id": "red-11-a",
+          "color": "red",
+          "number": 11
+        },
+        {
+          "id": "red-12-a",
+          "color": "red",
+          "number": 12
+        }
+      ],
+      [
+        {
+          "id": "blue-9-a",
+          "color": "blue",
+          "number": 9
+        },
+        {
+          "id": "yellow-9-a",
+          "color": "yellow",
+          "number": 9
+        },
+        {
+          "id": "black-9-b",
+          "color": "black",
+          "number": 9
+        }
+      ],
+      [
+        {
+          "id": "blue-10-a",
+          "color": "blue",
+          "number": 10
+        },
+        {
+          "id": "blue-11-a",
+          "color": "blue",
+          "number": 11
+        },
+        {
+          "id": "blue-12-a",
+          "color": "blue",
+          "number": 12
+        }
+      ],
+      [
+        {
+          "id": "yellow-10-a",
+          "color": "yellow",
+          "number": 10
+        },
+        {
+          "id": "yellow-11-a",
+          "color": "yellow",
+          "number": 11
+        },
+        {
+          "id": "yellow-12-a",
+          "color": "yellow",
+          "number": 12
+        }
+      ],
+      [
+        {
+          "id": "black-9-a",
+          "color": "black",
+          "number": 9
+        },
+        {
+          "id": "black-10-b",
+          "color": "black",
+          "number": 10
+        },
+        {
+          "id": "black-11-a",
+          "color": "black",
+          "number": 11
+        },
+        {
+          "id": "black-12-a",
+          "color": "black",
+          "number": 12
+        },
+        {
+          "id": "black-13-a",
+          "color": "black",
+          "number": 13
+        }
+      ]
+    ],
+    "hand": {
+      "id": "black-10-a",
+      "color": "black",
+      "number": 10
+    },
+    "minMoves": 8,
+    "difficulty": "extra-hard"
+  },
+  {
+    "id": "extra-hard-16",
+    "board": [
+      [
+        {
+          "id": "red-2-a",
+          "color": "red",
+          "number": 2
+        },
+        {
+          "id": "blue-2-a",
+          "color": "blue",
+          "number": 2
+        },
+        {
+          "id": "yellow-2-a",
+          "color": "yellow",
+          "number": 2
+        },
+        {
+          "id": "black-2-a",
+          "color": "black",
+          "number": 2
+        }
+      ],
+      [
+        {
+          "id": "red-5-a",
+          "color": "red",
+          "number": 5
+        },
+        {
+          "id": "red-6-a",
+          "color": "red",
+          "number": 6
+        },
+        {
+          "id": "red-7-a",
+          "color": "red",
+          "number": 7
+        }
+      ],
+      [
+        {
+          "id": "red-5-b",
+          "color": "red",
+          "number": 5
+        },
+        {
+          "id": "blue-5-a",
+          "color": "blue",
+          "number": 5
+        },
+        {
+          "id": "black-5-b",
+          "color": "black",
+          "number": 5
+        }
+      ],
+      [
+        {
+          "id": "red-8-a",
+          "color": "red",
+          "number": 8
+        },
+        {
+          "id": "yellow-8-a",
+          "color": "yellow",
+          "number": 8
+        },
+        {
+          "id": "black-8-a",
+          "color": "black",
+          "number": 8
+        }
+      ],
+      [
+        {
+          "id": "blue-5-b",
+          "color": "blue",
+          "number": 5
+        },
+        {
+          "id": "yellow-5-b",
+          "color": "yellow",
+          "number": 5
+        },
+        {
+          "id": "black-5-a",
+          "color": "black",
+          "number": 5
+        }
+      ],
+      [
+        {
+          "id": "blue-6-a",
+          "color": "blue",
+          "number": 6
+        },
+        {
+          "id": "blue-7-a",
+          "color": "blue",
+          "number": 7
+        },
+        {
+          "id": "blue-8-a",
+          "color": "blue",
+          "number": 8
+        }
+      ],
+      [
+        {
+          "id": "yellow-5-a",
+          "color": "yellow",
+          "number": 5
+        },
+        {
+          "id": "yellow-6-a",
+          "color": "yellow",
+          "number": 6
+        },
+        {
+          "id": "yellow-7-a",
+          "color": "yellow",
+          "number": 7
+        }
+      ]
+    ],
+    "hand": {
+      "id": "black-7-a",
+      "color": "black",
+      "number": 7
+    },
+    "minMoves": 8,
+    "difficulty": "extra-hard"
+  },
+  {
+    "id": "extra-hard-17",
+    "board": [
+      [
+        {
+          "id": "red-1-a",
+          "color": "red",
+          "number": 1
+        },
+        {
+          "id": "blue-1-b",
+          "color": "blue",
+          "number": 1
+        },
+        {
+          "id": "yellow-1-a",
+          "color": "yellow",
+          "number": 1
+        },
+        {
+          "id": "black-1-a",
+          "color": "black",
+          "number": 1
+        }
+      ],
+      [
+        {
+          "id": "red-2-a",
+          "color": "red",
+          "number": 2
+        },
+        {
+          "id": "blue-2-b",
+          "color": "blue",
+          "number": 2
+        },
+        {
+          "id": "yellow-2-a",
+          "color": "yellow",
+          "number": 2
+        },
+        {
+          "id": "black-2-a",
+          "color": "black",
+          "number": 2
+        }
+      ],
+      [
+        {
+          "id": "red-3-a",
+          "color": "red",
+          "number": 3
+        },
+        {
+          "id": "blue-3-b",
+          "color": "blue",
+          "number": 3
+        },
+        {
+          "id": "yellow-3-a",
+          "color": "yellow",
+          "number": 3
+        },
+        {
+          "id": "black-3-a",
+          "color": "black",
+          "number": 3
+        }
+      ],
+      [
+        {
+          "id": "blue-1-a",
+          "color": "blue",
+          "number": 1
+        },
+        {
+          "id": "blue-2-a",
+          "color": "blue",
+          "number": 2
+        },
+        {
+          "id": "blue-3-a",
+          "color": "blue",
+          "number": 3
+        },
+        {
+          "id": "blue-4-a",
+          "color": "blue",
+          "number": 4
+        }
+      ],
+      [
+        {
+          "id": "blue-5-a",
+          "color": "blue",
+          "number": 5
+        },
+        {
+          "id": "yellow-5-a",
+          "color": "yellow",
+          "number": 5
+        },
+        {
+          "id": "black-5-a",
+          "color": "black",
+          "number": 5
+        }
+      ],
+      [
+        {
+          "id": "yellow-5-b",
+          "color": "yellow",
+          "number": 5
+        },
+        {
+          "id": "yellow-6-b",
+          "color": "yellow",
+          "number": 6
+        },
+        {
+          "id": "yellow-7-a",
+          "color": "yellow",
+          "number": 7
+        },
+        {
+          "id": "yellow-8-a",
+          "color": "yellow",
+          "number": 8
+        },
+        {
+          "id": "yellow-9-a",
+          "color": "yellow",
+          "number": 9
+        }
+      ],
+      [
+        {
+          "id": "yellow-6-a",
+          "color": "yellow",
+          "number": 6
+        },
+        {
+          "id": "yellow-7-b",
+          "color": "yellow",
+          "number": 7
+        },
+        {
+          "id": "yellow-8-b",
+          "color": "yellow",
+          "number": 8
+        }
+      ],
+      [
+        {
+          "id": "black-6-a",
+          "color": "black",
+          "number": 6
+        },
+        {
+          "id": "black-7-a",
+          "color": "black",
+          "number": 7
+        },
+        {
+          "id": "black-8-a",
+          "color": "black",
+          "number": 8
+        }
+      ],
+      [
+        {
+          "id": "black-10-a",
+          "color": "black",
+          "number": 10
+        },
+        {
+          "id": "black-11-a",
+          "color": "black",
+          "number": 11
+        },
+        {
+          "id": "black-12-a",
+          "color": "black",
+          "number": 12
+        }
+      ]
+    ],
+    "hand": {
+      "id": "blue-6-a",
+      "color": "blue",
+      "number": 6
+    },
+    "minMoves": 7,
+    "difficulty": "extra-hard"
+  },
+  {
+    "id": "extra-hard-18",
+    "board": [
+      [
+        {
+          "id": "red-6-a",
+          "color": "red",
+          "number": 6
+        },
+        {
+          "id": "blue-6-a",
+          "color": "blue",
+          "number": 6
+        },
+        {
+          "id": "yellow-6-b",
+          "color": "yellow",
+          "number": 6
+        },
+        {
+          "id": "black-6-a",
+          "color": "black",
+          "number": 6
+        }
+      ],
+      [
+        {
+          "id": "red-7-a",
+          "color": "red",
+          "number": 7
+        },
+        {
+          "id": "blue-7-b",
+          "color": "blue",
+          "number": 7
+        },
+        {
+          "id": "black-7-a",
+          "color": "black",
+          "number": 7
+        }
+      ],
+      [
+        {
+          "id": "red-9-a",
+          "color": "red",
+          "number": 9
+        },
+        {
+          "id": "blue-9-a",
+          "color": "blue",
+          "number": 9
+        },
+        {
+          "id": "black-9-a",
+          "color": "black",
+          "number": 9
+        }
+      ],
+      [
+        {
+          "id": "red-10-a",
+          "color": "red",
+          "number": 10
+        },
+        {
+          "id": "yellow-10-a",
+          "color": "yellow",
+          "number": 10
+        },
+        {
+          "id": "black-10-a",
+          "color": "black",
+          "number": 10
+        }
+      ],
+      [
+        {
+          "id": "blue-5-a",
+          "color": "blue",
+          "number": 5
+        },
+        {
+          "id": "yellow-5-a",
+          "color": "yellow",
+          "number": 5
+        },
+        {
+          "id": "black-5-a",
+          "color": "black",
+          "number": 5
+        }
+      ],
+      [
+        {
+          "id": "blue-6-b",
+          "color": "blue",
+          "number": 6
+        },
+        {
+          "id": "blue-7-a",
+          "color": "blue",
+          "number": 7
+        },
+        {
+          "id": "blue-8-a",
+          "color": "blue",
+          "number": 8
+        }
+      ],
+      [
+        {
+          "id": "yellow-2-a",
+          "color": "yellow",
+          "number": 2
+        },
+        {
+          "id": "yellow-3-a",
+          "color": "yellow",
+          "number": 3
+        },
+        {
+          "id": "yellow-4-a",
+          "color": "yellow",
+          "number": 4
+        }
+      ],
+      [
+        {
+          "id": "yellow-6-a",
+          "color": "yellow",
+          "number": 6
+        },
+        {
+          "id": "yellow-7-a",
+          "color": "yellow",
+          "number": 7
+        },
+        {
+          "id": "yellow-8-a",
+          "color": "yellow",
+          "number": 8
+        },
+        {
+          "id": "yellow-9-a",
+          "color": "yellow",
+          "number": 9
+        }
+      ],
+      [
+        {
+          "id": "black-1-a",
+          "color": "black",
+          "number": 1
+        },
+        {
+          "id": "black-2-a",
+          "color": "black",
+          "number": 2
+        },
+        {
+          "id": "black-3-a",
+          "color": "black",
+          "number": 3
+        },
+        {
+          "id": "black-4-a",
+          "color": "black",
+          "number": 4
+        }
+      ]
+    ],
+    "hand": {
+      "id": "black-8-a",
+      "color": "black",
+      "number": 8
+    },
+    "minMoves": 7,
+    "difficulty": "extra-hard"
+  },
+  {
+    "id": "extra-hard-19",
+    "board": [
+      [
+        {
+          "id": "red-2-a",
+          "color": "red",
+          "number": 2
+        },
+        {
+          "id": "yellow-2-a",
+          "color": "yellow",
+          "number": 2
+        },
+        {
+          "id": "black-2-a",
+          "color": "black",
+          "number": 2
+        }
+      ],
+      [
+        {
+          "id": "red-6-a",
+          "color": "red",
+          "number": 6
+        },
+        {
+          "id": "blue-6-b",
+          "color": "blue",
+          "number": 6
+        },
+        {
+          "id": "black-6-b",
+          "color": "black",
+          "number": 6
+        }
+      ],
+      [
+        {
+          "id": "red-6-b",
+          "color": "red",
+          "number": 6
+        },
+        {
+          "id": "yellow-6-a",
+          "color": "yellow",
+          "number": 6
+        },
+        {
+          "id": "black-6-a",
+          "color": "black",
+          "number": 6
+        }
+      ],
+      [
+        {
+          "id": "red-7-a",
+          "color": "red",
+          "number": 7
+        },
+        {
+          "id": "red-8-a",
+          "color": "red",
+          "number": 8
+        },
+        {
+          "id": "red-9-a",
+          "color": "red",
+          "number": 9
+        }
+      ],
+      [
+        {
+          "id": "red-7-b",
+          "color": "red",
+          "number": 7
+        },
+        {
+          "id": "yellow-7-b",
+          "color": "yellow",
+          "number": 7
+        },
+        {
+          "id": "black-7-a",
+          "color": "black",
+          "number": 7
+        }
+      ],
+      [
+        {
+          "id": "red-11-a",
+          "color": "red",
+          "number": 11
+        },
+        {
+          "id": "yellow-11-a",
+          "color": "yellow",
+          "number": 11
+        },
+        {
+          "id": "black-11-a",
+          "color": "black",
+          "number": 11
+        }
+      ],
+      [
+        {
+          "id": "blue-5-a",
+          "color": "blue",
+          "number": 5
+        },
+        {
+          "id": "blue-6-a",
+          "color": "blue",
+          "number": 6
+        },
+        {
+          "id": "blue-7-a",
+          "color": "blue",
+          "number": 7
+        }
+      ],
+      [
+        {
+          "id": "blue-7-b",
+          "color": "blue",
+          "number": 7
+        },
+        {
+          "id": "blue-8-a",
+          "color": "blue",
+          "number": 8
+        },
+        {
+          "id": "blue-9-a",
+          "color": "blue",
+          "number": 9
+        }
+      ],
+      [
+        {
+          "id": "yellow-7-a",
+          "color": "yellow",
+          "number": 7
+        },
+        {
+          "id": "yellow-8-a",
+          "color": "yellow",
+          "number": 8
+        },
+        {
+          "id": "yellow-9-a",
+          "color": "yellow",
+          "number": 9
+        },
+        {
+          "id": "yellow-10-a",
+          "color": "yellow",
+          "number": 10
+        }
+      ],
+      [
+        {
+          "id": "black-8-a",
+          "color": "black",
+          "number": 8
+        },
+        {
+          "id": "black-9-a",
+          "color": "black",
+          "number": 9
+        },
+        {
+          "id": "black-10-a",
+          "color": "black",
+          "number": 10
+        },
+        {
+          "id": "black-11-b",
+          "color": "black",
+          "number": 11
+        }
+      ]
+    ],
+    "hand": {
+      "id": "red-5-a",
+      "color": "red",
+      "number": 5
+    },
+    "minMoves": 7,
+    "difficulty": "extra-hard"
+  },
+  {
+    "id": "extra-hard-20",
+    "board": [
+      [
+        {
+          "id": "red-3-a",
+          "color": "red",
+          "number": 3
+        },
+        {
+          "id": "red-4-b",
+          "color": "red",
+          "number": 4
+        },
+        {
+          "id": "red-5-a",
+          "color": "red",
+          "number": 5
+        },
+        {
+          "id": "red-6-b",
+          "color": "red",
+          "number": 6
+        }
+      ],
+      [
+        {
+          "id": "red-4-a",
+          "color": "red",
+          "number": 4
+        },
+        {
+          "id": "blue-4-a",
+          "color": "blue",
+          "number": 4
+        },
+        {
+          "id": "yellow-4-a",
+          "color": "yellow",
+          "number": 4
+        },
+        {
+          "id": "black-4-a",
+          "color": "black",
+          "number": 4
+        }
+      ],
+      [
+        {
+          "id": "red-6-a",
+          "color": "red",
+          "number": 6
+        },
+        {
+          "id": "blue-6-a",
+          "color": "blue",
+          "number": 6
+        },
+        {
+          "id": "yellow-6-b",
+          "color": "yellow",
+          "number": 6
+        }
+      ],
+      [
+        {
+          "id": "blue-4-b",
+          "color": "blue",
+          "number": 4
+        },
+        {
+          "id": "yellow-4-b",
+          "color": "yellow",
+          "number": 4
+        },
+        {
+          "id": "black-4-b",
+          "color": "black",
+          "number": 4
+        }
+      ],
+      [
+        {
+          "id": "blue-5-a",
+          "color": "blue",
+          "number": 5
+        },
+        {
+          "id": "yellow-5-a",
+          "color": "yellow",
+          "number": 5
+        },
+        {
+          "id": "black-5-a",
+          "color": "black",
+          "number": 5
+        }
+      ],
+      [
+        {
+          "id": "blue-6-b",
+          "color": "blue",
+          "number": 6
+        },
+        {
+          "id": "yellow-6-a",
+          "color": "yellow",
+          "number": 6
+        },
+        {
+          "id": "black-6-b",
+          "color": "black",
+          "number": 6
+        }
+      ],
+      [
+        {
+          "id": "blue-7-a",
+          "color": "blue",
+          "number": 7
+        },
+        {
+          "id": "blue-8-a",
+          "color": "blue",
+          "number": 8
+        },
+        {
+          "id": "blue-9-a",
+          "color": "blue",
+          "number": 9
+        }
+      ],
+      [
+        {
+          "id": "yellow-9-a",
+          "color": "yellow",
+          "number": 9
+        },
+        {
+          "id": "yellow-10-a",
+          "color": "yellow",
+          "number": 10
+        },
+        {
+          "id": "yellow-11-a",
+          "color": "yellow",
+          "number": 11
+        },
+        {
+          "id": "yellow-12-a",
+          "color": "yellow",
+          "number": 12
+        },
+        {
+          "id": "yellow-13-a",
+          "color": "yellow",
+          "number": 13
+        }
+      ],
+      [
+        {
+          "id": "black-1-a",
+          "color": "black",
+          "number": 1
+        },
+        {
+          "id": "black-2-a",
+          "color": "black",
+          "number": 2
+        },
+        {
+          "id": "black-3-a",
+          "color": "black",
+          "number": 3
+        }
+      ],
+      [
+        {
+          "id": "black-6-a",
+          "color": "black",
+          "number": 6
+        },
+        {
+          "id": "black-7-a",
+          "color": "black",
+          "number": 7
+        },
+        {
+          "id": "black-8-a",
+          "color": "black",
+          "number": 8
+        }
+      ]
+    ],
+    "hand": {
+      "id": "yellow-3-a",
+      "color": "yellow",
+      "number": 3
+    },
+    "minMoves": 8,
+    "difficulty": "extra-hard"
+  },
+  {
+    "id": "extra-hard-21",
+    "board": [
+      [
+        {
+          "id": "red-3-a",
+          "color": "red",
+          "number": 3
+        },
+        {
+          "id": "red-4-a",
+          "color": "red",
+          "number": 4
+        },
+        {
+          "id": "red-5-a",
+          "color": "red",
+          "number": 5
+        },
+        {
+          "id": "red-6-a",
+          "color": "red",
+          "number": 6
+        },
+        {
+          "id": "red-7-a",
+          "color": "red",
+          "number": 7
+        }
+      ],
+      [
+        {
+          "id": "red-7-b",
+          "color": "red",
+          "number": 7
+        },
+        {
+          "id": "red-8-a",
+          "color": "red",
+          "number": 8
+        },
+        {
+          "id": "red-9-a",
+          "color": "red",
+          "number": 9
+        }
+      ],
+      [
+        {
+          "id": "red-10-a",
+          "color": "red",
+          "number": 10
+        },
+        {
+          "id": "yellow-10-a",
+          "color": "yellow",
+          "number": 10
+        },
+        {
+          "id": "black-10-a",
+          "color": "black",
+          "number": 10
+        }
+      ],
+      [
+        {
+          "id": "blue-4-a",
+          "color": "blue",
+          "number": 4
+        },
+        {
+          "id": "blue-5-a",
+          "color": "blue",
+          "number": 5
+        },
+        {
+          "id": "blue-6-a",
+          "color": "blue",
+          "number": 6
+        }
+      ],
+      [
+        {
+          "id": "blue-7-a",
+          "color": "blue",
+          "number": 7
+        },
+        {
+          "id": "yellow-7-a",
+          "color": "yellow",
+          "number": 7
+        },
+        {
+          "id": "black-7-b",
+          "color": "black",
+          "number": 7
+        }
+      ],
+      [
+        {
+          "id": "blue-8-a",
+          "color": "blue",
+          "number": 8
+        },
+        {
+          "id": "blue-9-a",
+          "color": "blue",
+          "number": 9
+        },
+        {
+          "id": "blue-10-a",
+          "color": "blue",
+          "number": 10
+        }
+      ],
+      [
+        {
+          "id": "blue-9-b",
+          "color": "blue",
+          "number": 9
+        },
+        {
+          "id": "yellow-9-b",
+          "color": "yellow",
+          "number": 9
+        },
+        {
+          "id": "black-9-b",
+          "color": "black",
+          "number": 9
+        }
+      ],
+      [
+        {
+          "id": "black-7-a",
+          "color": "black",
+          "number": 7
+        },
+        {
+          "id": "black-8-a",
+          "color": "black",
+          "number": 8
+        },
+        {
+          "id": "black-9-a",
+          "color": "black",
+          "number": 9
+        },
+        {
+          "id": "black-10-b",
+          "color": "black",
+          "number": 10
+        },
+        {
+          "id": "black-11-a",
+          "color": "black",
+          "number": 11
+        }
+      ]
+    ],
+    "hand": {
+      "id": "yellow-9-a",
+      "color": "yellow",
+      "number": 9
+    },
+    "minMoves": 7,
+    "difficulty": "extra-hard"
+  },
+  {
+    "id": "extra-hard-22",
+    "board": [
+      [
+        {
+          "id": "red-1-a",
+          "color": "red",
+          "number": 1
+        },
+        {
+          "id": "blue-1-a",
+          "color": "blue",
+          "number": 1
+        },
+        {
+          "id": "yellow-1-a",
+          "color": "yellow",
+          "number": 1
+        },
+        {
+          "id": "black-1-a",
+          "color": "black",
+          "number": 1
+        }
+      ],
+      [
+        {
+          "id": "red-8-a",
+          "color": "red",
+          "number": 8
+        },
+        {
+          "id": "red-9-a",
+          "color": "red",
+          "number": 9
+        },
+        {
+          "id": "red-10-a",
+          "color": "red",
+          "number": 10
+        }
+      ],
+      [
+        {
+          "id": "red-8-b",
+          "color": "red",
+          "number": 8
+        },
+        {
+          "id": "blue-8-b",
+          "color": "blue",
+          "number": 8
+        },
+        {
+          "id": "yellow-8-b",
+          "color": "yellow",
+          "number": 8
+        }
+      ],
+      [
+        {
+          "id": "blue-6-a",
+          "color": "blue",
+          "number": 6
+        },
+        {
+          "id": "blue-7-a",
+          "color": "blue",
+          "number": 7
+        },
+        {
+          "id": "blue-8-a",
+          "color": "blue",
+          "number": 8
+        },
+        {
+          "id": "blue-9-a",
+          "color": "blue",
+          "number": 9
+        },
+        {
+          "id": "blue-10-a",
+          "color": "blue",
+          "number": 10
+        }
+      ],
+      [
+        {
+          "id": "yellow-3-a",
+          "color": "yellow",
+          "number": 3
+        },
+        {
+          "id": "yellow-4-a",
+          "color": "yellow",
+          "number": 4
+        },
+        {
+          "id": "yellow-5-a",
+          "color": "yellow",
+          "number": 5
+        }
+      ],
+      [
+        {
+          "id": "yellow-6-a",
+          "color": "yellow",
+          "number": 6
+        },
+        {
+          "id": "yellow-7-a",
+          "color": "yellow",
+          "number": 7
+        },
+        {
+          "id": "yellow-8-a",
+          "color": "yellow",
+          "number": 8
+        }
+      ],
+      [
+        {
+          "id": "black-8-a",
+          "color": "black",
+          "number": 8
+        },
+        {
+          "id": "black-9-a",
+          "color": "black",
+          "number": 9
+        },
+        {
+          "id": "black-10-a",
+          "color": "black",
+          "number": 10
+        }
+      ]
+    ],
+    "hand": {
+      "id": "yellow-10-a",
+      "color": "yellow",
+      "number": 10
+    },
+    "minMoves": 8,
+    "difficulty": "extra-hard"
+  },
+  {
+    "id": "extra-hard-23",
+    "board": [
+      [
+        {
+          "id": "blue-4-a",
+          "color": "blue",
+          "number": 4
+        },
+        {
+          "id": "blue-5-a",
+          "color": "blue",
+          "number": 5
+        },
+        {
+          "id": "blue-6-a",
+          "color": "blue",
+          "number": 6
+        }
+      ],
+      [
+        {
+          "id": "blue-7-a",
+          "color": "blue",
+          "number": 7
+        },
+        {
+          "id": "yellow-7-a",
+          "color": "yellow",
+          "number": 7
+        },
+        {
+          "id": "black-7-a",
+          "color": "black",
+          "number": 7
+        }
+      ],
+      [
+        {
+          "id": "blue-8-a",
+          "color": "blue",
+          "number": 8
+        },
+        {
+          "id": "blue-9-a",
+          "color": "blue",
+          "number": 9
+        },
+        {
+          "id": "blue-10-a",
+          "color": "blue",
+          "number": 10
+        }
+      ],
+      [
+        {
+          "id": "yellow-3-a",
+          "color": "yellow",
+          "number": 3
+        },
+        {
+          "id": "yellow-4-a",
+          "color": "yellow",
+          "number": 4
+        },
+        {
+          "id": "yellow-5-a",
+          "color": "yellow",
+          "number": 5
+        }
+      ],
+      [
+        {
+          "id": "yellow-6-a",
+          "color": "yellow",
+          "number": 6
+        },
+        {
+          "id": "yellow-7-b",
+          "color": "yellow",
+          "number": 7
+        },
+        {
+          "id": "yellow-8-a",
+          "color": "yellow",
+          "number": 8
+        },
+        {
+          "id": "yellow-9-a",
+          "color": "yellow",
+          "number": 9
+        }
+      ],
+      [
+        {
+          "id": "yellow-10-a",
+          "color": "yellow",
+          "number": 10
+        },
+        {
+          "id": "yellow-11-a",
+          "color": "yellow",
+          "number": 11
+        },
+        {
+          "id": "yellow-12-a",
+          "color": "yellow",
+          "number": 12
+        }
+      ],
+      [
+        {
+          "id": "black-8-a",
+          "color": "black",
+          "number": 8
+        },
+        {
+          "id": "black-9-a",
+          "color": "black",
+          "number": 9
+        },
+        {
+          "id": "black-10-a",
+          "color": "black",
+          "number": 10
+        },
+        {
+          "id": "black-11-a",
+          "color": "black",
+          "number": 11
+        }
+      ],
+      [
+        {
+          "id": "black-10-b",
+          "color": "black",
+          "number": 10
+        },
+        {
+          "id": "black-11-b",
+          "color": "black",
+          "number": 11
+        },
+        {
+          "id": "black-12-a",
+          "color": "black",
+          "number": 12
+        },
+        {
+          "id": "black-13-a",
+          "color": "black",
+          "number": 13
+        }
+      ]
+    ],
+    "hand": {
+      "id": "red-10-a",
+      "color": "red",
+      "number": 10
+    },
+    "minMoves": 7,
+    "difficulty": "extra-hard"
+  },
+  {
+    "id": "extra-hard-24",
+    "board": [
+      [
+        {
+          "id": "red-6-b",
+          "color": "red",
+          "number": 6
+        },
+        {
+          "id": "blue-6-b",
+          "color": "blue",
+          "number": 6
+        },
+        {
+          "id": "yellow-6-a",
+          "color": "yellow",
+          "number": 6
+        },
+        {
+          "id": "black-6-b",
+          "color": "black",
+          "number": 6
+        }
+      ],
+      [
+        {
+          "id": "red-6-a",
+          "color": "red",
+          "number": 6
+        },
+        {
+          "id": "blue-6-a",
+          "color": "blue",
+          "number": 6
+        },
+        {
+          "id": "yellow-6-b",
+          "color": "yellow",
+          "number": 6
+        },
+        {
+          "id": "black-6-a",
+          "color": "black",
+          "number": 6
+        }
+      ],
+      [
+        {
+          "id": "red-9-a",
+          "color": "red",
+          "number": 9
+        },
+        {
+          "id": "blue-9-a",
+          "color": "blue",
+          "number": 9
+        },
+        {
+          "id": "yellow-9-b",
+          "color": "yellow",
+          "number": 9
+        },
+        {
+          "id": "black-9-a",
+          "color": "black",
+          "number": 9
+        }
+      ],
+      [
+        {
+          "id": "red-10-a",
+          "color": "red",
+          "number": 10
+        },
+        {
+          "id": "yellow-10-a",
+          "color": "yellow",
+          "number": 10
+        },
+        {
+          "id": "black-10-b",
+          "color": "black",
+          "number": 10
+        }
+      ],
+      [
+        {
+          "id": "red-11-a",
+          "color": "red",
+          "number": 11
+        },
+        {
+          "id": "yellow-11-a",
+          "color": "yellow",
+          "number": 11
+        },
+        {
+          "id": "black-11-a",
+          "color": "black",
+          "number": 11
+        }
+      ],
+      [
+        {
+          "id": "red-12-a",
+          "color": "red",
+          "number": 12
+        },
+        {
+          "id": "yellow-12-a",
+          "color": "yellow",
+          "number": 12
+        },
+        {
+          "id": "black-12-a",
+          "color": "black",
+          "number": 12
+        }
+      ],
+      [
+        {
+          "id": "red-13-a",
+          "color": "red",
+          "number": 13
+        },
+        {
+          "id": "blue-13-a",
+          "color": "blue",
+          "number": 13
+        },
+        {
+          "id": "yellow-13-a",
+          "color": "yellow",
+          "number": 13
+        },
+        {
+          "id": "black-13-a",
+          "color": "black",
+          "number": 13
+        }
+      ],
+      [
+        {
+          "id": "blue-10-a",
+          "color": "blue",
+          "number": 10
+        },
+        {
+          "id": "yellow-10-b",
+          "color": "yellow",
+          "number": 10
+        },
+        {
+          "id": "black-10-a",
+          "color": "black",
+          "number": 10
+        }
+      ],
+      [
+        {
+          "id": "yellow-7-a",
+          "color": "yellow",
+          "number": 7
+        },
+        {
+          "id": "yellow-8-a",
+          "color": "yellow",
+          "number": 8
+        },
+        {
+          "id": "yellow-9-a",
+          "color": "yellow",
+          "number": 9
+        }
+      ]
+    ],
+    "hand": {
+      "id": "red-13-b",
+      "color": "red",
+      "number": 13
+    },
+    "minMoves": 7,
+    "difficulty": "extra-hard"
+  },
+  {
+    "id": "extra-hard-25",
+    "board": [
+      [
+        {
+          "id": "red-2-a",
+          "color": "red",
+          "number": 2
+        },
+        {
+          "id": "blue-2-a",
+          "color": "blue",
+          "number": 2
+        },
+        {
+          "id": "black-2-a",
+          "color": "black",
+          "number": 2
+        }
+      ],
+      [
+        {
+          "id": "red-8-a",
+          "color": "red",
+          "number": 8
+        },
+        {
+          "id": "yellow-8-a",
+          "color": "yellow",
+          "number": 8
+        },
+        {
+          "id": "black-8-b",
+          "color": "black",
+          "number": 8
+        }
+      ],
+      [
+        {
+          "id": "red-10-a",
+          "color": "red",
+          "number": 10
+        },
+        {
+          "id": "yellow-10-a",
+          "color": "yellow",
+          "number": 10
+        },
+        {
+          "id": "black-10-a",
+          "color": "black",
+          "number": 10
+        }
+      ],
+      [
+        {
+          "id": "red-11-a",
+          "color": "red",
+          "number": 11
+        },
+        {
+          "id": "blue-11-a",
+          "color": "blue",
+          "number": 11
+        },
+        {
+          "id": "black-11-a",
+          "color": "black",
+          "number": 11
+        }
+      ],
+      [
+        {
+          "id": "red-12-b",
+          "color": "red",
+          "number": 12
+        },
+        {
+          "id": "blue-12-b",
+          "color": "blue",
+          "number": 12
+        },
+        {
+          "id": "yellow-12-a",
+          "color": "yellow",
+          "number": 12
+        }
+      ],
+      [
+        {
+          "id": "red-12-a",
+          "color": "red",
+          "number": 12
+        },
+        {
+          "id": "blue-12-a",
+          "color": "blue",
+          "number": 12
+        },
+        {
+          "id": "black-12-a",
+          "color": "black",
+          "number": 12
+        }
+      ],
+      [
+        {
+          "id": "yellow-2-a",
+          "color": "yellow",
+          "number": 2
+        },
+        {
+          "id": "yellow-3-a",
+          "color": "yellow",
+          "number": 3
+        },
+        {
+          "id": "yellow-4-a",
+          "color": "yellow",
+          "number": 4
+        }
+      ],
+      [
+        {
+          "id": "yellow-5-a",
+          "color": "yellow",
+          "number": 5
+        },
+        {
+          "id": "yellow-6-b",
+          "color": "yellow",
+          "number": 6
+        },
+        {
+          "id": "yellow-7-b",
+          "color": "yellow",
+          "number": 7
+        }
+      ],
+      [
+        {
+          "id": "yellow-6-a",
+          "color": "yellow",
+          "number": 6
+        },
+        {
+          "id": "yellow-7-a",
+          "color": "yellow",
+          "number": 7
+        },
+        {
+          "id": "yellow-8-b",
+          "color": "yellow",
+          "number": 8
+        },
+        {
+          "id": "yellow-9-a",
+          "color": "yellow",
+          "number": 9
+        }
+      ],
+      [
+        {
+          "id": "black-7-a",
+          "color": "black",
+          "number": 7
+        },
+        {
+          "id": "black-8-a",
+          "color": "black",
+          "number": 8
+        },
+        {
+          "id": "black-9-a",
+          "color": "black",
+          "number": 9
+        }
+      ]
+    ],
+    "hand": {
+      "id": "blue-13-a",
+      "color": "blue",
+      "number": 13
+    },
+    "minMoves": 8,
+    "difficulty": "extra-hard"
   }
 ]

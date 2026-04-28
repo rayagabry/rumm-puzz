@@ -1,17 +1,22 @@
-import { generatePuzzleVariants } from '../src/generator/generate';
+import {
+  generatePuzzleVariants,
+  DIFFICULTY_RANGES,
+  DIFFICULTY_MAX_SET_SIZE,
+} from '../src/generator/generate';
 import type { PuzzleCandidate } from '../src/generator/generate';
+import type { Difficulty } from '../src/domain/tile';
 import { computeMinMoves } from '../src/solver/difficulty';
 import { writeFileSync } from 'fs';
 import { resolve } from 'path';
 
+const DIFFICULTY: Difficulty = 'hard';
 const TARGET_HARD = 50;
-const MAX_SET_SIZE = 4;
+const MAX_SET_SIZE = DIFFICULTY_MAX_SET_SIZE[DIFFICULTY];
 const BASE_SEED = 1042;
-const POOL_SIZE = 120; // number of (solution, hand) sources to consider
-const MAX_VARIANTS = 24; // partitions enumerated per source
+const POOL_SIZE = 120;
+const MAX_VARIANTS = 24;
 const MAX_SOURCE_ATTEMPTS = POOL_SIZE * 8;
-const HARD_MIN = 5;
-const HARD_MAX = 8;
+const [HARD_MIN, HARD_MAX] = DIFFICULTY_RANGES[DIFFICULTY];
 
 const libPath = resolve(import.meta.dirname ?? '.', '..', 'src', 'puzzles', 'library.json');
 
@@ -25,7 +30,7 @@ let sourceAttempts = 0;
 while (sources.length < POOL_SIZE && sourceAttempts < MAX_SOURCE_ATTEMPTS) {
   seed++;
   sourceAttempts++;
-  const variants = generatePuzzleVariants(seed, MAX_SET_SIZE, MAX_VARIANTS);
+  const variants = generatePuzzleVariants(seed, DIFFICULTY, MAX_SET_SIZE, MAX_VARIANTS);
   if (variants.length === 0) continue;
   sources.push(variants);
   if (sources.length % 25 === 0) {
@@ -86,10 +91,11 @@ console.log(`Slow-verify rejects total: ${slowFailures}`);
 console.log(`Selected ${selected.length}/${TARGET_HARD} puzzles\n`);
 
 const hardPuzzles = selected.map((p, i) => ({
-  id: `hard-${i + 1}`,
+  id: `${DIFFICULTY}-${i + 1}`,
   board: p.board,
   hand: p.hand,
   minMoves: p.minMoves,
+  difficulty: DIFFICULTY,
 }));
 
 const histogram: Record<number, number> = {};

@@ -8,7 +8,7 @@ const BASE_SEED = 42;
 console.log(`Generating ${TOTAL_PUZZLES} puzzles...\n`);
 const start = Date.now();
 
-const puzzles = generateLibrary(TOTAL_PUZZLES, BASE_SEED, (count, attempts, puzzle) => {
+const puzzles = generateLibrary(TOTAL_PUZZLES, BASE_SEED, 'hard', (count, attempts, puzzle) => {
   const sets = puzzle.board.length;
   const tiles = puzzle.board.flat().length;
   process.stdout.write(
@@ -40,6 +40,7 @@ const library = puzzles.map((p) => ({
   board: p.board,
   hand: p.hand,
   minMoves: p.minMoves,
+  difficulty: p.difficulty,
 }));
 
 writeFileSync(outPath, JSON.stringify(library, null, 2));

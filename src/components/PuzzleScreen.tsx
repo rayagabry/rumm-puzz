@@ -5,7 +5,10 @@ import Board from './Board';
 import Hand from './Hand';
 import Tile from './Tile';
 
+import type { Difficulty } from '../domain/tile';
+
 type Props = {
+  difficulty: Difficulty;
   onWin: (moves: number, par: number, puzzleId: string) => void;
   onHome: () => void;
 };
@@ -45,7 +48,7 @@ function resolveDropTarget(x: number, y: number): DropTarget | null {
   return null;
 }
 
-export default function PuzzleScreen({ onWin, onHome }: Props) {
+export default function PuzzleScreen({ difficulty, onWin, onHome }: Props) {
   const {
     puzzle,
     workingBoard,
@@ -65,7 +68,7 @@ export default function PuzzleScreen({ onWin, onHome }: Props) {
     reset,
     undo,
     returnToHand,
-  } = usePuzzle();
+  } = usePuzzle(difficulty);
 
   const [drag, setDrag] = useState<DragState | null>(null);
   const dragRef = useRef<DragState | null>(null);

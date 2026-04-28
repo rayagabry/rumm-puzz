@@ -1,4 +1,4 @@
-import type { Tile, Board, Puzzle, Color } from '../domain/tile';
+import type { Tile, Board, Difficulty, Puzzle, Color } from '../domain/tile';
 import { COLORS, makeRng, shuffle } from '../domain/tile';
 import { findPartition, findAllPartitions } from '../solver/partition';
 import { computeMinMoves } from '../solver/difficulty';
@@ -6,8 +6,16 @@ import { classifyPuzzle } from './classify';
 
 export type PuzzleCandidate = Puzzle & { signature: string };
 
-const MIN_MOVES = 5;
-const MAX_MOVES = 8;
+export const DIFFICULTY_RANGES: Record<Difficulty, [number, number]> = {
+  'hard': [5, 8],
+  'extra-hard': [7, 11],
+};
+
+export const DIFFICULTY_MAX_SET_SIZE: Record<Difficulty, number> = {
+  'hard': 4,
+  'extra-hard': 5,
+};
+
 const MIN_SETS = 5;
 const MAX_SETS = 8;
 
@@ -163,9 +171,11 @@ let puzzleCounter = 0;
  */
 export function generatePuzzle(
   seed: number,
-  maxStartingSetSize?: number,
+  difficulty: Difficulty = 'hard',
+  maxStartingSetSize: number = DIFFICULTY_MAX_SET_SIZE[difficulty],
 ): Puzzle | null {
   const rng = makeRng(seed);
+  const [MIN_MOVES, MAX_MOVES] = DIFFICULTY_RANGES[difficulty];
 
   for (let attempt = 0; attempt < 100; attempt++) {
     const numSets = Math.floor(rng() * (MAX_SETS - MIN_SETS + 1)) + MIN_SETS;
@@ -189,7 +199,7 @@ export function generatePuzzle(
     }
     if (!startingBoard) continue;
     if (hasParallelRuns(startingBoard)) continue;
-    if (maxStartingSetSize !== undefined && startingBoard.some((s) => s.length > maxStartingSetSize)) continue;
+    if (startingBoard.some((s) => s.length > maxStartingSetSize)) continue;
 
     const actualMinMoves = computeMinMoves(startingBoard, hand, 100, 500);
     if (actualMinMoves === null) continue;
@@ -209,6 +219,7 @@ export function generatePuzzle(
       hand,
       solution,
       minMoves: verifiedMinMoves,
+      difficulty,
     };
   }
 
@@ -224,10 +235,12 @@ export function generatePuzzle(
  */
 export function generatePuzzleVariants(
   seed: number,
-  maxStartingSetSize?: number,
+  difficulty: Difficulty = 'hard',
+  maxStartingSetSize: number = DIFFICULTY_MAX_SET_SIZE[difficulty],
   maxVariants: number = 32,
 ): PuzzleCandidate[] {
   const rng = makeRng(seed);
+  const [MIN_MOVES, MAX_MOVES] = DIFFICULTY_RANGES[difficulty];
 
   for (let attempt = 0; attempt < 100; attempt++) {
     const numSets = Math.floor(rng() * (MAX_SETS - MIN_SETS + 1)) + MIN_SETS;
@@ -248,7 +261,7 @@ export function generatePuzzleVariants(
     const candidates: PuzzleCandidate[] = [];
     for (const startingBoard of partitions) {
       if (hasParallelRuns(startingBoard)) continue;
-      if (maxStartingSetSize !== undefined && startingBoard.some((s) => s.length > maxStartingSetSize)) continue;
+      if (startingBoard.some((s) => s.length > maxStartingSetSize)) continue;
 
       // Fast verification only — caller is expected to slow-verify the
       // variants it actually selects, since slow-verifying every candidate
@@ -266,6 +279,7 @@ export function generatePuzzleVariants(
         hand,
         solution,
         minMoves: fast,
+        difficulty,
         signature: sig.signature,
       });
     }
@@ -282,6 +296,7 @@ export function generatePuzzleVariants(
 export function generateLibrary(
   totalPuzzles: number = 50,
   baseSeed: number = 42,
+  difficulty: Difficulty = 'hard',
   onProgress?: (count: number, attempts: number, puzzle: Puzzle) => void,
 ): Puzzle[] {
   const puzzles: Puzzle[] = [];
@@ -292,9 +307,9 @@ export function generateLibrary(
   while (count < totalPuzzles && attempts - count < totalPuzzles * 20) {
     seed++;
     attempts++;
-    const puzzle = generatePuzzle(seed);
+    const puzzle = generatePuzzle(seed, difficulty);
     if (puzzle) {
-      puzzle.id = `hard-${count + 1}`;
+      puzzle.id = `${difficulty}-${count + 1}`;
       puzzles.push(puzzle);
       count++;
       onProgress?.(count, attempts, puzzle);

@@ -10,12 +10,15 @@ export type Tile = {
 export type TileSet = Tile[];
 export type Board = TileSet[];
 
+export type Difficulty = 'hard' | 'extra-hard';
+
 export type Puzzle = {
   id: string;
   board: Board;
   hand: Tile;
   solution: Board;
   minMoves: number;
+  difficulty: Difficulty;
 };
 
 /** Build the full 104-tile deck (2 copies of each color/number). */
