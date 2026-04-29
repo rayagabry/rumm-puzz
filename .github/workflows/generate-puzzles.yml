@@ -1,8 +1,8 @@
 name: Generate Puzzles
 
 # Manual-only: trigger from the Actions tab. Appends N new puzzles to
-# src/puzzles/library.json and pushes to main, which fires the deploy
-# workflow.
+# src/puzzles/library.json, pushes to main, then calls the deploy workflow
+# directly (GITHUB_TOKEN pushes don't trigger other workflows by design).
 on:
   workflow_dispatch:
     inputs:
@@ -22,6 +22,8 @@ on:
 
 permissions:
   contents: write
+  pages: write
+  id-token: write
 
 concurrency:
   group: generate-puzzles
@@ -29,6 +31,8 @@ concurrency:
 
 jobs:
   generate:
+    outputs:
+      sha: ${{ steps.push.outputs.sha }}
     runs-on: ubuntu-latest
     timeout-minutes: 60
     env:
@@ -56,6 +60,7 @@ jobs:
         run: stdbuf -oL -eL npm run append-puzzles -- --count=$COUNT --difficulty=$DIFFICULTY
 
       - name: Commit and push
+        id: push
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
@@ -68,3 +73,14 @@ jobs:
           DIFFICULTY="${{ inputs.difficulty }}"
           git commit -m "Add $COUNT $DIFFICULTY puzzles via generate-puzzles workflow"
           git push
+          echo "sha=$(git rev-parse HEAD)" >> $GITHUB_OUTPUT
+
+  deploy:
+    needs: generate
+    uses: ./.github/workflows/deploy.yml
+    with:
+      ref: ${{ needs.generate.outputs.sha }}
+    permissions:
+      contents: read
+      pages: write
+      id-token: write

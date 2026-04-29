@@ -3,6 +3,13 @@ name: Deploy to GitHub Pages
 on:
   push:
     branches: [claude/rummikub-puzzle-game-hwjDI, main]
+  workflow_call:
+    inputs:
+      ref:
+        description: 'Git ref to deploy (defaults to the pushed SHA)'
+        required: false
+        type: string
+        default: ''
 
 permissions:
   contents: read
@@ -21,6 +28,8 @@ jobs:
       url: ${{ steps.deployment.outputs.page_url }}
     steps:
       - uses: actions/checkout@v4
+        with:
+          ref: ${{ inputs.ref || github.sha }}
 
       - uses: actions/setup-node@v4
         with:
