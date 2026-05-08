@@ -16,6 +16,11 @@ export const DIFFICULTY_MAX_SET_SIZE: Record<Difficulty, number> = {
   'extra-hard': 5,
 };
 
+export const DIFFICULTY_MIN_STARTING_SETS: Record<Difficulty, number> = {
+  'hard': 0,
+  'extra-hard': 9,
+};
+
 const MIN_SETS = 5;
 const MAX_SETS = 8;
 
@@ -173,6 +178,7 @@ export function generatePuzzle(
   seed: number,
   difficulty: Difficulty = 'hard',
   maxStartingSetSize: number = DIFFICULTY_MAX_SET_SIZE[difficulty],
+  minStartingSets: number = DIFFICULTY_MIN_STARTING_SETS[difficulty],
 ): Puzzle | null {
   const rng = makeRng(seed);
   const [MIN_MOVES, MAX_MOVES] = DIFFICULTY_RANGES[difficulty];
@@ -200,6 +206,7 @@ export function generatePuzzle(
     if (!startingBoard) continue;
     if (hasParallelRuns(startingBoard)) continue;
     if (startingBoard.some((s) => s.length > maxStartingSetSize)) continue;
+    if (startingBoard.length < minStartingSets) continue;
 
     const actualMinMoves = computeMinMoves(startingBoard, hand, 100, 500);
     if (actualMinMoves === null) continue;
@@ -238,6 +245,7 @@ export function generatePuzzleVariants(
   difficulty: Difficulty = 'hard',
   maxStartingSetSize: number = DIFFICULTY_MAX_SET_SIZE[difficulty],
   maxVariants: number = 32,
+  minStartingSets: number = DIFFICULTY_MIN_STARTING_SETS[difficulty],
 ): PuzzleCandidate[] {
   const rng = makeRng(seed);
   const [MIN_MOVES, MAX_MOVES] = DIFFICULTY_RANGES[difficulty];
@@ -262,6 +270,7 @@ export function generatePuzzleVariants(
     for (const startingBoard of partitions) {
       if (hasParallelRuns(startingBoard)) continue;
       if (startingBoard.some((s) => s.length > maxStartingSetSize)) continue;
+      if (startingBoard.length < minStartingSets) continue;
 
       // Fast verification only — caller is expected to slow-verify the
       // variants it actually selects, since slow-verifying every candidate
